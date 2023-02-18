@@ -1,0 +1,503 @@
+DOCKER BASIC COMMANDS
+docker run nginx--> runs an instance of nginx;if docker does not have this image , it pulls
+docker pull nginx(unable to find the image, pulling from the library,downloaded image for nginx:latest)
+docker version-->version of docker engine container
+docker ps  -->List  all containers that are running
+docker ps -a -->all running and previous ran containers list
+docker stop--> to stop the container
+docker stop container id--> to stop a container or control+c if in container terminal
+docker rm--> to remove stopped container permanentaly
+docker images---> list of  images(contains repository,tag,imageid,created(not date),size)
+docker rmi --> to remove imame
+docker rmi image-id--> to delete image first it had to be deleted from container
+docker rmi image_id1 image_id2--> to remove multiple image id's,,, not images can be removed only on image id unlike contianername or contaierid option
+
+docker run ubuntu--> you would not see container running 
+conatainer will be in exit status because unlike VM containers are meant to host os but to do certain task such as hosting instance of an webserver or DB, once task done container exits. container exist only till process is alive
+ubuntu will not have any process running in ubuntu,,, on top of ubuntu you can have process run 
+docker run ubuntu sleep 5-->container starts and goes to sleep for 5 sec and container stops
+docker exec distracted-mcclintock cat /etc/hosts--> to see list of files on a running container
+
+docker run kodecloud/simple-webapp
+docker run -d kodecloud/simple-webapp--> to run in detach mode
+docker attach containerId--> to attach the container back
+
+https://hub.docker.com
+own image name shoud be username/imagename
+
+docker run -it centos bash --->centos is image name
+now root@Docker will change to root@xyz where xyz is container id of centos
+
+exit,clear commands
+docker run centos sleep 20
+docker run -d centos sleep 20 --> to run at backgroup and get back to console
+docker ps--> now shows runnign centos container
+docker ps--> again?now it shoud be gone as it slept for 20s and gone as there is no service runnign in it
+docker stop container_name/contianer_id-->to stop/force kill docker container
+docker rm contianer-id-->remove to reclain disk space
+
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  images      List images
+  import      Import the contents from a tarball to create a filesystem image
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  login       Log in to a Docker registry
+  logout      Log out from a Docker registry
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  search      Search the Docker Hub for images
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  version     Show the Docker version information
+  wait        Block until one or more containers stop, then print their exit codes
+
+
+
+
+$ docker run redis
+1:C 02 Oct 2020 16:22:27.469 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 02 Oct 2020 16:22:27.470 # Redis version=6.0.1, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 02 Oct 2020 16:22:27.470 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
+1:M 02 Oct 2020 16:22:27.471 * Running mode=standalone, port=6379.
+1:M 02 Oct 2020 16:22:27.472 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.
+1:M 02 Oct 2020 16:22:27.472 # Server initialized
+1:M 02 Oct 2020 16:22:27.472 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+1:M 02 Oct 2020 16:22:27.472 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
+1:M 02 Oct 2020 16:22:27.473 * Ready to accept connections
+
+$ ctrl +c to stop container
+
+
+$ docker rmi ubuntu
+Untagged: ubuntu:latest
+Untagged: ubuntu@sha256:747d2dbbaaee995098c9792d99bd333c6783ce56150d1b11e333bbceed5c54d7
+Deleted: sha256:1d622ef86b138c7e96d4f797bf5e4baca3249f030c575b9337638594f2b63f01
+Deleted: sha256:279e836b58d9996b5715e82a97b024563f2b175e86a53176846684f0717661c3
+Deleted: sha256:39865913f677c50ea236b68d81560d8fefe491661ce6e668fd331b4b680b1d47
+Deleted: sha256:cac81188485e011e56459f1d9fc9936625a1b62cacdb4fcd3526e5f32e280387
+Deleted: sha256:7789f1a3d4e9258fbe5469a8d657deb6aba168d86967063e9b80ac3e1154333f
+
+$ docker pull nginx:1.14-alpine
+1.14-alpine: Pulling from library/nginx
+bdf0201b3a05: Pull complete
+3d0a573c81ed: Pull complete
+8129faeb2eb6: Pull complete
+3dc99f571daf: Pull complete
+Digest: sha256:485b610fefec7ff6c463ced9623314a04ed67e3945b9c08d7e53a47f6d108dc7
+Status: Downloaded newer image for nginx:1.14-alpine
+docker.io/library/nginx:1.14-alpine
+
+
+1. Stop all dockers
+docker stop $(docker ps -a -q)
+2. Remove all dockers
+Once all the dockers are stopped, remove all docker containers by running the following command :
+docker rm $(docker ps -a -q)
+3. Delete docker all images
+docker rmi $(docker ps -a -q)
+4. Remove all mounted volumes
+ docker volume ls -qf dangling=true | xargs -r docker volume rm
+5. Remove specific docker images
+Herein we will be using the example on how to remove all the Redis instances only.
+
+ docker rm (docker ps -a |grep redis |awk '{print $1}')
+Suggested read : Forever free blog with Google App Engine WordPress in 10 min
+Few more helpful commands :
+Remove all containers forcefully docker rm -f $(docker ps -a -q)
+Remove all docker images forcefully docker rmi -f $(docker images -q)
+Purge remaining things : docker system prune --all --force --volumes
+To only stop exited containers and delete only non-tagged images :
+docker ps --filter 'status=Exited' -a | xargs docker stop docker images --filter "dangling=true" -q | xargs docker rmi
+Create a bash or shell alias and use it frequently : dstop() { docker stop $(docker ps -a -q); } alias dstop=dstop
+Basic docker commands that might help :
+List all docker images : sudo docker ps
+Stop single running docker container : sudo docker stop 9ab3de2442e2
+Display container IDs of docker : sudo docker ps -aq
+Clean docker stuff :  sudo docker system prune
+Here’s a one-liner script to do all of these tasks :
+
+
+ 
+docker ps | awk {' print $1 '} | tail -n+2 > tmp.txt; for line in $(cat tmp.txt); do docker kill $line; done; rm tmp.txt
+
+
+============================
+DOCKER RUN
+
+docker run redis-->latest is the default tag attched,runs the latest verison ,what if we want to run older versino
+docker run redis:4.0 --> and this is called tag,docker pulls older version and runs
+
+docker run kodekloud/simple-prompt-docker-->simple prompt docker is project name
+docker run -i kodekloud/simple-prompt-docker-->i stand for interactive terminal,recieves input,when app is run it asks for input,but it only promts on terminal and not attched to container
+docker run -it kodekloud/simple-prompt-docker-->is the solution
+
+ports:
+docker run kodekloud/webapp--> running on http:0.0.0.0:5000/ ie. running on port 5000. every container will have an ip assigned to it and say 172.17.0.2 is internal ip
+ and accessible within docker host/engine
+to access this ip use 172.17.0.2.5000(docker host will also have an own ip say 192.160.1.5 it has port 80) so we can map port 80 to port 5000
+docker run -p 80:5000 kodekloud/webapp--->so by http://192.160.1.5:80 we will routed to 5000 inside docker container and this way we can run multiple instance of app
+and map to different isntances in docker host
+through differnt host ports we can access as many instances  of a service (application)and as many applications(services)
+docker run -p 800:5000 kodekloud/webapp;docker run -p 8001:5000 kodekloud/webapp
+docker run -p 3306:3306 mysql
+ofcourse cant map to same port for more than once
+
+docker run -p 38282:8080 kodekloud/simple-webapp:blue-->   38383  is host port and 8080 is container port and blue is tagname
+
+volume:
+docker run mysql--->when db and  table are created data files are stored in var/lib/mysql
+docker contaner has its own isolated file system and any changes to file within container is stored
+docker stop mysql
+what if we to delete mysql container, all data inside container gets blown away
+docker rm mysql
+if we like to perisist data, we need to map a directory outside docker container and inside docker host
+docker run -v /opt/datadir:/var/lib/mysql mysql-->opt/datadir is directory path
+
+inspect:
+docker inspect container-name--> in json format gives all details of container like id name path args state status running mounts config entrypoint networksetting etc...
+
+container logs:
+docker logs container_id/name--> gives all log details, includes detached containers too
+
+docker run ubuntu cat /etc/*release*-->name version suport url,version codename etc details you get along with running the container
+docker run unbunu:17.10 cat /etc/*release* --> runs 17.10 version ubuntu instance and every version has its own list of tags supported that can be found on dockerhub website
+docker run ubuntu sleep 15--> even with ctrl+c you cant come out of terminal for 15 seconds , then it comes automaticaaly
+solution is to establish duplicate connection to the docker host in another window and then you can run 
+docker stop container_id
+to avoid all above, run it in detach mode
+docker run -d ubuntu sleep 500
+docker attach container-id-->to attch back and get you into contianer terminal
+
+some other docker images are junkies,timer etc
+docker host will have an UI too,,, where you can run commands
+
+Two ways to access a app:by internal ip  and for this we shoudl be inside docker host or by external ip(hit those ips in browser)
+docker inspect container_id--> this itseld will give you internal ip too under network details 
+NOTE:you cannot do port mapping while docker is running
+
+docker run -p 8080:8080 -v /toot/my-jenkins-data:/var/junkins_home -u root jenkins-->referst to type of user and permission issue to run this command
+
+docker history image_id--> gives the history of he image, when created, whayt is entry point,path,dependencies,details of related docker file, blahblah blah
+
+
+========================
+
+
+DOCKER IMAGES
+own image:why?how to create an image for simple web application?
+
+docker run -it ubuntu bash--> to stay and work around bash command
+install python
+#apt -get python-->to get package
+#(no docker here) apt -get install -y python--> to install
+#python---> now you can see python running
+now install flask
+#apt -get install python-pip
+#pip install flask--> using pip web server installed
+# cat > /opt/app/py (here paste the source code)
+#flask APP-app.py flask run --host=0.0.0.0
+now application is running
+now accessing it y browser and hit ip address of host and port id of web application 
+#history ---.note down all the steps done
+#exit
+$docker --> now back to docker container
+now we can dockerize thid application
+put all those notes taken in docker file as istructions and arguments and dockerize app
+
+
+#mkdir my-simple-webapp
+#cd my-simple/webapp
+#cat > Dockerfile-->docker file created
+FROM ubuntu
+RUN apt-get update
+RUN apt-get install -y python python-pip
+RUN pip install flask
+
+COPY app.py /qpt/app.py--> form local dir app.py to  docker file in qpt folder
+ENTRYPOINT FLASK_APP-opt/app.py flask run --host-0.0.0.0--->command to run the app
+#cat app.py-->application code in this directory
+#docker build . (all happening in directory my-simple/webapp,ie root/my-simple/webapp #docker build .))
+now image successfully built
+
+#docker build . -l my-simple-webapp-->naming the image
+
+all the layers of builiding image is cached, if builing crashed and when restarted previous steps cached is used
+
+how do i push my image to docker hub and make it available to public?
+docker push my-simple-webapp
+but you need repository to do so with our own account , cant push to docker official account
+docker push repository-name image_name
+to do above you should be logged in at that time to the account
+docker login 
+now enter username and password
+
+Environment Variable:
+say a screen background is white, and later on need to be black insted of code change use
+import and export code to make color an environment variable that can be chaged any time
+
+
+import os from flask import Rlask
+xxxxxx
+color=os.environ.get(APP_COLOR)
+
+
+export APP_COLOR=blu; python app.py
+docker run -e  APP-COLOR=blue my-simple-webapp
+docker inspect will give detials of environment variables
+
+
+docker run -p 38282:8080 -e APP_COLOR=blue  kodekloud/simple-webapp:blue-app
+
+Command vs entry point
+docker run ubuntu--> now dokcer ps wont show this because ubuntu will exit as it is os  and not a process or isntance which are meant to be hosted by docker so use sleep
+docker run ubuntu command--> command would be sleep 5
+docker urn ubuntu [command,param]-->antother syntax of command
+CMD sleep 5--> to mention in file
+now if every time you want a contianer to sleep when starts you can go for entrypoint
+ENTRYPOINT["sleep"]
+CMD["5"]-->will b4 appended to entrypoint instruction
+docker run --entrypoint sleepp3.o ubuntu-sleeprt 10--> to modify entry point during runtime 
+
+grep -i FROM /root/webapp-color/Dockerfile---> to find the base image of the file located in known place
+
+ docker build -t webapp-color . -->building image using docker file named webapp-color with no tag name
+
+docker run -p 8282:8080 webapp-color
+
+ Suppose you have 3 containers running and out of these, you wish to access one of them. How do you access a running container?
+The following command lets us access a running container:
+$ docker exec -it <container id> bash
+The exec command lets you get inside a container and work with it.
+
+
+===============================
+DOCKER COMPOSE:
+we can put all configuraiton here 
+file name be like docker-compose.yml
+
+
+docker-compose up
+
+docker run -d --name=redis redis
+docker run -d --name=db
+docker run -d --name=vote -p 5000:80 voting-app
+docker run -d --name =result -p 5001l:81 result-app
+docker run -d --name=worker worker
+
+voting app is dependent on in memoru DB redis. to make voting app aware of redis we use link 
+link is command line option used to link two container together
+so above command become
+docker run -d --name=vore -p 5000:80 link redis:redis voting-app (name of container :name of host...both are redis here)
+it creates an entry into the etc host file on the voting app container adding an entry to redis app
+sililarly link result to db database
+and 
+docker run -d --name=worker -link db:db --link redis:redis worker
+
+
+FOR above we can write a docker-compose.yml file
+
+Version:2
+services:
+redis:
+  image:redis
+db:
+  image:postgres:9.4
+vote:
+  image:voting-app(here you can also ask to build the image if not available like ./vote)
+  ports:
+  -5000:80
+  links:
+  -redis
+  ntework:
+	backend
+result:
+   image:result-app
+   ports:-5000:80
+   links:db
+  network:
+	back-end
+	front-end
+worker:
+   image:worker
+   links:-redis
+           -db
+networks:
+  front-end:
+  back-end:
+
+Docker compose-versions:
+Docker version :1, there were limitations wrt to ports,db should be up before app which could not be specified(which in version 2 depends_on:redis data is mentioned)
+version 2: no longer stack info mentioned directly, now they are put in services file; no need to use links in ver 2 as container networks were automatically detected
+version 3:supported in docker swarm
+note:at first line you should mention version:x in dockercompose file
+
+then networks and add map of netwokrs that servie must be attched to
+
+docker compose does not isntall with docker by default,
+use curl keyword and link to have it installed by executing it in terminal
+
+
+Can I use JSON instead of YAML for my compose file in Docker?
+You can use JSON instead of YAML for your compose file, to use JSON file with compose, specify the JSON filename to use, for eg:
+$ docker-compose -f docker-compose.json up
+===========
+DOKCER REGISTRY
+
+if the containers would rian from docker cloud.
+docker run nginx-->the image name nginx where is it pulled from? nginx is image or repositoy name, when it says nginx it is nginx/niginx ie image/repository
+if youwere to create your own repository, user/image
+since we not mentioned location, it pulled from docker.io/nginx/nginx... gcr.io is googel repository
+when app build inhouse,crate as private registry,,, aws azure gcp provide private registry when opened account with them
+From docker prespective, to use image of own, you need to ;login to private registry before pulling the image
+
+when you do not have private registy, then has "docker private registry" a app itself, with port 5000:5000
+docker ru -d -p 5000:5000 --name registry registry:2
+
+
+=====================
+Docker engine:
+when you install docker  on linux host you are installin three components
+docker deamon-->backgroup process that manages docker objects like images, networks,volums etc
+REST API-->used to talk to deamnon and provide instruction
+docker CLi--> terminal,,, to perform actions,used rest api to talk to docker deamon
+
+docker CLI need not to be on same host, it can be on separe laptop
+just use -h command
+docker -H=remote-docker-engine:2375
+docker -H=10.123.2.1.:2375 run nginx
+
+docker used namespace to isolate workspace like network mount interprocesse etc
+Process id namespace is one example:process id's are unique..Pid's
+even container will have its own pids
+say linux system has 5pid and chid system which is container has 2 pids,, certain pid of linux is linked to pid of container
+both container and linux used same memory and cpu of hardware
+
+docker exec container-name ps -eaf -->eaf list all process running in container and exec used to execute inside container
+
+
+======================
+Docker storage:
+when you intall docker on system it creats folder system
+/var/lib/docker which contains folder like container, images, volumes, aufs
+when docker build image, it builds in layed arhcitecture
+example, from ubuntu ;run install;run pip;copy ./opt/ ;entrypoint;docker build 
+
+uses cache
+
+when container destroyed all stacks and related storage and cache destroyed
+
+docker volume crate data_volume
+it creates a folder under volumes directory
+
+dcoker run -v data_volume:var/lib/mysql mysql-->mysql is image name
+this mounts the volume inside docker container's var/lib/mysql-->volume mount
+
+if volume command not ran before docker run command
+then docker will automatically create a volue  and run
+
+what if we have an external storage in docker host, then
+docker run -v /data/mysql:/var/lib/mysql mysql-->this is called ,bind mount: /data/mysql host memory path
+
+
+using -v is old style so 
+docker run | --mount type=bind,source=loation on host,target=location on container
+
+
+Storage drivre; like aufs,zfs,overlay,overlay2,device mapper does above work in backend
+====================
+
+Docker networking:
+
+when docker isntalled 3 network automatically
+bridge:default network container get attched to
+none:docker run ununtu --network=none
+host:docker run ubuntu--network=host
+
+
+each container will have a ip address and this mapped to host port
+
+
+
+
+================
+Docker toolbox or Docker on desktop option are available for windows
+we jsut work on linux vm hosted on windows os
+Kitematc GUI is user interface
+
+Before going into the quiz on Docker on Windows, please find some tips and references below:
+
+Summary Points:
+
+Docker on Windows has two options
+
+Docker on Windows using Docker Toolbox - Docker on Linux VM on Oracle Virtual Box on Windows
+
+Docker Toolbox Requirements
+
+64-bit operating system
+
+Windows 7 or Higher
+
+Virtualization enabled on Windows
+
+Docker Toolbox Contents
+
+Oracle Virtualbox
+
+Docker Engine
+
+Docker Machine
+
+Docker Compose
+
+Kitematic GUI
+
+Docker For Windows - Docker on Linux VM on Windows Hyper-V on Windows
+
+Docker For Windows Requirements
+
+Windows 10 Enterprise/Professional Edition
+
+Windows Server 2016
+
+Docker For Windows supports Linux Containers (Default) and Windows Containers
+
+Docker For Windows Container Types:
+
+Windows Server Core: Windows container on native windows server core
+
+Hyper-V Isolation: Windows container on an isolated hyper-v kernel
+======================
+
+
+
+
+

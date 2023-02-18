@@ -1,0 +1,320 @@
+individual variables
+
+arrays:an array is an indexed collection fixed number of  homogeneous data elements
+advantge of array is we can represeent multiple values by single variable so readability can be improved
+disadvantage in array:fixed in size,homogeneous,sorting issue ie no underlayig variables
+object array can be user to overcome homogeneous issue
+
+collection to over come above disadvantage:
+collection framework contains several classes and interfaces which can be used to represent 
+a group of individual object as a single entity
+collection are growable nature,heterogeneous and has readymade methods available
+memory wise collection is good,growable nature affect performance,collection does not hold primitive
+
+  
+9 keyy interfaces of collection framework:
+collections,list,set,sorted set,navigableset,queue,map,sorted map,navigablemap
+collections defines most common methods which are applicable for any collection object.
+in general collection interface is considered as root interface of collection framework.
+
+no concrete class which implemts class
+
+1.
+collection and collections difference:
+collection is a interface and collections is a class that defines several utility menthod for collection
+ex:sorting arraylist   collection.list(al)
+collections is a utility class present in java.util package to define several utility methods for collection
+objects( like sorting searching etc)
+
+add,addall,retain,reatainall,clear,size,contain,containall are some of the common methods in collection
+
+2.List(I)
+it is the child interface of collection . if we want to represent a group of individual objects as a single entity where duplicate
+are allowed and insertion order must be preserved, then we should go for list.
+list-->(arraylist, linkedlist,vector-->stack)
+
+insertion order preserved via index,
+list interface defines following specific methods:
+list method screenshot
+
+implemention classes of list:
+Arraylist:
+underlying data structure is resizable array,duplicates are allowed with insertion preserved,heterogenous and null inseration isallowed
+everywhere expecp treeset and treemap heterogeneous objects are allowed
+arraylist l=new arraylist() creates an empty array list object with default intial capacity 
+once araylist reaches max capacity, new array list object will be created with 
+new capacity=(current capacity*1.5)+1
+
+arraylist l=new arraylist(int intialcapacity) creates an empty arraylist object with specified intial capacity
+ 
+arraylist l=new arraylist(collection c) creates an equivalent arraylist object for the given collection
+arraylist demo screenshot
+
+usually we can use colletion to hold and transfer objects from one location to another location .
+to provide suppoert for this requirement every collection class by default implements serializable and clonable interfaces.
+
+arraylist and vector implemts randomaccess interface. any randon element can be accessed at same speed
+for frequent  retrival operaiton arraylist is best choice cos of random access ,and worst choice if our frequent operation is inseration and 
+  deletion in middle due to shift of elemts to next index
+
+difference between araylist and vector:
+non-synchorized/syncronized
+not threadsafe/threadsafe
+performance high due to multithread allowed/relatively performance is low
+non legacy version 1.2/legacy 1.0
+
+synchronozed threadsafe verison of arraylist object:
+al l=new al();
+list l1-collection.synchronizedlist(l);
+
+similarly we can syn ver of set and map objects using following methods of collections class
+public static set synchrononizedset(set s)
+public static map synchrononizedset(map m)
+
+Linkedlist:
+underlying data structure is double linked list
+for inseration and deletin linkedlist is best choice
+null inseration is possible,linkedlist implemts serialixable and clonable interface but not randon access
+capacity not applicable for linklist
+constructors:
+linkedlist l=new linkedlist();
+
+linkedlist l=new linkedlist(collection c);
+ ll commonly used to develop stack and que.
+to provide support to this requirement ll class defines follwing specific methods:
+screesshot 5 linklist
+
+difference bwetween al and ll:
+
+best for retrival/inseratin deletion in middle
+elemts stored in consecutive memory locations/
+
+vector:
+is resizable array,inseration order,duplicate,heterogenous, null inseration,serializable,clonable ,ra and threadsafe
+vecotr v=new vector() creates an empty vector object with default initial capacity 10
+once vector reaches its max capacity then a new vector object will be created with 
+new capacity = currecnt capacity * 2
+
+
+vecotr v=new vector( int intialcapacity)
+
+vecotr v=new vector( int intialcapacity, int  incrementcapacity)
+increment capacity is adavantage of vector over ll and al
+methods are differennt due to legacy screenshot
+
+stack is child class of vector specially designed class for lastin firstout order.
+only one constructor for stack which is default: 
+stack s = new stack();
+methods:
+screenshot
+
+enumaration:
+can be used to get objects 1 by 1 from legacy collection object 
+by using elements method of vector class enumaration can be created
+screenshot enumaration	
+limitation of enumaration:
+version 1.0 
+applicable for only legacy classes and not universal cursor
+we cannot perform remove operation due to limited methods
+to overcome above limitaion we should go for iterator
+
+itaretor:
+we can apply iterator concept for any collection object and hence it is universal cursor .
+using iterator we can perform both read and remove operation
+we can create iterator method using collection interface
+public Iterator iterator();
+ex:
+Iterator i=c.iterator();
+c-->any collection object
+limitations:
+iterator check fo next index in direction forward.ie iterator and enu are single direction cursors
+using iterator assign replace is not allowed,for same list iterator is used.
+
+list iterator we can move bidirectionally
+ListIteraor lr=l.ListIterator(); where l is any list object
+list iterator methods screenshot
+
+
+3.set
+child interface of collection,where duplicates are not allowed and inseration order not required.
+set-->(hashset-->linked hashset,sortedset-->naviagable set-->treeset)
+
+hashset:
+underlying data structure is hashtable,all objects are inserted based on hash code.
+not randon accessible
+hashing algorithim best for search option
+add nmethod return type is boolean and if duplicate object is added return value will be false(no compile or runtime error)
+constructor:
+hashset h =new hashset();
+intital capacity of hashset is 16
+ fill ration(load factor) is  .75 and after that new hashset object will be created
+hashset h =new hashset(int intialcapacity);
+hashset h =new hashset(int intialcapacity, float fillratio);for  fill ratio fixing
+hashset h =new hashset(collection c);
+hashsetdemo screenshot
+linked hashset is child class of hashset, it is exactly same as hashset(including constructors and methods) except follwing differeces:
+difference between hashset and linkedhashset
+
+
+hashtable/linkedlist +hashtable
+insetation order not preserved/preserved
+in general we can user linked hashset to develop cache based applications where duplicates are not allowed and insertion order preserved.
+
+sortedset:
+
+4.sorted set
+child interface of set,where duplicates not allowed and inseration order required for all objects
+child interface of set,sorting order without duplicate,
+(insertion order diiferent from sorting?)
+sorted set methods screenshots
+sorted set is an interfaces defines above specfic method
+*Comparator
+
+Treeset:
+the underlying data structure is balanced tree
+duplicate objects are not allowed, insertion order not preserved , heteregenous objects are not allowed otherwise we will ger runtime exception saying 
+classcast exception,null insertion possible only once,impelments serializable and clonable not random access
+all objects wil be inserted based on some sorting order , it may be default natural sorting or customized
+
+constructors:
+treeset t =new treeset(); empty treeset object with default sorting order,objects should be comparble(diff btwn string and sbuffer) else classcastobject
+treeset t =new treeset(comparator c);empty treeset object with comparator customized sorting order
+comparablr for default sorting order
+treeset t =new treeset(collection c);default sorting
+treeset t =new treeset(sortedset s);sortedset sorting
+
+treeset demo screenshot
+
+an object is said to be comparble if and only if corresponding class implements comparable interface
+string class and all wrapper classes already implement comparable interface but stringbuffer class doesnt implement comparable interface 
+hence we got class cast exception 
+
+
+null acceptance:
+for non empty treeset when null is tried to insert then we will get null pointer exception
+for empty treeset null object is accepted as first element  then we will get null pointer exception in adding any other object
+*1.7 version null is not allowed even as first element, null is not applicable
+
+
+comparable:
+it is present in java.lang package and it contains only one method
+obj1.compareto(obj2) returns 3 values
+returns -ve if obj1 comes before obj2,returns +ve when obj2 comes first,returns 0 if and only if obj1 and obj2 are equal
+return type of comparable is int and not boolean
+public int compareTo(object obj)
+comparable demo
+jvm will call compareto method when default sorting order is user
+
+comparator:
+comparator available in java.util package and has compare() and equal () method
+public int compare(object obj1,object obj2)
+retuns 3 values
+public boolean equals(object obj)
+when ever we are implementing comparator interface compulsory we should provide implemention only for compare method and we are not required to provide
+implemention for equals method cos it is already availble to our class from object class through inheritance
+
+
+
+5.navigable set
+it is child interface of sorted set , it contains several methods for navigation purposes
+set-->(sortedset-->navigableset-->treeset)
+
+
+6.queue interface
+child interface of collection, if we want to represent a group of individual objects prior to processign then we sholud go for que
+usually q follolws first in first our order but based on requirement our own priority order also implemented
+ex:sending mail to numurous address
+q-->(priority q,blocking q--(priority blocking and linked blocking q))
+
+note:all above interfaces meant for representing a group of individual objects.
+if we want to represent a group of object as key-value pairs then we should go for map
+
+7.map
+map is not child interface of collections 
+if we want to represetnt a group of objects as key-value pairs then we should go for map
+ex:reg number (uniq)and name
+duplicate keys are not allowed but values can be duplicated hence map is considered as collection of entry objects
+map-->(hashmap--linked hashmap,weakhashmap,identity hashmap,sortedmap--navigablemap--treemap,dictionary<--hashtable-->properties  -hash table child of dictionary)
+
+collections methods not applicable
+map interface methods 
+we use put method whose return type id object
+object put(object key,object value)
+old value will be replaced if duplicate key is inserted
+
+map methods screenshot
+
+entry:
+a map is a group of key value pairs and each pair is called an entry
+hence map is considered as a collection of entry objects
+without existing map object there is chance of existing entry object hence entry interface is defined inside map interface
+map1 screenshot
+
+hashmap:
+underlying data structure is hashtable,insertion oder is not preserved and it is based on hashcode of keys
+duplicates keys are not allowed but values can be duplicate, heterogeneous object are allowed for key and value
+null is allowed for key only once, null is allowed for values any number of times, serializable and clonable
+hashmap is the best choice if our frequent operation is serach
+
+hashmap m= new hashmap();
+intial capacity 16 and load factor .75
+hashmap m= new hashmap(int intialcapacity);
+hashmap m= new hashmap(int intialcapacity,float fillratio);
+hashmap m= new hashmap(map m);
+
+hashmap demo
+
+differences between hashmap and hashtable
+not synchronized/sync
+not threadsafe/safe
+performace high/threads has to wait perf low
+null allowed/not allowed
+1.2v/1.0V
+
+how to get synchronozed version of hashmap object:
+hashmap m= new hashmap();
+map m1=collections.synchroizedmap(m)
+
+
+linked hashmap:
+it is child class of hashmap exactly same as hashmap including methods and constructors except following difference:
+linkedlist+hashtable is underlying data structure
+insertion order is preserved, introduced in 1.4v
+
+
+
+
+
+8.sortedmap
+ if we want to represent a group of individual objects as key-value pairs accoriding to some sorting order
+shorting should be based on key
+
+sortedmap methods screenshot 
+
+treemap:
+underlying data structure is red black tree
+insertion order not preserved
+sorting order based on key
+duplicate key is not allowed
+when depending on default sorting key should be homogeneous
+when defined sorign, key can be heterogenous
+
+hashtable:
+
+
+queue:1.5V
+queue-->(priority q,blocking q)
+q is representing group of individual objects prior to processing
+sms
+
+9.navigable map
+child interace of sorted map,defines different menthods for navigablesort
+map-->sortedmap--navigablemap,treemap
+child interface of sortedset and it defines several methods for navigation purposes
+navi
+gableset mehods
+enumeraion , dictionary, vector ,stack, hashtoble,proporties are legacy classes in collection
+
+
+
+

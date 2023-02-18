@@ -1,0 +1,2128 @@
+Project Structure:
+npm run start -->starts your appliation in browser
+index.html loads
+then we have index.js file,, defined by react
+
+component,component state,props
+
+
+npx --help       -->if node is one of the latest version , it gives details
+npx create-react-app portfolio   -->creates a project
+code . --> this command executed in portfolio folder opens the project in visual studio
+
+
+STRUCTURE OF THE REACT PROJECT:
+In this video the first goal is to run the react project and the second goal is to understand the react Projects structure.
+We can actually take care of goal one right away.In the command line fire npm run start in the portfolio directory. That's npm run start. All right.
+This is going to open up the project at localhost:3000.And look at that.You'll have a react application running right on your browser.Now how does this all work.
+Let's take a look at the key files in the project that are making this happen.First within your code editor, head to public/index.html
+This is the core index.html document of the web app. The browser receives this document and then uses it to display the content on the page.
+Now if you haven't worked with each html before. or as a refresher, html is a tag-based language where pairs of tags like the head and the body section and divs create the actual structure of the web
+page.So notice that there's this head and body section.Apparently the creators of html felt that a medical metaphor was the perfect analogy to destructure theweb page.
+But seriously though it's actually a useful way to have things named because all the structure of the actual document goes in the body and then things that aren't necessarily there for the structure but
+important tags like links and meta information go in the head.
+All right head back to the application in the browser and then open up the developer console you can open up the developer console by doing a special click and then selecting inspect and immediately you're
+going to find yourself in the elements section.Now if you look around you'll find the elements section is essentially a collapsible version of the html file
+we just looked at.So there's the head and the body but if you go to the body section you're going to find that there's a lot more content in here than what we saw in the original html document within the actual project.
+Mainly if you look at the div with the id of root it has all these inner divs with a div class of app. The class of app has this whole header section with some paragraphs, an image, as well. That whole class
+of apps section is controlling what we're seeing in the actual document. If you scroll down to the bottomof the body section you'll even find it there's these script tags which point to JavaScript files.
+Now head back to the main H.html. document and if you look at the bottom of the html file itself you're gonna find that none of that content is here within the body section.
+So how did those divs end up within the root?
+And then how did those script tags end up within the body at the end? So the first question can actually
+be answered by looking at the src/index.js file. In here there's quite a bit going on. First there's two libraries imported. React and react-dom. The first react import sets up the file to write react code
+by importing global values and methods that are defined within the react library. And then the react-dom library takes care of actual application rendering meaning displaying the application on the browser itself.
+Now there's also this service worker bit which is kind of distracting at this point because it's really something that becomes useful once you have the application in other people's hands in production as it basically
+allows for offline usage of your application in case one of your users temporarily loses Internet connection.
+But there's one line I want you to really pay attention to. And that's the ReactDOM.render line
+ReactDOM:->
+Render is a function which takes care of inserting react code into the html , Now I'll say that again because the true importance of that statement can't be stressed enough for react
+applications. ReactDOM.render is a function which takes your react code and then inserts it into the html.So there it is.That's the answer of how the root div got all of its inner divs after all.
+Notice that this ReactDOM.render line targets the element with the id of root and then it's going to insert this app over here.
+Now you might find it a bit fishy that it's app part kind of looks like html with the tag arrow0like syntax despite the fact that we're in a javascript file.
+But this is actually still javascript syntax.It's called JSX and it's supported within react applications.Now the whole video to look at that in more detail next.
+All right let's take a look at the App.js code and what you'll find is that while we have an entire app component. And there's a lot more JSX this App.js file. But you'll find that its structure
+matches the divs that we saw within the root div in the elements section on the browser.There's that header in the paragraph the anchor tag and the image.
+Cool!
+So that's the complete answer.
+ReactDOM.render inserts this components JSX as HTML elements within the root div in the H.HTML.document. Now, components and react are pieces of the web application that can be reused. They UI have
+dynamic functionality etc. and they act like Lego bricks.
+If you put them together you end up making a whole lego house which is the react application so a react app is really a combination of a bunch of React Components.
+Very cool.
+Now one really nice thing about using create-react-app is that it comes in with a neat live development
+server so you can check this out by making a change to the app component and take out everything within the div instead let's have it output Hello react.
+So if you make that change and then save the file then head back to the browser. What you're going to find is that while it automatically reloaded those changes I'm going to go ahead
+and zoom in a bit and there's our new output of Hello react for the app component. And now the div with the id of root still has the div with the class of app but its output is now
+
+Hello.
+
+So back in the code editor I'm going to start from the top and go down.
+First there's this node_modules directory which is where all the libraries of javascript code for theproject get installed. In JS.We use modules as the terminology for packages and libraries.
+Now it can be kind of overwhelming when you open it up because of the sheer amount of code contained within.
+Luckily though you're not on the hook for knowing the code for every single one of these modules. After
+node modules, there's the public directory and we already looked at the index html file but then there's also the browser icon the favicon.ico file and then the manifes.json file which is
+for more immediate information about the project. And next we have the src directory which houses all the react code. So App.js, as well as styling with the index.css and App.css files.
+There's this .gitignore file which lists files that are unnecessary to include when storing this project in an online repository and then a really important one is the main package.json file. This file
+is a key to any javascript project. And the two main parts to look at are the dependencies and the scipts section. The dependencies specify what should go into the node modules library.
+Now even though there's only three dependencies listed here the node_modules directory will actually contain a lot more folders and modules because these modules here require their own dependencies to
+work. And all of those sub dependencies end up in the node modules directory as well.The scripts section over here tells us what commands we can run to fire up the project.
+In this case we have one to start up the project which we already did. The build script builds a production version of the project.
+The test prep run some tests, and finally for create-react-app there's this one time eject function and it essentially blows up the project into a more detailed and customizable version
+in case you want to dig deeper into the react app project. Finally there's this README file which provides
+directions for working with the project. Ok, so that covers the structure of the react project.
+You also know how the root div got its nested elements,based off the ReactDOM.render line in the index.js file. But beyond that there's still the looming
+question of how the index.html got those script tags to run the javascript. This touches on the subject of building and bundling which is a huge topic that we're going to spend a lot of time on later.
+Essentially when you run the react project the building and bundling process will package all of your javascript files into single compiled javascript code that you're html can now refer to.
+So create-react-app takes care of this for us. It's convenient, but because of that you'd be surprised,how many react coders don't have a complete accurate understanding of the concept. But not you.
+You're going to learn how to do that yourself from scratch in the next section of this course.In terms of building and bundling overall it's a deeper subject though.
+
+REACT DOM,REACT ELEMENT and JSX:
+The very first thing to do, is to delete that entire src directory. To which you might be thinking:"Heavens no not all of that precious code!"
+Now your reaction probably was not that dramatic but really I think it's best to write this src directory from scratch because
+that's where all the react code lies,rather than continue off this template src directory.
+So first up we're gonna delete this entire src directory.Then the first change after that is to recreate the src directory.
+So now there should be an empty src directory within the project. The default file for a directory in a javascript project is the index.js file.
+Now why is it called index?
+Well this is a direct reference to the index.html file name. Back in the early days of web development the index.html file was actually used like an index like you think it would, in that it contained
+a bunch of links to other each html files with content in the website. Now,personally I think default.js or main.js would have been a more clear name for what the index.js
+file actually does. but index is Ok as long as you remember that it's the convention for the default file of js project.So make sure you have src/index.js within here.
+We're going to recreate a lot of the javascript code that we just blew away within the original create-react-app src/index.js file. 
+But now rather than reading the code we're gonna be writing it ourselves which is a way better learning approach.
+In the original index.js file there was this code to insert or react create a component into the core html. And our goal is going to be to do the same exact thing.
+The first requirement is to import to react library into the file use the import keyword. Specify the react library with a capital R and then the module itself is called 'react'.
+And this is all lowercase and have that in a pair of single quotes.So the effect is that this line reaches into the react library that we have installed in our node modules directory.
+It loads in the globally declared react variables and methods that are within this react library itself.Next we have to do the insertion into the ReactDOM.
+And for that, we insert, or rather import the reactDOM library. So import reactDOM. Notice that D, O, and M are capitalized. And then this comes from the react-dom library. Now most react files will only
+need to import the first react library.But since this file is going to do the insertion with a core document that's why we also need the reactDOM library as well.
+After all it contains the core reactDOM.render line.If you'll recall the ReactDOM takes two arguments, or rather the reactDOM.render method takes two arguments.
+First we provide a component or an element to render.Now at this point we don't have a component to render just yet.
+But we can create an element rather quickly. A react element is the smallest object within a react application.They're pretty much copies of html elements.
+So think of div tags, h1 tags, image tags etc. Those are all each simple elements, and a react element isvery much the same.
+They represent an object at that level, like a div, or an h1, or an image in react.We represent those elements with a syntax called JSX. Meaning javascript, JS,
+and XML-like syntax, X. So XML is this other markup language like html which is based off the pattern of using arrow like tags. For our first element let's add a div, and this will say react element.
+So that becomes what we want to render within the application.
+Nice!
+Now we have the second argument of the render method, and in the second argument we specify where we want this react element to get inserted. To do that we can access the core javascript document object, this
+document object is provided to any javascript file running in the browser and there's way more to this document object than meets the eye.
+So we're gonna have videos dedicated to exploring it in way more detail later on.For now we're gonna use the getElementById function that we saw earlier.
+So access .getElementById and we're going to insert at the root div location within the index that html file. Again if you check the public/index.html file, you're going to find that
+right within the body section there's this div with the id of root.So the effect is that our React element should end up being inserted within this route
+when you run the application in the browser. OK, so overall make sure you have this entire index.js changes and this gives us enough to rerun the application and see the new content.
+So once you have that, go to the command line and then once again, fire npm run start if you don't have it going already.
+Now in the browser you should find that there is a react element appearing as the entire application.And if you look at the element section within the developer console, indeed react element has been insertedwithin the root.
+All right.Great work.
+
+
+REACT COMPONENT:
+Previously we created a react element and then rendered that within the htmlNow we're going to expand upon this concept to create an entire react component. To create this component.
+We're going to add back in a file to the src directory.App.js. So create source src/App.js. Since we're writing real code a prerequisite is that we import the
+react library from the react module. So import react with a capital R from the lowercase react module.
+But now since we're creating a component we're going to import a second variable from the react module:the Component class. Now the Component class is not the default export of the react module.
+Therefore in order to grab the Component class you specify it as an optional import with a comma and a pair of curly braces after the main react import. So have the Component class with a capital C after the react library
+import. Cool,now we can create the react component. A React component is defined by declaring a javascript class with the class keyword. We're gonna call this class App since by convention a react component has the
+same name as its file. And then we'll open up a class body with a pair of curly braces immediately.
+We're gonna say that this class extends the Component class from react with the extends keyword by extending the Component class.
+We're making this our class a subclass of the react component.The effect is that this App class as a react component now will have a bunch of methods and properties that were originally declared in the react Component
+class. So the first method that we want to take advantage of is the render method.
+So add a render method to the app component. In the render method,we define the structure of the component itself. The structure of a component, like an element, is defined
+through JSX, except a component doesn't have to be just one element.It can consist of many elements nested together.
+So that's the distinction between an element and a component. An element is that smallest block.So one div, one paragraph element, or one header. But the component can be many of these elements together
+in order to structure an entire piece of UI for this app component.Let's return an overall div. It's very important to have this return keyword with the parentheses.
+It's a common mistake to be missing the return statement in the render method and then get confused why the react app isn't showing anything so make sure to have that return keyword again.
+Now since this is a react component we can nest even more JSX within this main div. Let's start with a header
+1 title for the actual application. Let's have this header 1 title say hello and add a paragraphtag. And for me I'll say my name is David.
+kay.That completes the overall component.
+Finally for this file, we'll want to make sure that other files can now use this new component.
+So at the end of the file let's add an export default line that shares this component with other files
+in the codebase. By declaring this App component as the default export of the file.
+other files will be able to import the app just like we imported react without the curly braces from the react module.
+So let's do exactly that.Once you have the entire app component changes head back to the main index.js file of the src directory/
+And within here we're going to import the app component from its local location a ./app.
+Okay.And now instead of rendering this react element that we have in the reactDOM.render, we can render
+the entire app component to use a component. We use its classed name directly as a pair of JSX tagsSo let's remove this element over here and instead we're gonna have a pair of tags that come from using
+the main actual application class.All right,nice!
+Go ahead and save that file.You're going to want to make sure your application is still running in the background, so head to thecommand line and fire npm run start in the actual portfolio application
+if you haven't already.Then visit the app in the browser once more at localhost:3000 and you should find that you
+now have the new elements and the new component within your actual project.
+If you open up the element section the div with the id of root is going to have all that new codefor or JSX within the render method of the app. Sweet!
+Now before we move on there's one thing we can improve with how we coded this back in the application.
+Notice on the render line the app component doesn't have any children meaning there isn't any inner JSX within the app tags.
+In this situation we can use a cleaner syntax. We can use a self enclosing tag to shorten down our code
+so instead of a pair of tags we have a / and then the inside directly within one tag.
+Cool!
+If you save this and then refresh the app in the browser you should find that the element appears just as it did before.
+All right,
+awesome! Creating a component is a pretty big step because components are actually one of the key innovations
+of react. So components again are like Lego bricks, to bring that analogy once more. They're reusable pieces
+of the user interface in your application. By piecing together these components eventually end up with
+an entire lego house which is the react application itself.
+All right before we move on from components let's explore how this all works a little more deeply. To
+do so we're going to need more insight into javascript classes in the first place.
+So as our next step,let's do a quick review and ramp up on these classes and then explore how these react components actually work under the hood.
+
+
+CLASS-OVERVIEW:INHERITANCE
+Hey there!
+Let's write some temporary code in the index.js file to explore how classes work.
+First up we're going to create that generic Animal class that was brought up earlier in the overview.
+So with the class keyword let's make the animal class.
+Then we have the class body with a pair of curly braces for our class.
+The one method that we definitely want to implement is the special constructor method.So add the constructor method right away, This method allows us to define the properties the instances
+of this class we'll have for the animal class that was name and age and to attach those properties.
+We use this special this keyword.So have this.name as well as this.age.The this keyword is a powerful one.
+It's a special object that gets recreated uniquely for every instance of the class.So one animal instance is going to have its own this object.
+A second animal instance will also have its own this object to work with as well.
+This will get more clear once we actually create instances of the animal class. All right next let's
+provide some input parameters to the constructor. The input parameters are used to pass in values when we're actually creating instances of the class.
+The two parameters that we want for now are going to be name and age. And that matches the current properties
+that we have defined for the animal class with these inputs.
+We need to make sure that the instances have their properties set to these matching values.
+So make sure that this.name is equal to the incoming name value.Likewise the age property is going to be equal to the incoming age value. Finally, for this animal class,
+Let's add a speak method. So it's going to have another method besides a constructor.
+And this is going to be called speak in the speak method.Let's fire console.log of the name and age in an overall message.
+So it's own line will have a console.log that says I am this.name and then and I am is the third
+input and then this.age is the fourth input, and then the final input is years old. So you can have
+as many parameters to the console.log as you like, and in between each parameter you're going to findthat there is a space printed in between the inputs.
+Cool let's create actual instances of its animal class. We're gonna create two of them and first let's
+assign a variable for the first one called animal1.So make this a constant, and a constant cannot be reassigned. To make the instance you use the new keyword.
+And then you directly refer to the class name.
+So we have the animal and then to invoke the instructor of the animal class we have a pair of parentheses.
+And now we can pass in values for the name and age of this instance for this animal one instance.
+Let's say that the name is Simba and then the age is going to be 3
+Now that we have the animal class we can call it speak method.
+So let's have animal1 do speak so far.Animal one does speak.All right, if you don't have the application running already head the command line and fire npm run
+start in the portfolio directory.Once you have all of these changes, so make sure in the command line you have npm run start going.
+And once it's there visit the application in the browser. Go to the console tab in the developer console.
+If you do a fresh restart you're going to see the log of I am Simba and I am 3 years old.
+Cool!
+So from the Speek method we get the log of I am this. name which was Simba and I am this.agehich was 3 years old.
+Very nice!Let's take a closer look at the actual animal by adding a log of the animal1 object itself.
+Now I'm going to use a tool called sizeup to move this on the right.So this is the sizeup tool.
+It is a paid developer tool but there are free alternatives out there that do a very similar window resizing functionality.
+The purpose is that I just want to see the logs on the right while I make changes here on the left. But
+again let's look at the actual instance itself by doing a direct log of the animal one object. As I say that, create-react-app will pick up the change.
+And here is the log of the animal object.
+So here it has a property of age which is 3, and the property of name which is Simba.
+Cool so that is our actual animal class instance.
+All right.
+
+Nice!
+
+That covers a generic class.Now let's move on to the concept of inheritance.
+We've seen this with react extending the Component class already from react.
+Now let's apply this to a new line class that extends the animal class.
+So in our code let's make a new class called Lion and this will use the extends keyword to extend our existing animal class.
+The benefit is that we now have a lion class with all the properties and methods from the original animal
+class but then it can define its own properties and methods in addition to that. The one catch though is that the constructor for this needs to have the same starting
+parameters as the original class so it needs a name and age but after that we can declare new inputs,for the lion like furColor and speed.
+o here's furColor.I'm using camelCasing so make sure that the C is capitalized to combine words into one word, and thenspeed that fourth parameter.is
+Now you might be wondering if we have to do this.name equals name in the constructor as well as this.age equals age in the constructor.
+If we're extending the animal but that code already exists in the constructor of the animal class.
+So in this situation to invoke the constructor of the parent class we use these super keyword so wecan pass in the name any age to the constructor of our parent class which will take care of setting
+ this.name and this.age. Already within the line.
+And after that we're gonna do similar code to set the furColor property to the incoming furColor value and the speed to the incoming speed value.
+
+Nice!
+Another lion class can have its own unique roar method to work with its new properties.
+So let's add a roar method within here and this will do a console.log and let's have it say Roar I have
+this.furColor and this line is gonna be rather long so I'll go ahead and extend out my window for
+and I can run this.speed miles an hour. Make sure you have that entire roar method. To make it more readable, actually
+a better place.
+Each of these inputs on its own line so that way it fits within the view and with that I'm also going to make an instance of the line class.
+So we're gonna have a new constant called lion1.
+And this time we're gonna make an instance of the lion class. Let's call this guy Mufasa, the age is
+20, golden is the first color, and this speed is 25.
+Now we can make this lion1 speak just like the original animal since it's gotta have access to the
+method originally declared in the animal class so we can call lion1.speak, but likewise we can do
+a lion1.roar since that's defined within the line class we can also log the lion1 object to check it
+out in greater detail. As you save this you should find that the browser now contains a log of I Am Mu-fasa. Cool! The speak method worked ,then also roar. So it uses the golden furColor property and the twenty
+five speed property. And the instance itself is based on the lion class as seen by the Lion class name
+within the actual log.
+All right so that covers how the class and inheritance system works in JavaScript. And that gives us
+some insight into the react component inheritance model.
+So in the App.js file our app component extends the Component class.
+Therefore this makes the app component inherit properties and methods that were originally defined in
+the Component class from react.
+We can take a look at what those methods and properties are in the adult she has file.
+Let's declared two new classes.
+One is gonna be a regular javascript class that doesn't extend the Component class and the other one
+will extend the Component class so above the component.
+Let's create a regular class.
+This one won't extend anything. But then we'll create a Component class.
+And this extends the component that we're getting from the react module.All right now that we have these classes well we can create instances of the classes.
+So let's make a huge constant called regularClassInstance.
+That is the result of a new instance of the regular class.And for comparison we'll do the same thing for a componentClassInstance constant.
+That is an instance of the Component class that we have above.
+In order to dig into these let's add a log of both.So add a console.log of regularClassInstance
+Go ahead and copy the name and paste it in to save some time and then I'll do the same for the component class instance. So add a log of componentClassInstance,
+and then the actual object itself.
+So make sure you have all that code.
+And once you do save the file and then you can check out the logs in the application
+and then give it a refresh. And what you'll find at the top is that we have this regular class instance
+which is indeed an object based on the regular class type but then we had this componentClassInst
+But if you expand it has all these inner methods like contexts, props, refs, update, or is mounted and other
+things so by updating the values for these inner properties and calling the methods in the component
+class instance, react knows how to update the application based on its components. In the course we're
+gonna dive deeply into the topics that you're seeing here for these inner properties. Most immediately
+we'll look at state, props, and mounting. Overall I hope this has made the component part of React feel
+more clear and given you insight into how react components actually work under the hood.
+
+Now that we've taken a closer look at this let's focus on the next core concept of react.
+
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+ReactDOM.render(<App></App>,document.getElementById('root'));
+//ReactDOM.render(<App />,document.getElementById('root')); can be written this way too
+
+class Animal{
+    constructor(name,age){
+        this.name=name;
+        this.age=age;
+    }
+    
+    speak(){
+        console.log('I am ', this.name, 'and I am ', this.age, 'years old');
+    }
+}
+
+const animal1=new Animal('simba',3);
+animal1.speak();
+console.log(animal1);//these things you can see in console in the debugging mode
+
+class Lion extends Animal{
+    constructor(name,age,furColor,speed){
+        super(name,age);
+        this.furColor=furColor;
+        this.speed=speed;
+    }
+    roar(){
+        console.log('ROOAR! I have', this.furColor, 'and can run at speed of ',this.speed ,'KM per hours');
+    }
+}
+
+const lion1=new Lion('Musafa','1','Grey','20');
+lion1.speak();
+lion1.roar();
+console.log(lion1);
+
+----
+import React,{ Component } from 'react';
+
+// class RegularClass {}
+// class ComponentClass extends Component {}
+
+// const RegularClassInstance = new RegularClass();
+// const ComponentClassInstance = new ComponentClass();
+
+// console.log('RegularClass ',RegularClassInstance,' ComponentClass ',ComponentClassInstance);
+
+
+class App extends Component {
+    render(){
+        return (
+            <div>
+                <h1>Hello</h1>
+                <p>I love learning react programming</p>
+            </div>
+        )
+    }
+}
+
+export default App;
+
+
+======
+
+STATE:
+
+Hey! Let's explore the concept of React state.The state is in updatable structure that contains the data for a component.
+The neat part is that a component's state can change for the lifetime of that component in the web app.For example a component may want to track how many times a user has clicked on it.
+So it can have a key like clickedCount in its state object and every time the user clicks on the component it will incrementthat clickedCount variable in the state by 1. 
+Let's apply this concept of state in our own app component. All right Back in the App.js file is now use the concept of state to power a new tug a little piece of the
+introduction.e're gonna have a new bios section to provide more details about you in case someone wants to learn more.
+Let's start by actually adding this section through its JSX in this component.We're gonna have a new div within the render method. After the last paragraph and this div is gonna have
+even more paragraph elements within it.
+So I'm going to provide more information and adjust your text to say things relevant to you.So for me. All right,I live in San Francisco and say that I code pretty much every day.
+I'll put something like my favorite language is javascript so you can put something similar ,something that will make someone know that you're into tech and it's one of your passions.
+I'll put an I think react.js is awesome.hen for the last paragraph element I'll put something a little more lighthearted I'll say.Besides coding I also love music and ramen which is a true statement :)
+Ok, so go ahead and save that should have the application running on the command line.If you don't already then fire npm run start then visit the application on the browser at localhost:
+3000 and if you refresh you're going to find that well you have the new text right therewith the  actual application.Cool so there's a new section now!
+It's not a huge amount of information but let's take advantage of state to actually make this new section toggle-able.
+At first the section is going to be hidden but then a visitor will have a button that they can click to show more and see the information.
+fter expanding the section they're going to have a second button to click that can show less information and collapse
+that expanded section. All right,This starts by updating the component to have state.
+First we're going to add a constructor to the app component so within the app component add the constructor method.
+Make sure I spelled correctly so there is the constructor. You'll recall from our exploration of classes that the constructor is a key method that gets fired with an instance of the class is created.
+Now in this case we're going to use a constructor to attach a state object to the component using the this object.
+We can say that the state object for this component is an empty object. Now if you save here and then check the react app you might get a little spooked because you're gonna
+see an error in the react application.
+It's gonna say cannot set property state of undefined. Looks like the this object isn't working for the React component.
+After all it's saying that this is undefined and undefined.state is not valid javascript.Well not to worry.There's actually something crucial missing in the constructor and it has to do with the way class inheritance
+works. Recall from our code that explored classes that a subclass of a base class has to call the superproperty.
+In order to invoke the parent classes constructor method.Well in this case we have to do that.
+We need to call super to invoke the cnstructor of the parent Component class.And even though in this case there's no parameters in the parent constructor.
+There are still relevant lines of code to run in the parent Component class constructor method.In order to set up the react component correctly. And the evidence is there by calling super, the react
+app is displaying correctly again because this object is defined.Ok, let's add the first piece to the state object and that will be a key called displayBio.
+Make sure it's camelCased so that way the b is capitalized.DisplayBio is gonna be a value which controls whether or not we should show this new section within
+the react application. By default let's make displayBio false then in the render method. The component can decide whether or not it should display the bio field based on the value of this.
+state.displayBio. To do this,Let's make a bio variable at the top of the render method. But instead of a constant let's use a let
+variable. So that way the bio can be reassigned later. So have let bio and at first the bio variable will be set to the entire bio div. So go ahead and grab that entire piece of JSX with a div. So we're gonna
+make bio equal that block of JSX.ow in order to properly wrap these multiple lines within one variable we need to surround this with a pair of parentheses so make sure there is a pair of parentheses around the entire block of JSX
+and the bio is equal to that entire div with all of its inner content.Nice.
+Now we can still render the bio within the render method itself by using a pair of curly braces within the JSX and this allows you to render variables within the actual JSX and display them.
+So if you have the bio variable and you still put bio within a pair of curly braces in the return, you're going to find the application still displays the bio text. Nice! But the idea is that we don't want to display
+the bio if displayBio is false in the actual state. So let's add a check if this.state.displayBio is equal to false. But we can actually write this equivalent expression by using a bang operator
+this.state.displayBio.
+So this is equivalent to checking if this.state.displayBio is equal to false.
+Well in this case let's make the bio null. And when react sees a null value within the JSX, it decides to skip over
+that and it won't render anything.
+And if you say that you're going to find in the application, well, indeed the section becomes null and
+disappears from the application.
+Cool!
+So now we have some state controlling a part of the component before we move on though we can make our
+code cleaner.
+First up we can remove this if condition and take advantage of a ternary expression.
+So essentially a ternary expression is a one line if statement that will check a boolean value and set
+a variable to one of two values.
+All right let's start writing the ternary expression. First we'll directly check this.displayBio.
+We'll have a question mark which starts a ternary expression, I mean the first value is gonna be the
+true case if this.displayBio is true.
+Well we want bio to become this entire block of JSX otherwise we go to a different value with a colon.
+And in this case after the colon if this.state.displayBio is false we're gonna make bio
+null. This now means we no longer need this if condition and then we can turn bio into a constant since
+it's never assigned or rather reassigned.
+All right.
+If you save you'll find the application still displays nothing for the actual bio which is correct because
+this.state.displayBio is false and we're going to the false condition of the ternary expression which
+is null. To check that this work though we can temporarily change displayBio to true in the state.
+And if you save that you'll find it the bio reappears within the actual application.
+All right.
+Awesome!
+Another thing is that we don't even need the constant of bio.
+If we're only using it once we can take this whole expression and render it inline within the JSX
+within that pair of curly braces. so we can take out const bio at all, then have this.displayBio and
+then render the JSX or not, depending on the displayBio value.
+If you save this, you'll find that the bio is appearing and if you switched back to false indeed it goes
+away.
+Perfect.
+That's looking pretty good.
+Now let's move on to the next part.
+We're going to give the user the control to switch the displayBio boolean in the state.
+That way they can determine whether or not the bios should be expanded or collapse in the application.
+All right let's move on.
+
+import React,{ Component } from 'react';
+
+// class RegularClass {}
+// class ComponentClass extends Component {}
+
+// const RegularClassInstance = new RegularClass();
+// const ComponentClassInstance = new ComponentClass();
+
+// console.log('RegularClass ',RegularClassInstance,' ComponentClass ',ComponentClassInstance);
+
+
+class App extends Component {
+
+    constructor(){
+        super();
+        this.state = {displayBio : false};
+    }
+
+    render(){
+      /*  let bio = (<div>
+            <p>Basically am a java developer</p>
+            <p>and also a DB developer</p>                
+            </div>);
+
+            if(!this.state.displayBio){
+                bio=null;
+            }*///this can also be written as tertinory operator as below
+
+            const bio = this.state.displayBio ? (<div>
+                <p>Basically am a java developer</p>
+                <p>and also a DB developer</p>                
+                </div>) : null ;
+
+        return (
+            <div>
+                <h1>Hello</h1>
+                <p>I love learning react programming</p>
+                {bio}
+            </div>
+        )
+    }
+}
+
+export default App; 
+ 
+ 
+SETSTATE:
+Hi!
+Previously we added state to the app component in order to control whether or not a bio section should appear. At the moment,displayBio is false by default.
+So the bio is also going to be hidden by default. But we can add some dynamic functionality to allow the user to flip this boolean in the state.
+That way the bio section can reappear.So instead of a null value in the false case let's actually have some JSX. So add a pair of parentheses
+in this false case, let's have a div. In this div,we're gonna have a button element, and this button element, the text of it is gonna say Read more.
+Cool, now if you have your eye on the app in the browser,and as long as npm run start has been fired in the command line, create-react-app should pick up the change
+and now, oir read more button is there in the actual application.
+Nice!
+Now, when we click on this, some functionality should be triggered to set the displayBio boolean totrue.In the state.
+Let's add that functionality in the class with a new helper method called readMore up in the class.Let's add a new helper method.
+This method will be called readMore and make sure it's camelCased.So the M is capitalized. Within readMore,
+Let's change this.state.displayBio to true.So this.state.displayBio is now going to be true.
+Now it's tempting to write it in this way but this is actually an example of directly modifying thecomponent state object in react.
+t's a huge bad practice to directly modify the component's state. Instead of doing this react attaches a helper method to the component called setState specifically for updating the values in the state
+object. The setState method is used by calling this.setState and its input is an object.The keys in this object are whatever keys we want to update in the state.
+And right now we have one key which is displayBio. Then the value that we want this key to update
+o: is going to be true so let's make displayBio to true when readMore is fired.
+Now the key is making this method fire when the button is clicked in react.
+We can use an onClick property for an element that references a method to fire and under the hood in
+the react yes engine code react will know to trigger the method when the element is actually clicked.
+So that goes like this: have an onClick attribute handler.
+So this is a property on the button element itself and this should point to the read more function.
+o onClick equals this.readMore within a pair of curly braces. All right go ahead and save the file
+once you have all this.
+Then in the browser go ahead and click readMore and the result is perhaps not what you were expecting:
+instead of the bio now appearing there is an error that says setState can't be used on an undefined
+object.
+So this error again is similar to what we had before.
+This object is undefined and undefined. setState does not work in JavaScript because after all
+an undefined value doesn't have any methods within it.
+All right let's dig into this.
+Rather than calling this.setState in a read more let's do a console.log of the this object within
+the readMore function.
+So go ahead and comment out the
+this.setState line for now we'll now have a console.log of readMore
+this, and the second parameter is going to be the actual this object that we're looking at. All right,
+And now in the constructor let's also log the component this.
+The idea is that we want to see if this object matches the one for the component, for the one that we
+have here in the readMore function.
+So by having a console.log of the component this we can make the comparison.
+So make sure you had both of these lines. All right,
+If you save the file and then you open up the application logs what you're going to find is that the
+component this is the app if you expand the app component and then look at the prototype and expand
+it once more you're going to find that indeed it has access to a setState function.
+So indeed the component has this.setState.
+But if you click on the button that this object within the readMore function itself is undefined.
+Now the reason for this is that class methods don't have logic to create their own this object. A class
+method written this way is essentially a convenient way to click various methods to fire like a script.
+It's not an object or a class instance itself.
+Therefore it doesn't make its own `this` but in this case we still want the setState method attached
+to this object of the component to be available to this object within the readMore method so one way
+to do this is to directly attach the method within the constructor to the components of this object.
+So rather than clearing rather than declaring a class method right away within the constructor we're
+going to have this stop read more is equal to a function and then if you move the log within here as
+well as do this.setState, what you're going to find is that now when you try a button click when
+you do, the readMore this indeed, it matches the app this! Cool!
+That definitely worked. By attaching the method directly onto this object within the constructor, it has
+access to the app components of this object.
+But think of a scenario where we have 5 or even 10 more of these methods for the component.
+Would we want to write each of these methods within the constructor every time?
+Probably not.
+It's a much more cleaner to have this at the class level.
+So let's remove this the code of read more back within the class method and explore an alternative.
+So the challenge is that we still want the methods to have access to this object of the component.
+Luckily in JavaScript we have a special .bind method for methods that allow us to pass this object
+from one object to another.
+That way we can bind the this object of the component itself to the helper method and it goes like this.
+We'll call this.readMore.bind(this).
+Now this actually produces a new function that is the result of creating a function that has this object
+from the component bound to this readMore function.
+So we need to now set this.readMore to that result.
+All right.
+If you save this and then uncomment this.setState, you can also leave in the console.log. Head back
+to the actual application and then click readMore now.
+And what you're going to find is that the actual bio displays on the application and expands! Woohoo!
+So we also get the log again that this object within readMore is identical to the app component's.
+this. Nice. Now that this bio has expanded,
+let's make sure that we can collapse as well in this expanded version of the state.
+We're going to add a button that does the opposite of read<ore.
+It's going to let the user make the application show less. So let's add a new button div after the final
+paragraph within the true case of this.state.displayBio so this is going to be a button that
+says show less.
+Now we can add a helper method that does show this and it essentially does the opposite.
+It's going to call this.setState and make displayBio now false however rather than having pretty
+much the same code over again between the two methods. let's make a new method called toggleDisplayBio
+And what toggleDisplayBio will do is set the state of displayBio to its opposite value whatever
+it currently may be.
+So in here we can call this.setState. It's going to change the value of displayBio and make it
+the opposite of this.state.displayBio using the bang operator.
+So displayBio is currently false.
+This will flip it to true if it's true it's going to flip it to false.
+All right.
+Now we can get rid of readMore and showLess and we want to make sure that toggleDisplayBio has access
+to the this object. So toggleDisplayBio is going to be equal to this.toggleDisplay.bind(this);
+And the showLess button is going to fire that toggleDisplayBio function when it's clicked. And likewise
+on a click of readMore it will also fire the toggleDisplayBio method.
+So make sure to have both of those changes as well as the bind of this to toggleDisplayBio
+Go ahead and save.
+And in the application now you can click readMore.
+Likewise you can click show less and it does the opposite.
+We expand and collapse the bio section! Cool! So that overall wraps up the setState method, and how to
+properly update the state and the component.
+Remember it's a rule to never modify the state directly within react.
+You should call setState to handle situations where you want values in the state to change.
+You should always supply new objects as values to replace the current values in the state to reinforce
+this rule.
+And more importantly to understand why this rule exists in the first place,
+let's explore what is going on with setState under the hood in the next one!
+
+
+import React,{ Component } from 'react';
+
+class App extends Component {
+
+    constructor(){
+        super();
+        this.state = {displayBio : false};
+        console.log('Compnent this',this);
+        this.toggleDisplayBio = this.toggleDisplayBio.bind(this);
+    }
+
+    toggleDisplayBio(){
+        this.setState({ displayBio : !this.state.displayBio });
+    }
+
+    render(){
+        
+        return (
+            <div>
+                <h1>Hello</h1>
+                <p>I love learning react programming</p>
+                {
+                this.state.displayBio ? (
+                <div>
+                 <p>Basically am a java developer</p>
+                 <p>and also a DB developer</p>                    
+                   <button onClick = {this.toggleDisplayBio}>Show Less</button>                              
+                 </div>) : (
+                      <div>
+                          <button onClick = {this.toggleDisplayBio}>Show more</button>
+                      </div>
+                 )
+                }                
+            </div>
+        )
+            }
+       
+}
+
+export default App;
+
+
+======
+
+A REACT RULE: NEVER CHANGE STATE VALUE DIRECTLY
+this.state.displaybio= !this.state.displayBio is a bad practice and it should be like  this.setState({ displayBio : !this.state.displayBio });
+It's time to lay down the law.
+
+Make sure that you remember this react rule never directly modify state. More completely,
+Never directly modify the component state if your intention is for changes to occur in the render
+method based on updated state values. Let's look at examples in determining whether or not they're following this rule.
+
+First up we have this line of code in this case.
+This.state.displayBio is getting set to a new value not as far as javascript code goes.
+This syntax seems fine in other non react applications.This line of code could potentially be relevant. But in react this is a bad practice.
+It's directly modifying the state. The way to properly do this is to call setState. Give setState
+an object and then have the relevant key that you want to update, then the value that it should update
+to, when you call setState itself. All right, before we get into why the setState approach is required.
+Take a look at another example.
+Take this line of code. It's attempting to update a text variable in the state object by adding three
+periods to the text key.
+Now is this a bad example or recommending an example of updating the state?
+And it's definitely bad.
+This is another example of directly modifying the state.Again the code itself isn't bad javascript.
+This is a valid way to do string concatenation and add three periods to an existing string. But it's
+just not the way in react that you want to reflect changes in the render method.
+Instead the proper approach again is a call to setState and the text key and have the value be a whole
+new string with this.state.text and adding the three periods to it.
+Still even with these examples the main question still hasn't been answered.
+Why is it a rule to never directly modify the state?Why does it work when calling the setState method?
+The reason is that react recalls the render method after changes have been made to the state through
+the setState method so setState is called in the relevant values in the component state change and
+once that's done setState triggers the render method calling it again.
+This is important because a render method that is returning different text based on the value of something
+in the state now has a chance to return something new based on the updated values in the state.
+It can control what should appear in the react app itself within the rendered methods.JSX but this doesn't work when the state is modified directly.
+It won't re-trigger the render and doesn't do anything beyond changing the values even though the values in the state object would be different.
+The render method won't notice this.Therefore the application appearance won't update based on the logic in your render method.
+OK let's explore this rule further by looking at some code.Head back to the portfolio application head to your toggleDisplayBio method and let's comment out
+the current valid setState call. And instead we're gonna do a direct modification of the state by setting
+a state value to a completely new value.So this.state.displayBio is going to be equal to a bang operator of not this.state.displaybio.
+All right go ahead and save this.You'll also see that react app is equipped to give you a warning of not to modify state directly. But
+let's also look at the application in the browser and verify this ourselves and see what happens.
+And now that the toggleDisplayBio method has been refactored,
+let's try to click the read more button. And this time nothing happens.
+If you open the console you'll find that same warning that you shouldn't directly modify the state.So that's pretty helpful.
+So let's restore the method back to its valid form by putting back in that commented out line where we
+set the state of displayBio to a completely new value that is the result of calling the bang operatoron the current
+this.state.displayBio method you click readMore and showLess now it should be working justs it did before.
+
+Cool! Now,
+overall this relates to another slightly confusing aspect of react. And this has to do with how we set
+up the onClick handlers one question you may have lingering is why are referring to only the method name itself.
+Within the onClick handler, rather than calling it for example doesn't it make sense to invoke
+toggleDisplayBio on line just like this by having a pair of parentheses to actually call the method
+now.
+If you save this, when you do, the change immediately leads to an error where the maximum call depth is
+going to be exceeded in the application. So we're exceeding the number of calls at the react engine can
+handle.
+This is because when the render function fires it will now fire toggleDisplayBio right away as soon
+as it gets to this line.
+Since we're calling the method itself because we've added the parentheses to invoke the function but
+within toggleDisplayBio recalling setState this changes the displayBio value. But again recall that
+setState triggers the render method once it's done so after this.state is done it's going to
+go back in the render method and once again it's going to call toggleDisplayBio a once more.
+Which goes back up to the toggleDisplay bar method which calls red state.
+Again this triggers a render it goes to the toggleDisplay file and now we get to this loop of setState
+and toggleDisplayBio and render method calls so by giving the onClick handlers only the function
+name the react engine under the hood knows that it should invoke the method only when the onClick is
+fired and not when it's actually crossed in the render method. Which is why when you go back to the original
+code without the parentheses things will be working just as before.
+All right, so we now had two very big conclusions from this overall exploration. One: the react rule of
+never modifying state.
+The main one is that you should use setState instead of a direct modification.
+And the second con-
+clusion is that handlers like onClick should be given function names because of the very fact that
+setState triggers a render call.
+OK let's move on and explore class properties and initializers which is a javascript syntax which can
+provide for us a cleaner way to declare the state and add methods to the component.
+
+
+
+CLASS PROPERTIES AND INITIALIZERS:
+
+import React,{ Component } from 'react';
+
+class App extends Component {
+
+    state = {displayBio : false };
+
+    toggleDisplayBio = () => {
+        this.setState({ displayBio : !this.state.displayBio });
+    }
+
+    render(){        
+        return (
+            <div>
+                <h1>Hello</h1>
+                <p>I love learning react programming</p>
+                {
+                this.state.displayBio ? (
+                <div>
+                 <p>Basically am a java developer</p>
+                 <p>and also a DB developer</p>                    
+                   <button onClick = {this.toggleDisplayBio}>Show Less</button>                              
+                 </div>) : (
+                      <div>
+                          <button onClick = {this.toggleDisplayBio}>Show more</button>
+                      </div>
+                 )
+                }                
+            </div>
+        )
+            }
+       
+}
+
+export default App;
+
+
+Welcome back.Let's go over class properties and the initializer syntax.
+This won't necessarily add any new functionality to the component but it is the best practice in react to set up the state and our methods
+using this syntax within the component. The reason that we didn't start with this syntax is that it's a little less intuitive what's going on under the hood.
+When you start out with this.But now that we know how the state is actually set up now class methods need to have this object bound to them.
+Well now we're free to explore the cleaner way to do this primarily the class property and initializer
+syntax is a way to attach properties and methods to the this object of a class without having to use a constructor.
+For example in the app component we can directly attach the state like so: by saying that the state
+class field is now going to be equal to an object which has the display by key are false.
+So it's as if we pulled out this.state equals displayBio false and moved it right above without
+having to directly attach it to the this object.So it's equivalent to the code that we have in the constructor.
+This is especially convenient for methods because we can directly attach toggleDisplayBio to this
+object by having toggleDisplayBio equal a callback function with the arrow function syntax that still
+calls this.setState and now under the hood it's as if we wrote this.toggleDisplayBio equals an arrow function right within the constructor.
+So that's what's going on when you use the class property and initializerr syntax in order to initialize a method within the component.
+So this is really convenient because now we can get rid of this entire constructor over here. Feel free
+to leave it commented in for your own reference, but otherwise go ahead and delete it.It should be fine. OK.
+So make sure the application is running in the background because you want to make sure the refactorworked. Head to the command line fire npm run start in the directory for portfolio if you haven't already
+then had to the browser and revisit the app give it a refresh for good measure and click readMore and
+show less and everything should be working just as before!
+Cool!
+Now you could even refactor the render method to use the class properties syntax, so we can make render
+equal to an error function that has a callback which returns a JSX.
+If you say this the application should still show that it's actually working but for this one let's keep it as a normal class method.
+It's the most fundamental method for a react component and react already ensures to attach the rendermethod to this object within the logic for the regular Component class already that we're extending.
+So it's nice to be more consistent with the millions of components that have already been created throughout
+history and keep the render method in this more traditional syntax since we don't have to worry aboutusing .bind for the render anyway.
+Okay that wraps it up. Again when you're first exploring react it's better to have to go through the
+manual process of creating the constructor, attaching the state object to this, and binding this, to helper methods.
+That way you know what's going on under the hood but now that we've done that moving forward the class
+property and initializerr syntax is what we'll be using when it's hatching state and methods two components.
+Since it's a lot quicker to write and cleaner to read. All right let's move on and build the next component in this portfolio
+Application.
+
+
+
+COMPONENT 2: PROJECTS
+Hi.
+
+Let's create the next component in this portfolio application.
+This new component is going to be one called projects and this job is gonna be to showcase a list of projects that you've created.
+Now this is one of the best ways to pitch yourself as a software engineer and react developer. Before we
+actually make the component though this one is going to require a short setup, Eeach project is going
+to have an image, title, description, and link.
+First up, let's get the images for the projects.
+Now you should be able to download the three images I'll be using in this video within the resources
+section of this lecture or you can head to the official course repository at github.com/15Dkatz/react-bootcamp.
+Go ahead and open up the portfolio section go to src and then assets and then going to find a bunch
+of files for you to download for a new source asset section within the portfolio project not the main
+files that you want for this video are Project 1 project 2 and project 3.
+But while you're here you might as well download the whole directory since we'll be using each of these assets in videos throughout the rest of this section.
+Okay go ahead and pause here and then resume once you have the assets downloaded.
+Great.Once you have the assets downloaded,create a new assets directory within the source folder of the project.
+So make sure you have src and then assets and then move all the downloaded files into the new src assets directory.
+Cool! Once you have all of this we're gonna set up a base data file which will be used for the new project section.
+As mentioned before each project is going to have its image its title link and description and we're
+going to capture all this information in a new generic project.
+json file.
+In addition let's also make a data directory within the src folder that we can use a whole data such as this one.
+So within data make a projects.js file we're going to start by importing each of the project images as resources within here.
+So first we can import the project one resource and this is going to be from the assets directory located
+one directory back with ../in the first one is project1.png we're going to do the
+same thing for Project 2 and project 3 so go ahead and copy the line a couple times and now we're importing
+project 2 from ../assets project2.png and the last one is project 3 so import that from../assets / project3.png. With all the project assets available for the images I'm
+gonna make a projects array.
+Notice that all the letters in this variable name are uppercase.
+This is called The SCREAM_CASE syntax in the convention for global values in a javascript project is to use this SCREAM_CASE syntax.
+So each letter is uppercase.
+The projects array itself is going to be a collection of objects that each represent an individual project.
+For now there's gonna be three projects and to start I'm going to write the data for one project so
+that we get a sense of the layout.
+First up make an object with a pair of curly braces.And then this one is gonna have a title field called example react application.
+It also is going to have a description.
+And in this one I'll make the description a rather long string so bear with me as I type it in this
+says a react app that I built involving JS and core web dev concepts.
+Very cool.
+It barely fits on the screen.he link for this is gonna be an online link and for this you can use any link that you have online
+for, perhaps a github repo that you have posted.
+But I'm going to use /15Dkatz/ example and in the final part is an image in this first
+one is going to have be project one image.
+Okay now I'm gonna do the same for two more projects but rather than waiting for me to finish typing
+this out I'm going to use some movie magic to jump ahead to when I've finished writing out the data.The next two projects are gonna be an example API and another example an operating systems final project.
+Once the data is displayed you're gonna want to pause the video so that you have a chance to write all the data down yourself.Before I continue on with creating the actual component.
+ll right.There it is in full.
+You can go ahead and type this out or you can also head to the actual course repository and then findthis file and download it in its completion.
+Before we move on from this though let's give each project an idea so that each object can be uniquely identified.
+Now even though they have a different combination of title description image etc. The traditional way to distinguish similar items within an array is with anid field so at the top of these let's go ahead
+and give each one an idea that we're going to increment one at a time.So the first one has the idea of one.
+The second one to the third one.Three.Finally we're gonna make this overall project available to the rest of the codebase with an export
+default line that shares its products array so had an export default.
+And this will share the project array with the rest of the codebase. Nice, once you have all that you can finally move on to the component code.
+All right.
+So make a new Projects.js file in the actual src directory.So make sure it's a capital P. This time for src.projects.js in here.
+Let's import react and the Component class from the react module to import react.
+And then in a pair of curly braces and a comma had the Component class.And this is from the react module.
+Now we're also going to import these projects array from the local ./data directory.The projects file that we just created.
+All right.And then we can make the project component itself.We should extend we can put in class from react the class of projects is going to extend the component
+class.Let's start with the render method.
+And by default we're going to want to return some JSX and I'll re-emphasize that it's crucial to have
+this return statement with the curly braces.
+It can often be forgotten and it's hard to pinpoint that a missing return is the culprit of unexpected
+behavior when it's happening.
+We're to have an overall div within here so I have a pair of div tags and let's start with an h2 title.
+And this is going to say highlighted projects.
+Now our objective is to render JSX for each of the project objects that is within this overall PROJECTS
+array.
+So we're going to add a new div to capture a group of project objects.
+So let's add a div over here and within this div we can mainly write out JSX for each project in
+the list one at a time.
+So for example we could write a div that uses some project[0] data so we could access project[0] right
+here we could use Projects index of 0 and then use the title and we can do another one for projects
+one that title and projects to da title until we have all the products within our array with only three
+projects to render.
+This doesn't look so bad but imagine if we had 5 or even 15 projects to display.
+This approach would be extremely painful with a lot of duplicated code and it's definitely not scalable.Instead we want to take a more programmatic approach and transform this project array into an array
+of JSX it's similar to the one that we have right here.
+So let's replace this with an overall pair of curly braces where we can write some logic within the JSX.
+We're gonna use the map function on the properties array to take the original array and transform it into a new one that consists of a bunch of JSX objects.
+So use Projects.map.We can now use a map function to transform the project data items to individual pieces of JSX to
+render.
+
+  <div>{PROJECTS[0].title}</div>
+    <div>{PROJECTS[1].title}</div> instead we can write like
+	
+	 <div>
+                   {
+                       PROJECTS.map(PROJECT => {
+                           return (
+                               <div>
+                                   {PROJECT.title}
+                                   </div>
+                           );
+                       })
+                   }
+				   
+So with that we have a callback function to pass into the map and the actual parameter to the callback
+function is each project one at a time.
+So it's gonna use the first project and then the second project and the third project firing this callback
+function one at a time.
+And for each item now let's have the return statement.
+And this is going to return a div overall that renders the project object's title.
+So have a pair of curly braces and then render the project title and this code is equivalent to what
+we had before.
+For each of the individual project items within the project array we're turning each one into a div
+that consists of its title right.
+Nice, before we can check this out.
+We're gonna need to make sure that this component is included in the main application so as the final
+line of the file. Share the Projects component across the codebase with an export default line so export
+default projects.
+And once you have all the code head back to the App.js file and then import the Projects component
+so import projects from the local projects file.
+So let's get the projects component let's place the projects component at the end of the main render
+method.
+So after this pair of curly braces first let's have a horizontal ruler line element which is going to
+add a horizontal line in the actual application and then we can directly use a Projects JSX as its
+own tag within the render method here right.
+We're now ready to check out the new project component code. Fire
+the application in the command line.
+f you haven't already with an npm run start.
+And once you've done so head to the actual application at localhost:3000 and there it is
+a new highlighted project section.
+There's the example react application.
+My API and the operating systems final project.
+
+Cool!
+Now if you open up the console you're gonna notice that there is this warning saying that each child
+in an array or iterator needs a key property this is essentially React telling us that it needs a way
+to distinguish JSX that's generated by in that function that way under the hood it can optimize
+the rendering of the JSX. Luckily we gave each project data unique idea field so we can use a project
+.id as the key property for each generated piece of JSX.
+So back in the application code in the projects.js component file in the return div.
+Let's add a key property and this will be set to the project.id
+As you say that he had back to the application where you can find is that the error goes away.
+Nice.
+So this is a great start for the overall project section.
+Moving on from here though let's display a lot more information for each project.
+After all there's the description link an image that we can also include now.
+It'd be a bit cramped if we wrote all the JSX within the map function of the project.js file
+as the next step then let's make a project component that will have the JSX to display all the project
+info itself. Well then use a project component in this map function rather than the div,
+We currently have. But there's a certain challenge with this.
+This Projects component is the one that has the data for the actual project objects.
+But if you create a separate project.js file for a project component.
+Well how is that new component going to know what information to display?
+Is it also going to have to import the project section? Well spoiler alert.
+The answer to this is in the title of the next video.
+So without further ado let's get to creating the project component and exploring a different way that
+components can get data.
+
+
+import { render } from '@testing-library/react';
+import React, {Component } from 'react';
+import PROJECTS from './data/projects';
+
+class Projects extends Component{
+    render(){
+        return (
+            <div>
+                <h2>Highlighted Projects</h2>
+                <div>
+                   {
+                       PROJECTS.map(PROJECT => {
+                           return (
+                               <div key={PROJECT.id}>
+                                   {PROJECT.title}
+                                   </div>
+                           );
+                       })
+                   }
+
+                </div>
+            </div>
+        )
+    }
+}
+
+export default Projects;
+
+==========
+
+PROPS and PROJECT COMPONENT:
+
+const {title, image, description, link} =this.props.object;
+above is same as
+const title =this.prop.project.title;
+const image - this.prop.proect.image; etc
+
+
+Welcome back.
+Let's make a project a moment that will display the data for each project.
+Currently we have a div that is displaying the product title but each project has way more fields like
+its description link and image.
+So the new project component is going to take care of displaying all of that.
+Now the only trouble is how is each individual component.
+Good to know which project object from the overall project array to display the approach that we're
+going to take is to use component prop. In react, props are a way for parent components to pass down
+data to child components.
+So let's start exploring props by creating the new project component itself. But rather than making a
+new project.js file well we can declare the project component in the same project.js file so right
+above the class of projects.
+Let's make a class called Project and this is going to extend the Component class from react as well.
+We're gonna add a render method which is needed in all react components. And overall we're going to
+have a return statement.
+Don't forget the return.
+And this is going to return a div as a JSX.
+Now we're going to make this div also display the product title but the project data is going to be
+located in the project props rather the component props like state props.
+Object is available within the this object itself but unlike state where the state is declared locally
+the props actually comes from an external source.
+Still the props object itself is going to have a project object to access and this is gonna have the
+project title. While we're at it let's also add a log of this.props so we can take a closer look at
+this.
+Add this props object too in a string let's log this are props and then we're gonna have in a second
+input the actual the stop props object.
+Cool now we can use this project component as the JSX instead of the div that we currently have in
+IMAP function so we're gonna return an overall self enclosing project tag this still needs the key of
+project.id And then here comes a part where we're accessing the props or setting the props.
+Now we have a project attribute on the project component you're going to pass down the entire current
+project object that we're mapping over.
+So notice that for the props to work you need an attribute with the same exact name as a value that
+you're accessing within this stuff props.
+All right let's go ahead and test this out now that we have the code for it.
+Head to the command line and fire npm run start in the portfolio directory if you haven't already then
+open up the app in the browser at localhost:3000 and what you're going to find is that the
+titles are still there.
+Cool!
+Now that's definitely working.
+Go ahead and open up the developer console and you can use option command J in order to open it up
+automatically and you're gonna find that this.props has been logged three times for each of the
+projects and each one is an object that contains the relevant information for the project.
+Awesome.
+Now that takes care of the props aspect.
+Now let's go ahead and develop the full UI for each project component.
+Now we're not going to only want to render the title but let's also render the image description and
+link. But rather than reaching into this.props that project to access each value every time we can
+make local constants for each of these values in the render method by using JavaScript destructuring in
+syntax.
+So it looks like this we can create a title constant image description and link constant by setting
+it equal to this.
+Props that object within a pair of curly braces so the syntax the desctructuring syntax is equivalent to
+writing const title equals this.props.project.title const image equals this.props.
+Now project that image and so on for the description and the link.
+But instead we can use the desctructuring syntax to declare each of these title image description and link
+constants right away by accessing those equivalent values within the this.props.project Object
+not desktop props objec,t you probably caught that earlier.
+Okay now with each of these constants available we can now create a more complete chunk of JSX that
+is relevant for the project.
+First up let's actually put the title within a header 3 element.
+Then we can provide an image element and then it gets the image to display by having a src attribute
+which in this case is the image itself.
+An image also needs an alt attribute to display some text in case the image can't load from the server.
+We're going to have a paragraph element for the description finally to provide a link on the page.
+Use an anchor element and this has an href attribute in which we can put the link.
+So that creates the link source any text for the link goes within the pair of tags itself and we're
+still going to use that link for the actual text.
+All right go ahead and save that.
+And once you have it head back to the application and great!
+That definitely worked.
+We have a bunch of new JSX within the application.
+Here's the example react application with its giant picture has its description as well as its link
+and if you click on it it's gonna go to an external location.
+All right.
+So we have all of that.
+One thing you'll definitely notice though and you can't miss it is that these images are ginormous.
+So let's get this in control by styling image.
+Now in react we actually don't need CSS to apply quick styling to JSX.
+We can actually do styling inline by providing a style object to the actual image.
+So this object is gonna have keys that match CSS properties like width and height.
+Now you might recall these properties from any CSS code that you've done before but if you're not familiar
+with CSS Don't worry there'll be some ramp up on CSS basics later in the course.
+Also CSS is going to pop up from time to time as you continue developing these front end web apps with
+react components.
+But again we can take care of the styling right here within react in line in the JSX.
+So let's add a width attribute within here that is set to 200 which is equivalent to making the width
+200 pixels the height is going to be 120.
+Cool!
+And as you save that you'll find that in the application the images are much smaller.
+Great as one final changed let's make it so that these private items are rendered side to side rather
+than on top of each other.
+So we're gonna use an inline style as well.
+But this time it's going to be for the overall div.
+Let's add a style over here so make sure to have the pair or rather two pairs of curly braces one to
+declare the style and then one for the inner object.
+In this time going to provide a display value and this will set it to inline block which are going to
+make each block render side to side as block elements the width of the overall div is going to be three
+hundred. And let's add a margin of ten so that way none of these divs are touching.
+Go ahead and give that a save,and head to the Projects application.
+If I just zoom out a little bit overall it's looking a lot better with the divs actually side to side.
+Awesome.
+Now you're probably thinking that there's a ton of styling that's missing from the app overall to which
+I'd agree. So there's going to be a selling video at the end of this section to make this app look a
+lot better.
+That being said, with this component completed, now we've covered the concept of props in react and altogether
+we've covered three huge react topics already.
+Components, state, and props so I think you're ready for an optional coding challenge.
+The next part of the project will be to add a component for displaying SocialProfiles.
+These will be icons for sites like GitHub LinkedIn Twitter and your email, with relevant links to an
+online profile.
+That way people will have a way to reach out to you once they're convinced that they want to work with
+you based on your portfolio.
+The code is gonna be pretty similar to the approach that we have for the project section.
+So again it will be presented as an optional challenge that way you have the chance to apply what you've
+learned already with react!
+
+
+SOCIAL PROFILE COMPONENT:
+Welcome back.
+Let's implement a solution to the SocialProfiles component challenge.
+We're gonna start by adding a new SocialProfiles.js file to the src directory so within source
+let's make a new file.
+SocialProfiles.
+But this time make the S capitalized since that is the convention for a react component to have the
+actual file name capitalized.
+Just like the class name itself.
+Within here, it's import the react and the Component class within a pair of curly braces from the
+react module.
+And then we're gonna access the new SOCIAL_PROFILES array from the data location and then the social
+profiles.
+var.
+Now we can create the component itself.
+Again make it a capital S.
+SocialProfiles.
+And this should extend that Component class from react.
+The one method we definitely want to implement is the render method and within here.
+Let's have a return statement that has an overall div as well as a title and for this title.
+How about connect with me.
+After all we're showing a list of social profile components then let's provide a div which is going
+to hold all the icons.
+This div itself is going to wrap around some code which is going to generate some JSX for each of
+the profiles.
+So let's have a pair of curly braces for that JSX and then we're gonna map over the SocialProfiles
+array to create an array of JSX. This map function takes a callback his callback has one parameter
+so we don't need the parentheses for the callback but one at a time we can use the social profile object
+from the SOCIAL_PROFILES array for each social profile object itself.
+Let's return a social profile component that we're gonna create right after to follow the pattern that
+we set in the overall project component file.
+We're going to return some JSX for a local social profile component this time.
+The key is going to be the social profile data.
+And then just as well we're going to pass down the social profile object as data through props.
+So let's make a social profile props that is equal to the social profile object itself.
+And overall this can be a self enclosing tag.
+Now the line is quite long but makes you have all this with the key of SocialProfiles at 80.
+The social profile props itself which by convention is camelCased for props.
+Then we had the SCREAM_CASED social profile object from the SocialProfiles global data array.
+All right.
+Next we need to create the social profile component itself.
+And this is also going to be a class.
+So let's have a class of social profile which extends the Component class from react.
+Likewise this one is going to have a render function which returns some JSX but at the top of the
+render method first up let's get the link and the image from this.props.social profile with
+a link in the image.
+Now we can now render a clickable image icon for each of the social profile objects.
+So first for the actual link.
+Well let's have a div and then a react element which can have the href link attribute.
+And then we can provide an image element directly within the link.
+And this one can actually be a self enclosing tag since it won't have any in their children to display
+an image.
+We provide a src attribute which can be the image object itself and for images we provide an alt
+attribute in case the image can't be loaded. And let's make this social profile as the alternate.
+Now that's a bunch of code already.
+So we're gonna want to see this in the actual application.
+But before we can see it in the app we need to include it in the main app which demands that we export
+this by default as the very last line of the file.
+Export by default this SocialProfiles component.
+All right.
+Make sure you have all of this.
+Code for these SocialProfiles.json file
+once you have that head back to the main App.js file in at the top.
+Also import SocialProfiles from the new local SocialProfiles file.
+All right.
+Now let's add a new horizontal ruler line element at the end of the render method after the projects.
+So another hr component and this time it's gonna be these SocialProfiles nice.
+So with that.
+Make sure you have it and then head to your command line and start at the application.
+If you haven't already with an npm run start.
+And then in your browser you can visit localhost:3000.
+And the project is going to be right there and at the bottom you should see the SocialProfiles.
+Now just like before when we actually first see the images for the first time they're huge.
+So let's add some quick inline styling to make these icons smaller back in the code for SocialProfiles.
+js.
+In the actual computing code for each image let's add it inline, a style attribute. The style attribute
+takes an object so have two pairs of curly braces one for the style attribute itself and then one for
+the inner object.
+This is going to have a width of 35 and then a height of 35.
+All right.
+And if you check the application now you define that a little better.
+The icons are a lot smaller but rather than rendering on top of each other let's make these render side
+by side.
+And this time since it's only one anchor element within here well we can turn this overall div into
+a span in that way.
+Now they're side to side. Neat! That's a lot better now but it's still not quite perfect.
+Look they're touching each other.
+Let's give them some separation. It's a little too close for comfort but adding a margin property in the
+margin can be 10.
+All right.
+With that change in check out the application now you'll find that the icons look a lot better.
+And if you click on these icons as well you're going to be linked to the proper locations that you've
+set for the links in the actual icons.
+In addition the mail ones pretty cool because this is going to open up the mail app that you have configured
+and then set you to set some mail to whatever address that you have in the link.
+Awesome.
+That's looking really nice.
+Next up as a final part of this overall application in this first section let's wrap it up with some
+low hanging styling fruit to make the overall app look a lot better.
+
+
+WRAPUP WITH LOW HANGING STYLING FRUIT:
+Hey we've now added a ton of content to the portfolio app but one less thing that's really sticking
+out is how bare bones the site still looks.
+So let's wrap up this overall project in this section by picking off some low hanging styling fruit
+to make its app look a lot better.
+Let me say that this course is going to keep the time spent on CSS to the absolute minimum.
+That's why this styling video is the last one in the section.
+I think it's more beneficial personally to spend time on deep dives into react code since that's the
+topic of the overall course.
+But that being said CSS work is going to be done when necessary.
+You can't ignore styling forever when it comes off front end after all. Ok. first we're going to add
+an index.css file to the project under the public directory to add an index.css file to
+public one of the first things that we can do in CSS is to target elements and then change how they
+appear based off of properties.
+So for example, we can target the body element and say that within the body we're gonna make the text
+align go to the center by having a text-align property whose value is now center.
+When you have a property in CSS make sure you finish the line with a semicolon.
+Likewise we can change the default font size and we can make it 20 pixels.
+Also have the semicolon in the padding for the body element which provides an inner spacing around the
+entire border.
+We're gonna make it 2.5 percent so that we nothing in the body is actually touching the edges.
+Now this should already have a huge effect on the application but we still need to include this assess
+within the app the traditional way to do this is with a style sheet link in the HTML file. So I had
+to index start each email in the head section after the title.
+Let's provide a link tag, in the relationship of this link is a style sheet, within HTML.
+Then we provide the reference the hyperlink reference to the CSS with an href attribute to which we
+provide the index.css file.
+All right go ahead and give that to save. And as long as you have npm run start going in the portfolio
+directory in the terminal you're going to find that the application and localhost:3000 has
+now drastically changed.
+Everything is in the center now.
+Nothing is touching the edges.
+Also the font is probably bigger than what you remember it to be.
+Cool!
+Now we can actually use an alternative way to include the CSS that is a little more typical with a react
+application. Instead of providing a link in HTML, we can directly include the CSS within
+our javascript by doing an import of the CSS itself. However rather than reaching all the way into the
+public directory let's make the index.css local to the src/index.js file by moving
+it to the src directory itself. And now within here we can import the local index.css file this
+now means with in index.html, we should take out that link rel stylesheet of index.css
+because we're now using this import of. /index.css to assess directly in the javascript
+as you save that you'll find that in the application on the browser in the reload those changes are
+definitely still there.
+Now when it comes to building react applications the approach of importing CSS into your javascript
+is definitely preferred.
+The reason is that you can get more granular with your CSS meaning you can include individual CSS files
+for each component.
+If you wanted for example we could have App.css, a project.css, any social profile CSS
+to style each one of those components individually but by using a global link tag within your HTML
+the traditional way it encourages this pattern where all your CSS ends up in one giant index.css
+as far.
+Now granted we won't be creating a ton of CSS classes in this project anyway so it's fine to write all
+the styling within index.css but it's good to be aware of this pattern of including CSS as a resource
+directly in your javascript cool.
+Next let's go to one of the most reliable tricks in the book when it comes to styling and that's a use
+premade styling on the cloud.
+And back to the browser and look up bootstrap getting started in another tab you'll find this getting
+started bootstrap link and within here.
+When you go down you'll find a latest comp. and minimize CSS link tag go ahead and copy that in once
+you had that head back to the index ..
+HTML and we can actually include this after the title attribute.
+So it's that long link style but go ahead and have that latest compiled in unified CSS from the bootstrap
+CDM which is an online place where they're hosting the CSS file.
+All right.
+The application now gonna find that with his new link that it definitely looks different.
+The text is a bit different and especially the button layout is different than before.
+Cool so that can quickly apply some changes to your application to make it look a lot better in as quick
+as two seconds.
+Now one thing about bootstrap is that these fonts actually aren't my favorite.
+So one thing that I always like to do for any project is to pick my own fonts my go to resource for
+that is fonts.google.com and you're going to find a bunch of fonts that you conclude so quick
+within your application you click one of these plus buttons you expand the font and there there's a
+link tag for you to include right within each email.
+Feel free to pause here and find your own faults.
+However I have a couple pre chosen that I think look really slick.
+They're called economica and roboto-condensed which are both fonts used heavily by Google throughout their
+products.
+They're also located in the portfolio src/assets directory of the official course repo so we head
+back to github.com/15Dkatz/react-bootcamp
+You're going to find any portfolio src/assets directory that those tff files for economica-bold
+and roboto condense.light are there so you can download those here or they should also be available
+in the resources section of this lecture.
+So go ahead and grab those and make sure you have them in these src/assets directory and you might
+have already included them in a previous lecture but once you have those files within src/assets
+head back to index.css.
+And now we can apply the funds into css in here.
+We can define global font faces for the application by declaring a font face with the @font-face
+keyword we can make a new font family that is based on the font file within her assets directory.
+So let's call this first one RobotoCondensed.
+We need to give it a URL or rather a source that uses a URL function to go into the assets directory
+and this one is gonna use a roboto-condensed.light.tff file the font.
+Wait for this one by default is gonna be 800 which is right in the middle of its various fault waits
+we're gonna do the same thing for the second font in this font family is gonna be called economic the
+bold.
+Its source is the url of assets/economic-bold.tff in this one the default font is
+gonna be just fine so let's not change the font weight.
+OK now that we have these font faces defined we can apply them as font families within elements throughout
+our CSS classes for example in the body we can make the font family for this one roboto condensed
+likewise we can target other kinds of elements.
+For example we can target the h1 h2 h3 h4 and h5 header elements and save the font family for each
+of these is going to be economica bold.
+All right.
+ake sure to have a semicolon after each of these lines.
+But after this change if you look at the application once you save the file you're going to find that
+well it looks a lot better with those custom fonts.
+Cool so as one very last change let's add a profile image to the project.
+After all this is a personal portfolio application and it doesn't seem right without a profile picture.
+I definitely recommend using one of your own profile images but just in case once again you can go to
+src/assets and then find a profile.png which you can use.
+It's best to have one with even dimensions so 400 by 400 with in height and now within the App.js
+file.
+Let's import the profile as a resource so let's import the profile from ../assets/profile
+.png and at the top of the render method we can provide an image tag to now render this profile this
+provide the image its source is profile.
+Since this is an image element we're also going to want to give it an old attribute and let's call it
+the profile as the ultimate in case image can't load in the browser go and check out the application
+and yep there it is the giant image profile.
+Let's go ahead and shorten this down make it smaller with some styling and instead of a style attribute
+this time it's actually give it a CSS class name so that way we can use the index.css file to change
+it so that we you know how to do that.
+In case you ever want to use your CSS file to make changes to specific elements or components but the
+navigation.
+Now the way to do that in HTML is provide a class attribute to the actual element.
+However notice that class is already reserved keyword in JavaScript so JSX if you want to apply
+a class you actually use the class name and let's make the class name profile.
+So now this image element is associated with the CSS profile class name which means that we can target it
+within the index CSS tab a.profile class and the.represents the fact that we're using a
+class name for the element within here that we can change it with to 200 pixels.
+We can also change the height to 200 pixels and then we can apply these border radius property to give
+it some rounded edges.
+So for example we can give it a rounded edge of five pixels but if we set this border radius to exactly
+half of the within height will turn it into a perfect circle. All right, go ahead and check back in the
+application once you have those changes and in the app you should find the profile is smaller and it's
+an exact circle.
+Neat overall that wraps up the low hanging styling fruit and the app is looking a lot better thanks
+to our css changes and that actually completes the first part of developing this portfolio application.
+We've explored components state props and got quite a bit of experience coding in react.
+Now it's time to take a step back and look at the big picture of how react fits in overall web development.
+We're going to take a look under the hood of react.
+Figure out how the engine works and more.
+All right.
+See you in the next one.
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>React App</title>
+    <link rel='stylesheet' href="index.css">  ------------------------------------>this line added which can be put in js file directly
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+</html>
+
+
+=============
+BREAKING DOWN REACT
+==============
+SECTION OVERVIEW:
+
+Welcome to the next section in this section.
+We're going to focus on how that fits in the overall big picture of web development and how a react
+application is truly made. Now,
+as for the coding goal of the section it's going to be to build a react application from scratch.
+So without the help of magic helper tools like create-react-app which actually hides a lot of the
+details of how a react application is truly made when it's presented to the browser. Now without create=
+react-app we're going to be forced to build our React application from scratch. So that we're going
+to end up with a full understanding of how to react app is truly based.
+So the question can be asked if create-react-app is hiding all of these details of react
+web development, why did we start with it to build our first react application?
+And the reason is that, create-react-app is the perfect tool to dive into react code at a lightning quick speed.
+So now that you have this context and experience with react code you can extend off that knowledge to
+see how react fits in the overall picture of web development, and you understand how the app is truly made When we try to do that.
+So with that being said let's get a preview of this content and what else you're going to focus on.
+Throughout this section before we start building the react project from scratch let's do a quick refresher on how web development works overall.
+You may have already watched the video at the beginning going over this in great detail. That was there to provide some important context before coding with react but there are important concepts to bring
+back up now.Since we're embarking on this mission of building a react app from the ground up for supper recall that
+there are three core pillars to web development HTML, CSS, and JavaScript.When you're building a web app you need all three layers.
+Well CSS is a bit of an exception since you might not need it if you don't really want to style
+your application. Now as he made the portfolio application before we dabbled in HTML, CSS,
+But most of our time was spent with React, which lives in the javascript layer after all.
+All of the component code is written in .js files not in order for the user to see the web app.
+There is the important aspect of the client and server architecture in this relationship.The client is the user using their browser.
+In actuality it is the user's browser itself.
+It runs on a user's computer as a tool that is used to view and display the web at. The other half of this
+architecture is the server: another computer with the job of serving files related to a web application
+upon requests. So the client makes a request to the server to get the contents for the web application
+and then the server is going to respond, and send the html, css, and javascript files relevant to the application that it has within its system.
+So if you think about it a web app is really a collection of documents all served with each other together
+that the browser can then present to the user in a formatted way.
+So overall the conclusion is that in order to serve a react application you actually need to present
+three kinds of documents.
+The html and JavaScript at the minimum for the structure and functionality and then the CSS optionally
+for style. Ok so that was a quick refresher of core web development principles.
+With these concepts in mind, let's attempt to build a react app from scratch.
+
+
+REACT FROM SCRATCH:
+Hey I think we can all agree that create-react-app is quite magic.
+It's perfect for diving into react code really fast and that's exactly why we started with it.
+That way you get hands on experience with react right away.
+But I don't think it's the approach you should take 100 percent of the time. Since create-react-app is
+magic, it hides many of the underlying details of react
+web development. You can't ignore those details, otherwise you're going to be stumped when it comes to
+small challenges like when you attempt to deploy your own react app. For these situations,
+it's crucial to know the overarching web development details like how exactly react is loaded on the
+browser, how it manipulates the core document that is represented by the html and more. So that's the purpose
+of this section.
+We're going to take a step back and get that big picture understanding of react's
+overall relationship with web development. And we'll start with one main goal to run a line of real code
+without any magic tools, without create-react-app,
+just all of our own code from ground zero.
+That way you truly understand react from scratch.
+All right.
+Since react is a Web application framework,
+if the goal is to run real code that means you have a sub goal of setting up a web application.
+So let's set one up.
+First off make sure in the react-bootcamp directory for this course then create a blank project to work
+with with the mkdir command.
+And how about calling this starter. Navigate into the starter directory and then go ahead and open it
+up in your code.
+And Ok, so as a web application a react project must have a core HTML document.
+So the default html page is the index.html file. Setting up as html will
+be a bit of a review.
+Since we already saw some examples from create-react-app but we actually haven't written the whole html
+ourselves from scratch.
+So let's do that now.
+All right.
+To start we write this !DOCTYPE tag and this identifies to the browser that
+we're serving an HTML document. After that we can write pairs of tags to destructure the overall page
+and we always start with the root level pair up HTML attacks then the HTML is split up into a
+head and body section.
+Again I think it's a little weird that they chose a medical analogy to go with it but it's actually
+quite useful since everything for the structure goes in the body and all the meta information goes in
+the head. For the first div within the actual body,
+let's have a div that says hello react.
+Right cool.
+Next let's load in some CSS and JavaScript. When serving up a web app the html is only one of the three
+core pillars the html is a structure.
+The CSS is the styling and then the javascript provides a dynamic functionality.
+We're gonna get to the CSS later but let's load in some js by providing a script tag at the end
+of the body section. This script tag is going to have a src attribute and this is going to point to
+an index.js file which we're going to create right now.
+So the default file is index.js and that's, go ahead and place it locally.
+Now it's important that you place this script reference at the end of the body section. And the reason
+is that JavaScript has the ability to insert elements into the.
+HTML document but when you run this kind of functionality within javascript it actually stops a
+browser from reading the rest of the HTML.
+So if you had divs over here and other tags after the script the browser would start passing those until
+it finished loading whatever was in this index.js file.
+Now you don't want the browser to stop reading the html and delay presenting content to the user because
+of a slow script.
+So as a quick and straightforward solution what we do is we place the script tag at the end of the body
+so that way it doesn't delay anything loading within the actual browser.
+OK back to the index.js file which you should have created.
+Let's do something simple.
+We're going to add a console.log of hi.
+All right cool.
+Now even though we haven't even written a single line or even a single character of react yet this
+is already pretty far for setting up the web app.
+We have two of the core pillars down each html and JavaScript. So let's go ahead and open up the browser
+and check this out.
+All right go ahead and open up a window on the browser and then instead of the regular html://
+protocol we're going to directly use the file:// protocol.
+That way we can access the file system right from the browser.
+And if you specify a / you going to find the root of your overall operating system. Go in and find
+your react-bootcamp directory.
+For me that's in Users.
+And then David and then react-bootcamp and there is the overall project open up the starter directory
+and within theere, head to the index.html file.
+And if you look inside there it is the hello react div.
+Very cool!
+Go ahead and inspect the elements to open up the developer tools and what you find in the console is
+that indeed we get the message of Hi.
+Awesome.
+The html and JavaScript files are working.
+So now we're ready to move on to the big moment.
+We're ready to achieve the primary goal of running our own react code from scratch.
+First up we'll somehow need to get access to the react libraries.
+For now we don't need to install modules.
+The quickest way to actually do this is to get react loaded into your javascript using a content delivery
+network.
+In other words a CDN lookup react CDN.
+And this is essentially all the react code hosted on the cloud.
+So you'll find the CDN links right away from reactjs.org and the ones that you want are these top
+two for react.development as well as react-dom.development.
+All right.
+Head back to your index at html file once you have those and paste them above your script source
+index.js file.
+Now these scripts are loaded in order so in order for the index.js file to have access to the
+react code you need to make sure that react and react-dom are above the index.js file.
+All right.
+What do you have that head back to the index.
+js file. For now let's get to it the react code for our first bit of real code let's generate an element
+for the web page to appear using react.
+So remember how we explored the concept of React elements when we first explored react earlier with
+create-react-app.
+As a refresher, React elements are inner JavaScript objects for you act that represent HTML
+elements like divs paragraph tags image tags etc.
+Now normally we write the syntax for elements using JSX but in this case let's use a more verbose
+alternative syntax to create this element and that is React.createElement.
+This takes three arguments.
+First is the div.
+The second one are the elements props. Now props are another topic that we've looked into before and
+we won't have props for this element.
+So instead of providing an object let's use the null keyword.
+And finally as the third argument we have what we want to appear in the element itself.
+So how about some text that says react element.
+And since it's so exciting Why not an exclamation point.
+Cool!
+So that should create a react element,
+object.
+Now the reason we have this react code available without importing it again is because in our index
+.html.
+We've already loaded the entire react library above the script.
+So since it's loaded in the same index.html file is indexed.js file should have a valid
+react element defined Ok we go ahead and make the index.js file the full window again now with his
+element let's set it to a constant.
+Also called element now that we have this element Let's insert it to insert it we can use the React
+DOM.render method which we explored previously.
+The first argument to this is an element.
+So let's go ahead and pass in our element object.
+And the second argument is where we want the element to render.
+So right now we don't have any divs with an id yet.
+So why not just use the document body to insert the actual elemen. Cool!
+Now we still haven't fully explored this object of the document.
+There's a lot more to it.
+It's a very powerful and crucial object on its own for all of web development.
+Even beyond React for that matter.
+So we're going to return to it in greater detail later.
+All right, with that the goal has been achieved.
+We've written our React code so let's see the result back in the browser.
+Once you've saved the file with these changes go ahead and reload. And what you're going to find is that
+well, indeed we have the react element on the page.
+Awesome! But if you inspect the element what you're going to find is that we have a warning and it says
+rendering components directly into document body is discouraged.
+So Ouch.
+It's actually a bad practice to directly use the document body.
+So we already know the solution to this or a potential solution and that's within the index.
+html, to add a div with the id of root.
+Let's go ahead and get rid of his div of Hello react so that we have the one did with the id of root
+and now that we have that div back in the index.js file instead of document body you can use the
+document.getElementById function in its target the div with the id of root nice.
+All right.
+Make sure you have those changes. And then back in the browser now if you refresh the react element is
+still there and now the error is gone.
+Cool we got react running all considering the setup was very minimal.
+What's necessary is the html.
+The javascript reacts library code and then our own JavaScript file.
+Now one thing that's missing from before is a JSX syntax that we saw when we had to create-react-app
+started application.
+So as the next step in the project it's refactor our main element to not use react.createElement but
+instead to use the nice and clean JSX syntax.
+
+
+COMPLINIG,BUNDLING and CLOSER LOOK AT JSX:
+
+
+Hey! Previously we successfully ran a line of react code in our starter project.
+We did so using the react.createElement method to generate a div that we inserted into each table
+using ReactDOM.render.
+However from our experience building the portfolio project we know there's a much cleaner syntax for
+creating elements JSX.
+So let's go ahead and try it out right within our index.js file.
+You can also remove this console.log and it's coming out this const element line for the react create
+element. And instead, let's attempt to create our element using a pair of div tags as JSX.
+The inner content is gonna be the same with react element.
+But let's distinguish that this is with JSX.
+Cool!
+Give that to save and then head back to your browser then go to the react-bootcamp starter index HTML
+file in your system.
+And if you refresh well you're going to find that there's nothing appearing in the page anymore and
+in the console you're going to see that there is an error saying unexpected token less than sign.
+So that is our JSX line there's a reason we didn't start with JSX and went with reactDOM.create
+Element first.
+And that's because JSX isn't supported in the browser environment.
+The trick to getting JSX to run in the browser is that it needs to be transformed into the more equivalent
+verbose version that the browser actually understands and react does createElement.
+Is that more verbose version of JSX syntax to dig into this. Visit babeljs.io. So babel is a technology
+that does a translation job that we need. It compiles javascript code with newer syntax into the code
+that the browser can actually understand.
+So head to the try it out tab on this page. We can experiment with babel in real time and then see how
+it compiles code on left sidebar make sure that react is checked so that we babel will compile the
+react code that we enter in this page on the left pane we can enter newer javascript syntax and then
+on the right we're gonna see the more compiled browser supported version.
+So let's try to enter our JSX line we're gonna make our element and this will be said to a pair of div
+tags and within those div tags we have react element with JSX. And on the right you can see that the
+equivalent browser compatible version is react.createElement with the argument of div has no for
+props and then the text of React element with the JSX so it shows us that JSX is essentially syntactic
+sugar around react.createElement. In other words it's a convenient way for react developers to write
+the structure of React elements in a more sugar kind of way without having to use be more explicit react
+createElement method over and over again to structure entire components after all the JSX syntax is
+so much cleaner and a more closely resembles HTML.
+Okay since babel is a technology that can do the translation for us the goal would be to add babel
+to the project but to add babel we're gonna need a building and bundling system in another tab search
+up parcel bundler one of the first things that should pop up is parceljs.org.
+Go ahead and click on that and as a description on the top says parcel is a blazing fast Web application
+bundler. A bundler does a very important job of preparing our javascript code by smushing all the JavaScript
+files into one giant file that the index.html can refer to.
+Now we're going to explore this in more detail shortly but the part we're currently concerned about
+is making sure babel can compile the JSX in our project.
+So if you do a command find on the page and you look for babel you'll see that it's within this automatic
+transform section.
+Cool!
+So parcel automatically has the babel transforming abilities. All right,
+Let's add parcel bundler to our project to add passable and we're gonna need to turn starter into a
+full blown javascript project using Node in the command line within the react-bootcamp started directory.
+Use the NPM init command to initialize an JavaScript project and then add the --y option so that
+way we skip the interactive questionnaire.
+This should generate a package.json file so if you tell us there should be a new package.json within
+the directory.
+Cool!
+Next we're going to install the parcel bundler module so use NPM I and I is short for install and then
+its parcel-bundler and as of this course parcel bundler is at version 1.10.
+3.
+If you want to use a version so that way your project is compatible with the one that you're seeing
+in this course after this is installed.
+We're going to install react and react-dom.
+So rather than using the CDN links to load in the react and react-dom libraries we can install these
+as actual node modules.
+So in this course react and react-dom are at versions 16.6.3
+So first npm i add and I'll actually clear so that way it's a little more visible but NPM I react at
+16.6.3
+And the second one is react-dom at 16.6.3 and add a --save flag.
+Cool so as that's going.
+Head back to your index.html file within the index.html file.
+Now that we have the react and react-dom packages included within the node modules we can get rid of
+the script tags.
+All right.
+Nice, but now our index.js file is still going to need this ReactDOM line to refer to as well as
+the global react library.
+So first import react from react and then import react from its node module at react-
+dom.
+Nice, next.
+We need to configure parcel to start up the project and build it.
+We can do that in the package.
+json file so within package.json.
+Let's add an official script for starting up the project instead of this test key which is there by
+default.
+Let's have a start key instead.
+And this is gonna use parcel to fire the index HTML when we install the local parcel bundler
+dependency.
+We gave this project access to a parcel command and by giving the parcel command index.html.
+Well it tells it to bundle and serve up the project based on everything needed for the index HTML file
+so parcel works like this.
+It's going to look at that index HTML.
+And then it notices that one of their dependencies is index.
+Yes.
+So then it goes to index.css, but then it notices there that we're importing react and react-dom.
+So then it also includes those libraries within the bundled project.
+Right let's go ahead and check this out.
+Back in the command line fire NPM run start to execute that * Command and you'll see that it goes
+to parcel index html and now it's building the overall project engine complete after some seconds.
+But if all goes well you're going to see an output similar to this and then you'll find that there's
+a server running at localhost:
+1234.
+So go ahead and visit that back in the browser.
+And there it is the react element with JSX is now appearing! Awesome!
+Parcel did its job of compiling the JSX react element code into a syntax that the browser can understand.
+All right let's investigate this by inspecting the console and then head to the source of section.
+Now this is what the server is giving the browser in order to load up the application these files and
+you'll find that the structure is definitely different from what we have in the project source code.
+There is an index which is the index.html.
+So that's exactly what we have coded.
+We havet his index.js which matches our index.js file but then we have this starter random looking
+number.js file.
+And it's a pretty huge one with so many different lines.
+But the good news is if you search for our with JSX line you're going to find that there's a line
+for react default createElement div null and then our text of React element with JSX.
+So indeed our code got transposed to use the react.createElement method.
+Nice, parcel definitely did its job for the code transformation. But let's dig into why this javascript file
+that got generated is so huge.
+What is all this extra code to answer this?
+Let's find out where this source is directory is actually coming from.
+Head back to the main project and you're going to find it there's two new directories within the overall
+folder.
+First there's a cache which is there to help parcel build the project faster. The second time around
+by caching certain things that didn't change from last time but then there's the dist directory.
+And if you open it up you're going to find that the contents exactly match what we had in the sources
+section.
+So this is what parcel is serving in order to load up the application to be browser and it does have
+that starter random looking number.js file.
+So if you look in here now exactly a lot more clear that this is a bunch of generated javascript code
+to answer the question of where all this extra code comes from.
+This goes back to the very purpose of a butler itself as I mentioned before the bundler is going to
+smush all of your javascript code into one giant file that the browser can use.
+This includes any imports that you make in your javascript.
+So if you import react into a file all that react library code is going to get bundled along within
+this giant file.
+Now this is necessary because the browser doesn't support the import export system.
+It doesn't recognize the import keyword so it needs to work with this giant bundled version and that's
+exactly why the index.html can refer to one JavaScript file and still run the entire project successfully.
+All right cool.
+You've accomplished a goal of running JSX in our project by using parcel bundler.
+We've also explored a little bit of the critical concept of transpiling and bundling.
+It's really such a foundational concept to understand for react.
+Web development is exactly why we moved on from create-react-app since create-react-app hides a lot
+of these details from you while you're learning as a react developer.
+You can't skip over bundling and transpiling forever if your goal is to have a complete understanding
+of how everything works with react
+web development. So to solidify this even more,
+Let's get some more practice and refactor our existing portfolio project to use parcel bundler.
+It's currently based on create-react-app.
+But the goal will be to strip it down and build it with parcel bundler just like this startup project.
+
+
+REFACTOR THE PORTFOLIO TO USER PARCEL:
+Hey let's refactor the portfolio project rather than having create-react-app as its base.
+Let's use a parcel bundler approach that we took to build the starter project from scratch.
+The idea is to remove a lot of the unnecessary create-react-app template code and then bring it down to a
+minimal setup. For starters,
+head to your react-
+bootcamp directory and then navigate into the portfolio project once you're there.
+Open up the portfolio project in your code editor to start.
+We're going to remove the entire node modules directory from the project, so delete the node modules folder
+we're no longer going to be using the create-react-app node_modules. And instead we're gonna build our
+own modules for the project with parcel bundler.
+Next let's remove the base public index.html into the src directory so if you'll recall
+from our exploration of parcel bundler who works by finding an index.html file and looking for its
+references then generating relevant content in a new dist directory.
+And that's what is going to get served. So we can also simplify this index.html a little more. Let's delete it
+to only the lines that we need so we can get rid of this meta line.
+We don't need these links on the top in the head we only really need the title and the CSS for bootstrap.
+We could also change this title into portfolio.
+As for the body we can cut out a lot of the cruft to get rid of this entire comment as well as the no
+script line.
+Cool while you're at it you might as well get rid of this comment too.
+Nice.
+One key change though is that this index.html needs to now reference a root level JavaScript file.
+So this is how parcel understands what file is necessary to include in the project.
+So make sure to have a script tag at the bottom and have a source of indexed.
+js. Nice! Once you have that as the next change,
+We need to refactor the package.json file so within package.json. Let's empty the script section
+as well as the dependencies section so that we can start from fresh.
+We also don't need this eslint config section nor this browser lint section so all we have is the
+name version dependencies and scripts as well as this private field.
+Nice.
+Now it's a lot more clean with all that removed. Let's start filling up this dependency section though.
+Let's install the relevant modules back in the command line.
+First let's install parcel bundler.
+Again it's at version 1.10.3.
+Have the --save flag in. At the same time let's also install react at version 16.6.3
+and react-dom at 16.6.3.
+So make sure you have that entire line to install all of those modules. All right,
+It's going sit with those in.
+Let's add the core scripts to the project as this is going to add the dependencies.
+We're going to start with a dev script in the package.json and his Ddv script will be used to
+use parcel and fire the src/index.html file so once it's all installed you'll see the dependencies
+and we can add that dev script.
+And this is gonna use the parcel command and go into src index.html
+The reason that we're specifying this as the dev script and not the regular start script is a parcel
+actually has a hot reloading capability in its server a feature that's very advantageous while developing
+so as we make changes it will automatically reload those changes in the actual browser.
+All right so let's try this out and see if it works.
+Fire npm run dev in the command line.
+So that is a new script and fire npm run dev and immediately you should see this error on the state
+line, as the error says support for the experimental syntax class properties isn't currently enabled.
+The reason we're getting this error is that we still need to install a plugin to support the class properties
+syntax so we need some extra plugins to support our nice syntax for using the state equals line.
+Even though parcel comes with a lot of built-in technology.
+Not every feature of babel is automatically included parcel uses a minimal set up for babel, and this
+doesn't include our class properties syntax.
+However it's not so bad to set this up.
+Kill the server and then install @babel/plugin-proposal-class-properties and
+as of this course it's at version 7.2.3 and then have the --save flag as well.
+In order to tell the underlying babel engine to transpire the class property syntax we need to provide
+a .babelrc file
+So back in the project make a file called .babelrc and this should actually be at the root.
+So move it to the root of the project.
+Next your package.json and the like and in here have an overall pair of curly braces and then a plugins
+field so it matches the syntax of json.
+The plugins takes an array of plugins to include while using babel and we add one which is babel/
+plugin-proposal-class-properties which we just installed.
+Also if you're wondering this. over here makes this .babelrc file a hidden file in the project.
+Okay with this change, let's try out npm run dev once more, back in the command line, fire npm run dev
+And if all goes well eventually you should get a successful build.
+So it's going to run at localhost:1234.
+It's going to include everything that it needs within the project. And eventually it's built in a certain
+amount of seconds.
+Nice.
+Once it's green, visit localhost:
+1234 on the browser and on a refresh.
+You should find that the portfolio application is there just as before.
+Nice!
+Cool as a couple of final changes in this refactor let's provide two more scripts.
+First we're gonna provide a build script so this will create a production version of the application
+back in the package.
+json. Let's have the build script and to build the project, parcel comes with this build command which
+has the same argument of src/index.html. The result of this is that a built version
+of the project will now appear in the dist director. As well the next step is actually serve up this
+built version.
+Now we could use a parcel server to do so but this is a lot more power than we need for serving up
+the built a project.
+We don't need hot reloading.
+What we need is a minimal technology that has the ability to serve a directory with the contents of
+an HTML and JavaScript file. The perfect module for this case is called live-server in the command
+line install NPM I live-server at one point to 1 and then have the safe like with the live-server we
+can tell this server module to load up this directory to anyone that requests it.
+So the browser can actually get those contents as its sources.
+So let's add a script.
+This will be the official start script for the project and this will run live-server dist. But you'll
+always want to build the project before you actually use live-server to serve it up.
+So as a prerequisite we're gonna fire npm run build before we change live-server and this rather live
+server dist with the end and operator. All right,
+One thing we can also do is get rid of this public directory since we're no longer using it in the path
+that is getting served to the browser. Once you have the build and the start script specified,
+Go back to the command line and then fire npm run start.
+So first it's going to use npm run build to create a production version of the application certify a
+parcel build src/index.html and eventually live-server will go and then automatically opens
+up a page at localhost:8888. Nice, and you'll find that indeed the portfolio project is working just
+fine.
+All right cool.
+So that wraps it up.
+We've now refactored the portfolio project which was previously based on create-react-app but now it's
+using parcel bundler we now also have the dev script for hot reloading the app, in development as well
+as a build script to create a production version. And then finally an official start script to serve up
+the build project with a minimal live-server technology.
+With that done in the next video, let's do a review of the important concept of bundling and transpiling
+that we explored throughout these past couple of videos on parcel.
+After that we're going to do a deeper exploration of the document object since the document holds way
+more power than just getElementByid the core of react is how it optimizes interaction with the
+document.
+So it's vital to understand how the document works itself.
+Okay let's move on to reviewing bundlers and transpilers as well as exploring the crucial document
+object next.
+
+
+THE NECESSITY OF TRANSPILER AND BUNDLERS:
+
+Hi.Let's discuss the necessity of bundlers and transpilers. Wshen it comes to react development bundlers and transpilers are at the core.
+We need them to take our nicely formatted react code and transform them into documents that the browser can understand.
+We explored these concepts their code previously by configuring our React start a project to use passable in there which had transpiling abilities through babel.
+Now let's look at the big picture of how these bundlers and transpilers really work and why they were necessary in the first place.
+First up, bundlers. A bundler's input is a project that consists of multiple JavaScript files.The bundler will then package all of those files and build one overall JavaScript file.
+This includes all custom javascript code in the project and all imported code from node modules like react and react-dom for our bundler.
+We're using parcel.It's a great one with a minimal configuration and a very fast engine but there are other popular options
+you might have heard of like webpack and browserify.Bundlers are necessary because a browser doesn't support the import and export system.
+The way you include javascript code is by including script tags right into the index.html page.
+Now you can include as many scripts as you like but this can often lead to confusing situations.
+After all the browser loads a codebase on the order of the scripts. So one script can technically already be using variables and methods defined in another script but then one other script might want to use
+a method defined in a script below.And now we have to deal with properly ordering the scripts.
+And this becomes a huge mess as we add more and more scripts with interdependent script functionality.
+In addition this becomes even more annoying as you have to make sure you avoid variables and method names that have already been defined in previously ordered 
+scripts. Bundling allows you to write the cleaner import syntax in your code so that you can avoid this mess and bundle all the resulting code in one overall
+script for the browser.What would have been many scripts in the index.html is now collapsed into one giant but straightforward standalone script.
+So that's the gist of bundlers. Bundling separate .js files into one file to avoid the situation
+of multiple scripts in the html. The awesomeness of bundlers will become even more transparent as we add more files to the react projects.
+Next we came across a big topic of transpilers. For our transpiler We use a technology called babel. Babel does the crucial job of taking newer javascript and react syntax
+and transforming it into a syntax that the browser is actually compatible with.Now it's curious that if a browser has a javascript environment,
+well why is it that it can't support all syntax of JavaScript?The answer is that JavaScript is its own independent language.
+The development and improvement of the job script language happens at its own pace and this development is separate from the development of browsers.
+ Browsers are made by their own companies.Therefore the development of the javascript environments must happen in response to the language itself.
+Naturally the browsers are always playing this game of catch up as there will come a day with a javascript language has a new feature that the browser 
+hasn't been updated to support yet. The browser will always remain a little behind as it has only been programmed to currently support the previous subset
+of the javascript language features.Now the good news is that a lot of the newer features that are added to js here can be transformed
+into more verbose versions of JSX that all browsers are already compatible with.This allows us to use a technology like a babel to translate our clean modern JSX code into the
+older equivalent JSX syntax that the browsers can handle.And this applies to our React code.The example we came across was JSX, a react specific 
+syntax in order for the code to run on the browser.This had to be transported to react.createElement the code under the hood that the browser can understand.
+OK.
+The covers bundlers and transpilers. They're the foundation of React web development as react can't successfully serve its web apps without these technologies.
+Next we're going to move on to exploring the Document Object.We've come across document.getElementById a couple of times already. But I can't emphasize enough
+how important it is to have a good grasp of the overall concept of the document for web development.The entire purpose of React is to optimize its relationship with this very Document object. So a thorough
+understanding of React requires a thorough understanding of the document as well.Okay, see you in the next one!
+
+THE DOM AND REACT'S VIRTUAL DOM:
+Hey let's explore the DOM and React's virtual DOM. The actual name for the DOM is the Document Object
+Model. The Document Object Model is an API that allows us to manipulate html documents it takes an
+html like structure and represents that same structure in a tree like structure, that is a hierarchy of
+objects. Each node in the tree is an individual object. The power of the Document Object Model is that
+it represents all the parts of the documents within those individual objects. There's objects that have children which are other objects in the tree. In each of those objects has a unique identity with their
+own inner methods. The Document Object Model allows us to insert update or remove these objects and therefore update the underlying document.
+Now this document is at the heart of web development as the browsers provide the Document Object Model to make the web page accessible to JavaScript. In JavaScript we can directly work with the Document Object
+Model using the document keyword which is made accessible anywhere in the script. In terms of Web Apps the document is crucial because it's how we can make the web page dynamic by using the Document Object
+Model to add update and remove elements from the web page itself.All right let's explore this document object more closely.
+Back in the command line make sure in the react-bootcamp starter directory.Once you're there fire npm run start to start the parcel server which will build the project at local
+host:1234
+So give that a visit at localhost:1234 and you should see this right element with JSX text right away.
+Cool but the part we're concerned about is exploring the document object so in the console. Go ahead
+and enter document and what you're going to find is that this document object is a collapsible version
+an expandable version of the underlying web page it's the html in the body portion. You're going
+to find that there's the div with the id of root with the react element JSX. Cool now the one function
+we're very familiar with is the document.getElementByID function and we can get the one with
+the id of root and this returns the dead with the id of root which has our inserted element cool
+when we run ReactDOM.render retargeting to insert some elements or components at this document
+.getElementById of root so let's check out how this code for the insertion actually works. First
+up we create an element using document.createElement as a function. And then we passing the name
+of the element that we want to create which in this case it'll be a div the element itself is now going
+to be a pair of div tags. Cool then we can set the entire text of this element.
+So how about document object node is gonna be the text of this element and then we can append that as
+a child to the root div.
+So we'll say document.getElementByid of root.
+This will give us that div with the id of root that we have above.
+And this has its own append child function and we can append the element as a child to this and you'll
+find that the result of that is that we get an update within the actual web page in our document object
+node gets inserted their core later on.
+If we decide to remove this div we can use the remove child function so press up now we access the previous
+command and then instead of append use remove child and now it disappears from the web page.
+Nice.
+Now these methods that we just use are only a tiny percentage of the huge number of methods that the
+document provides to interact with the web page. If you type in document . you're gonna find that there's all these other methods that you
+can use to interact with the underlying web application.But the thing is beyond document.getElementById of root.
+We won't be calling these methods directly in our React code.Instead react we'll take care of calling these document methods in an optimized way react approaches
+this through a system called the Virtual DOM.
+Essentially there's the regular dom that the browser provides and then there's a virtual copy of this DOM maintained internally in the react engine called the virtual DOM. So for every DOM object react creates
+a corresponding virtual DOM object.
+But the thing is that the virtual DOM objects are much much more lightweight DOM object relation with the
+regular DOM object is actually pretty slow when it comes to JavaScript operations and it's only natural
+as these objects are really deep and complicated in order to represent the massive number of ways that someone could interact with a web page.
+So say we wanted to update a bunch of elements on the page. Perhaps you want to reorganize one of the list items.
+This is achievable using only methods from the pure Document objects but when it comes to huge lists
+like this and a lot of shuffling around of elements using the heavyweight Dom objects can be pretty
+slow. Doing the same task with the much lighter weight
+Virtual DOM objects would be much quicker. React's virtual DOM is quicker because it doesn't use those
+heavyweight document objects from the native document API.
+Instead it only uses its own lightweight objects. And while the virtual DOM is updating the actual DOM
+can be left unchanged But once the virtual DOM is done react then takes a snapshot of the virtual DOM.
+It then compares the updated virtual DOM to the State of the actual DOM. It finds the differences and
+then calculates the minimal number of actual DOM methods to call in order to update the Web page in
+the most efficient and optimal way possible and the result is that the DOM is then updated to match
+the virtual DOM held within reacts engine.So this is one of the greatest innovations of react. By calculating how the DOM should be updated in
+a completely internal virtual representation within the engine itself. Actual updates and calls the DOM are minimalist.
+That's how reactapplications are fast and very performant.
+Okay with this new understanding of how react works internally to interact with the DOM we've covered
+what I think is necessary for foundational topics for react in web development.
+All right to briefly review we discuss how HTML, CSS, and JavaScript are core pillars of web development.
+Then we went over how web apps are served documents to the browser that the browser then displays and
+parses
+We covered how react projects are bundled and transformed into a single script that the browser can support.
+And now we've covered how react works internally but optimizing calls to the core document object
+through the virtual DOM, in order to create a highly performant web applications. With these concepts covered we can now start exploring the react framework itself a
+little more deeply with topics like lifecycle methods and more.
+We'll also build an entirely new complete react applicatio, a project that once it's done can be included in your portfolio or added to your resume.
+All right.
+See you there!
+
+
+Great work on completing this section! Like before, feel free to take a coding break to get some rest before the next section. Or, dive right into the next section! This course is in your hands.
+In the meantime, let’s go over the topics that got covered in this section:
+You focused on breaking down React, and React’s relationship with web development overall. In that process, you uncovered some major concepts that all React developers should understand:
+There are three core pillars to a web application: html, css, and JavaScript. React.js exists in the JavaScript layer of a web application.
+The client-server architecture describes the relationship between a client requesting the documents for a web app (html, css, js) from a server computer that can respond with them.
+Bundling is the process of taking many JavaScript files and combining them into one giant JavaScript file for the html to refer to. This is useful because the browser doesn’t natively support the import/export system that is used in React projects.
+Parcel-bundler is a tool that achieves bundling.
+Transpiling is the process of translating modern JavaScript code into a syntax that the browser actually supports. This is necessary because, as the JavaScript language evolves and adds new features, the browser must keep up and support those additions. Therefore, the feature set that the browser can support will always be a bit behind the overall JavaScript language.
+Babel is a tool that achieves transpilation.
+
+
+
+==================
+MAIN REACT COMPONENTS:
+Look at that in this section.
+The focus is going to be to complete your React core foundational skills and go through the rest of
+the main concepts.
+Now these concepts are ones that you can expect to find in pretty much any application you see out there
+whether they're examples of apps that you find online at GitHub or ones that you're contributing to
+within the industry at a company,or projects that you're completely starting on your own.
+Now throughout this section we're going to continue coding React applications and I have a feeling you're
+going to find these ones particularly fun, entertainin,g and useful.
+So with that being said here's a quick overview of the main topics of the section. As mentioned we're
+going to continue an exploration of core react concepts starting with lifecycle methods.
+This is a crucial concept in react as lifecycle methods allow you to fire functionality at different
+phases of a components life throughout the app.
+Next we're going to take a look at the fetch method.
+The fetch method allows you to make HTTP requests to external APIs. That way you have the ability
+to load in data from any external service and really beef up your react application with more information
+
+e'll also explore stateless functional components which are an alternative way to create components
+without javascript classes.
+It's often a much cleaner approach.
+Next we'll move on to react-router, a technology that allows you to turn your single page application
+into one with multiple pages of content.
+We'll get into more advanced concepts like higher-order components.
+The one sentence gist is that higher-order components are functions that take components as input and
+output a transformed new component as the result.
+We're going to take a closer look at browser events as well so that we know how to handle more events
+than the onClick.
+And finally we'll look at local storage so that our big apps have a way to keep track of data beyond
+a single session of a user visiting the app on the browser as we explore each topic.
+We'll also be covering other smaller sub topics so overall the objective is to complete that React
+core foundation without further ado let's get started exploring these core concepts.
+
+LIFECYCLE METHODS AND COMPONENTDIDMOUNT:
+Hey let's go over lifecycle methods. In react, lifecycle methods are functions that fire throughout the
+different phases of a components life while in the application meaning they can fire when the component
+first appears in the app and when the component leaves the app.
+Now this is actually a simplistic explanation because really lifecycle methods are based on the components
+relationship with the document. Recall that react as a job of inserting a components JSX into the document.
+That's why we had that ReactDOM.render line.
+Its job is to take react elements and components and then stick them into the document in the background
+as a state for component updates.
+So does that components relationship with the document.
+It will either insert new JSX based elements and components into the document or it will remove those
+elements and components so react bases most of the lifecycle methods around this.
+There is a lifecycle method called component did mount in this fires right when the component is inserted
+into the done essentially as soon as a component pops into the document.
+That's when the componentDidMount method is going to fire likewise there is the opposite lifecycle
+method called componentWillUnmoun. And this fire is right when the component is about to leave the
+dom.
+So if your component decides to render a different piece of JSX that doesn't include the component
+anymore. Then the component will be null, the hook for that method is gonna fire. All right,
+With that let's explore the concept of lifecycle methods. Go into your react-bootcamp portfolio directory
+and then go ahead and open up the portfolio application. Let's use a componentDidMount lifecycle method
+to power a new piece of the portfolio.
+And this is gonna be an animating title.
+You'll see this a lot in portfolio applications out there. Some have animated descriptions that transition
+between different titles such as I'm a software developer, that it transitions to something like Guitar
+Hero pro then professional knitter etc then it loops through these various titles we can use a component
+DidMount to kick off a similar effect.
+So let's start by creating a new file Title.js for a new Title component and do so right within the
+src directory.
+We're going to create a component so import react and the Component class from the react module.
+Then we're gonna find the various titles that we want to appear in the animation since this is more
+of a global value SCREAM_CASE.
+The actual variable name.
+Let's have an array of strings.
+So the first one is a software engineer.
+The second one is a music lover and you can put anything that you want.
+I'll put an enthusiastic learner and then you can have as many as you want as well.
+It should work for any number.
+For my last one I'll put adventure seeker.
+Cool!
+Let's go ahead and create the component with the javascript class syntax.
+So extend the Component class from react and recall that the main idea of this component is to loop
+end transition through these titles while the app is mounted in the application. To power this will give
+this component some state with a number which will keep track of the index in the titles array that
+it should display.
+So by default let's make the titleIndex in the state zero.
+And notice that titleIndex is camelCased. Cool.
+Now let's add a render method at the top of the render method.
+Let's first figure out which title to display by creating a title constant.
+That is the result of accessing the index within the titles array according to this.state.title
+index.
+So this will give us a title constant to work with in our code.
+As the result of the render make sure to have the return statement.
+Let's have a pair of paragraph tags and then the text will say I am.
+And then within a span actually you don't even need a span we can directly render the title.
+Nice, now that we had this component.
+Let's make sure the rest of the application can access it.
+So have an export default line that shares this Title component with the rest of the codebase. Ok,
+Make sure you have the entire component with all the changes and once you have it all head back to the
+App.js file in here we're gonna import the new title from it's local Title.js file and instead
+of having the hardcoded description let's render the title instead on its own line.
+So take out the part where it says I'm a software engineer and instead have JSX for the Title component
+Ok.
+We still haven't added the componentDidMount lifecycle method yet but let's check out our current progress
+so far.
+Go ahead and fire up the application on the command line within npm run dev and then visit localhost
+1234 on the browser so back in the browser go to localhost:1234 and you should find the portfolio
+application.
+Let me zoom out.
+It's pretty zoomed in and here it should say I am a software engineer.
+So the Title component is definitely working since we're still seeing text.
+Nice. Next it's actually add the components and melt lifecycle method.
+Head back to the Title.js file in here.
+Let's add the component did mount so here's the componentDidMountethod like the render method we're gonna
+use a normal class method rather than a class property for this one so we could have done it like this.
+However we're gonna stick with the normal class method syntax since as a react defined method it's already
+going to have the components this object properly attached to it.
+Thanks to extending the Component class from react so in this case it's best to keep the syntax for
+lifecycle methods consistent with the vast majority of example react components that you're going to
+see out there as our first step let's console.log.
+The fact that the Title component itself has mounted so that we can verify what this component amount
+is doing so let's say title component has mounted.
+And then after this let's call a method that we're gonna create right after.
+And this method is gonna be called this.animateTitles the job of enemy titles will be to increment
+the titleIndex in the state at a regular interval.
+That way a new title will appear in the component within the render method.
+So let's make the animal rather an animateTitles helper and this one is going to have a class property
+as its syntax in here.
+We can call the javascript setInterval method and then setInterval method takes two arguments one
+is a callback function to fire at a regular interval so let's provide that and the second argument is
+a millisecond value that controls the rate at which we want to fire this callback function for a value.
+I think 4000 is good.
+That's equivalent to 4000 milliseconds which means that our title is gonna be animating at
+a four second pace.
+Nice, in this callback function.
+The idea is to increment the titleIndex so a new title displays to get the titleIndex.
+Let's make a titleIndex local constant that is equal to incrementing the current.
+This.state.titleIndex and adding 1 and then we can set the state of titleIndex to our new
+local constant using the automatic javascript key value syntax.
+Nice, so note that this would be equivalent to more explicitly saying that the titleIndex key is gonna
+be equal to this local titleIndex value however since javascript recognizes that the key any value
+name are the same.
+We can shorten this down now there is an issue with this.
+Once it reaches the length of the titles array it won't have any more titles to display index of 6 index
+of 7 is invalid.
+So we'd get an error that our index would be invalid from the array.
+So we have to loop back around to the index once the limit is reached.
+To do this we can use the modulo operator which does a division and sets the result to the remainder
+of the operation.
+So let's use a modulo which looks like the percent sign of the length of the titles array so that once
+it goes up to 3 and tries it again.
+Up to 4.
+Well through the modulo operator 4 divided by 4 is still 0.
+So this titleIndex is going to wrap back around to 0 properly.
+Likewise if it's 1, 1 divided by 4 the remainder is 1.
+So the titleIndex would be 1. Very nice!
+All right!
+So now that we have this let's check it out in the browser.
+This interval should increment the titleIndex and loop back around and it should do so every four seconds.
+And because our titleIndex based on the state creates the title we should see new titles animating
+from the render function back in the browser now.
+If you give it a refresh.
+If you open up the console you're going to find that indeed the Title component has mounted.
+If you keep your eye on the text indeed it's animating it's switching between the titles.
+Cool! You even find that it loops back around.
+All right.
+Very nice!
+Next up let's explore the componentWillUnmount too. K, this one is essentially the opposite of component
+in map.
+Instead of firing when the component is mounted into the document this fires when react removes the component
+from the document.
+After that, we'll also make this transition effect a little less harsh by applying a nice transition animation
+to it.
+Okay let's move on!
+
+COMPNENTWILLUNMOUNT:

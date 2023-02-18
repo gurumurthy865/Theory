@@ -1,0 +1,32 @@
+Jenkins:Makes development,testing and deploment easier
+Bamboo,apache gump,buildbot,travis ci are alternatives
+
+Jenkins a continuos integration tool
+
+What is devops?
+
+plan-->writecode(git)-->build(maven)-->test(selenium)-->deploy(docker puppet ansible)-->operate--->monitor(nagios)-->integrate(jenkins)
+Jenkins comes between testing and depoying
+
+
+Jenkins helps in multiple release supporting agile methodology away from waterfall method
+
+Jenkins is an open source automation server written in java. it is used to automate software develpment process via continuous integration and facilitates continuos delivery.
+
+Features of Jennkins:
+Easy installation runs even on linus
+,easy config can be configured via web interface
+,plugins hundred of plugins and integrated with every tool in the ci and cd toolchain
+,extensible infinite possibilites, no custom version
+,distrubed works acrooss multiple machines, faster builds test and deployment across multiple platform
+
+
+Jenkins Architecture:
+Jenkins CI server,,, builds code using maven(if failed detials send right back to developer)-->Test server(selenium)-->release to production fully tested with no error
+Singel jenkin cannot handle multiple build, need multiple server
+
+Master-slave architecture:
+repositoy-->Jenkin server(Master)-->(tcp/ip) jenkin slave here windows os
+Jenkin master distributes its workload to all the slaves
+on request form jenkin master, the slaves carry out builds ,tests and produce test report
+

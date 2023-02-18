@@ -1,0 +1,391 @@
+
+
+
+Angular is a javascipt framework for builiding client side application
+using HTML,CSS and TypeScipt which is a superscipt of javascipt
+
+why Angular?
+Expressive HTMl,Powerful data binding, ModularByDesign,Builtinbackend integratio
+
+why a new New angular?
+Built for speed,modern,simplified API's,enhances productivity
+
+Anatomy of angular application
+application=component+component+services
+component=template+class(properties,methods)+metadata
+
+Angular modules. 
+It help us organise the application into cohesive block of funcationality
+Angular project atlest contain one module called Root angular module
+then we have feature angular module
+
+First thing first
+Introductiont to components
+Templates,interpolation and directives
+Data Binding and Pipes 
+more on components
+Building Nested Components
+Services and Dependency injection
+Retrieving data using Http
+Navigation and routing
+Angular modues
+Building, testing and deploying with CLI
+
+
+
+Typescript:
+Javascipt language for web executed by browser and with standard ECMAScipt and latest version is ES 2015 and minor releases
+Typescipt is open source language by microsoft and is superset of javascipt
+Transpiles to plain javascipt which means typescipt can be compiled and converted into javascript before browser executes it
+it is strongly typed, ie everything has datatype, syntax checking, code navigationa and advanced refactoring
+Class based object orientation ES 2015 is implemented
+
+Installation;
+VIsual studio code editor
+npm:node package manager,,call it a open source repository having angular typescirpt bootstarp libraries etc
+       npm install abc,, installs abc library/package,creates a node module subfolder in current folder and installs libraray and its dependencies
+       so npm is CLI and repository for angular. It also executes scipts,say running our program
+      we cannot intsall it directly, we do it intalling the node. Angular need minumum versin 6.14.6 and latest version in 12.+.+
+Angular ->Framework and libraries, Angular CLI, Typescript, Testing tools ,linters etc
+      do we need to install them manually?
+ no , mention in package.json and tell npm to use package.json to use it along with its libraries and dependencies
+      ex:devdependencies like angular cli, linters to evaluate code for best practice, rxjs etc
+by defining angular.json we make sure all have installed necessary libraries and packages
+
+Directory structure:
+src
+under source app folder contains our code
+other files are configuration and setup files oftern called boiler plate files
+
+
+npm install-->installs all the dependencies including those mentioned in package.json
+                       it creates node_module folder under main folder where it has all the installed packages
+
+Running application:
+In package.json already we have given commands for start, build,test,lint etc
+"start":"ng serve -o", it runs the application and -o says to launch browser
+
+npm start-->now CLI starts the webserver and runs the app
+
+ctrl+c to close the application, else even if browser closed application will be running
+
+Modules:
+Module is a file and file is a module.
+no need to mention name for a made.in ES 2015 just create a file, export and import something.file becomes a module
+Angular also has angular modules.
+
+export class Product{
+//this becomes module as we exporting a file product.ts
+}
+
+import { product } from './products'
+//above this too becomes a module as we import
+//here it is imported from product.js,,, note that prodcut.ts file compiled in product.js file ie. transpile
+
+Angular Modules:
+app module is root module, feature moduels, common modules to put code used by different modules
+each component declared under module belongs only to that module
+
+
+============================================
+COMPONENTS:
+what is component,creating component class, defining metadata with decorator, importing what we need ,bootstrapping our app component and angular compiler and errors
+Component=template(view layour created with html and we use angular binding and directives)+ class(class in typescipt having properites and methods)+metadata(definies a class as component,defined with decorator provides data for angular methods,class and its properties)
+example:app.component.ts(metadata-temp;ate-class)
+
+import { component } from '@angular/core';
+
+@component({
+selector: 'pm-root',
+template:
+<div><h1>{{pageTitle}}<h1>
+<div>My FIrst Component</div>
+</div>
+})
+
+export class AppComponent{
+pageTitle: Sting ='abc';
+}
+
+export keyword makes the class available for use by all modules
+pageTitle is property name ,string is datatype and abc is default value
+methods are not created in above example
+
+a class becomes component when we give it @component annotation (call decorator in angular)
+it need metadata to understand how to instantiate the component,construct view and interact with component
+A Decorator is a fuction that adds metadata to a class,its members or method argumetns
+It is a javascipt language feature implemented in typescipt and prefixed with an @
+selector defines component directive name,directive is a simple tag in html
+a compnent shoud always have template whrere  view is defined and data is binded by {{}}
+
+Before we use an external function or class we should define where to find it 
+import statement
+import allow us to use exported members from external ES modules
+import form third pary library, ES module or our own module or by angular itself
+ex:@angular/core,@angular/animate,@angular/common,@angular/router
+
+import { component } from '@angular/core';
+in above code component is decoratar name/member name and @angular/core is angular library module name 
+
+
+run:
+Bootstrapping our app component:
+1.Host the application through index.html
+2.Defining the angular module to bootstrap our angular component
+
+index.html contains the mainpage for application. this is oftern only web page of the application/
+hence an angular application is called a Single page application
+so to bootstrap add selector in index.html  where we want our template to be displayed.
+but how does angluar compiler come to know about customised template? It looks at AppModule
+As we already know angulr module provides cohestive functions and boundrie to our application. 
+they also provide templare resolution module. what does that mean.?
+when compiler finds a directive in template it looks into appmodule/angular module for defnition.so we declare app component in angular module
+it also use module to bootstrap our start up component which is our app component
+also we add browser module to angular module for browser to work properly 
+
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+in above code:
+We define an angular moduel using the class
+identified the class as angular module by @NgModule
+for ngmodule decorator properties are arrays
+in declarion arry we define which components belong to the module
+here appcomponent belong to appModule module, we can declare other components as well
+in imports arry we define external module we want it availble for the modules in declaration
+here broweser prodive service like error handling
+bootrstap array mentions the startup component whcih is appcomponent and start component should contian selector we use in index.html page
+
+
+Angular Compiler:
+To convert our template and typescipt to javascipt
+JIT compiler:used during development lcompiles in the browser run time
+AOT conpiler:Ahead of time compiler;used for deployment . pre compiles before deploying
+after angular 9 AOT perfomace is improved and pre compiles before deploying 
+using two compilers may cause trouble as code may not work in other compiler
+so we stick to AOT nowadays
+
+if there is compilation error we get  "cannot GET /" error in browser, can be debug using f12
+=========================
+TEMPLATES,INTERPOLATIONA AND DIRECTIVES
+Building a template
+using a component as a directive 
+binding with interpolation
+adding logic with directives
+
+
+Inline template and Linked Template:
+linked template is when you give url in your component instead of writing html code
+
+
+Binding:coordinates communication between the component's class and its template and often involves passing data
+InterPolarion:{{pageTitle}}, it is a one way binding from class property to template
+  we can even call class method, do concatination, sum,etc inside interpolation property
+	pageTitle is called Template expression which is validated by component
+Directives:Custom HTML element or attribute used to power up and extend our html
+   we can use custom directives or angular directives
+some angular bilut in directives are
+ Structural directives--> *ngIf:If logic  ;  *ngFor:for logic; *says its structural directive
+ browser modules take care of built in directives(to be authenticated)
+
+for of vs for in 
+arr[]=['a','b','c']
+for of -->.iterates over iterable objects such as array--.give a b c
+for in--> iterates over the properties of an object--. gives 1 2 3 instead of a b c
+
+===========================
+
+DATABINDING and PIPES:
+property binding
+handing event with event binding
+handing input with two way binding
+transforming data with pipes
+
+Property binding: <img [src]='product.imageUrl'>
+[]->binding target; ''-->Binding source
+binding using inperpolation--. <img src={{product.imageUrl}}>
+
+
+Event binding:
+the property binding was one way binding , we may need two way bidning
+there comes event binding which does both 1 way and 2 way binding, <button (click)='toggleImage()'>
+click()-->is target event and taggleimage() in '' --> templae statement
+
+for two way binding we use ngModel
+ngmodule is part of formsmodule, and we import it to appcomponent
+
+pipes; |
+Transaform bound properties before display
+built in pipes: data, number, decimal,percent, currency,json,slice etc
+can built own custom pipes
+example:{{product.prouductcode | lowercase}}
+
+
+
+================================
+
+MORE ON COMPONENTS:
+Strong typing and interfaces
+Encapsulating styles
+Lifecycle hooks
+Custom pipes
+Nested components
+
+ES2015 does not support interface, it is typescipt that supports
+ex:
+export interface Iproduct{
+productID: number;
+productName: string;
+calculateDiscount(percent:number): number;
+}
+import the interface and use it as DATATYPE for such as array to make typescript tight.
+
+
+Template sometime require unique style, we can inline the styles directly into html
+qwe can build and external css and link it in index.html . That makes our nexted component difficult to resuse
+we have solution in encapuslating components styles: STYLES and STYLEURLS
+and they will be application to its own component
+
+Component lifecycle:
+create, render, create and render children, process changes, destroy
+lifecyclehooks:
+onInit:perform component initialization
+onChanges:perform action after change to input properties
+onDestroy:Perform cleanup before angular destroys compnent
+lifecycle hooks are interfaces that are to be implemented
+each lifecyclehook interfaces has onemethod whose nameis interfacename prefixed with ng
+its not mandatory to implement interface as it is part of typescript and not ES201,directly we can use it but it is good practice to implement
+
+custom Pipes:
+ex: replacing hypen with space in abc-123 into abc 123
+import{  pipe, pipetransform} form '@angaurlar/xyz'
+@Pipe({
+name:;converToSpaces})
+export class ConvertToSpacesPipe implements PipeTransform[
+transaform(value:string, character: string): string{
+
+}}
+
+Angualr does not offer pipes such as filter because they perform poortly and prevent aggressive minification
+=====================
+
+Building Nested Components:
+since each component is fully encapsulated we expose input and output for communication between components and its containers
+we can use compnent as directive --> <body> <pm-root></pm-root>,/bosy>
+similarly we use nested components, say it routing target
+one component is placed inside template of another component to make it a nested compnent
+nested component reieve data using input and output is through events
+
+
+passing data into the nested component;
+@input decorator
+passind data into container from nested component
+@output decorator but it must be a event
+in angular even is defined by EventEmitter and we create object of it
+
+==========================
+SERVICES AND DEPENDENCY INJECTION
+
+what do we do with the data that is not associated with specific view or that we want to share across components?
+we build services and use dependency injection to inject into components
+A service is a class with focused purpose that used to implement data common across component
+shifting repsonsibiliy from component to serivice it is easy to test and debug
+
+create a service
+create a obj of service in componet, it will be restricted to component
+to make it global register the service with angular,angular then creates a single instance of service class and holds on to it
+it provides built in injector, the injector creates and manages instances of all services .
+if component need a service, the component class defines the service as dependency
+
+so DI is coding pattern in which a class receives the isntances of objects it needs fron an external source (angular injector) rather than creating them itself
+
+create service class;define metatada with decorator;import what we neeed
+
+Root injector:service is available throughout the application , recommended for most scenarios
+component injector: serive is available only to that component and its child component. isolates a sevice used by only one component
+                                 provides multiple intances of the services
+to inject a service, explicit constructor  is mandatory
+
+===========================
+Retrieving data using HTTP:
+
+observables and reactive extension(RxJs)
+sending an http request
+exception hadnling
+subscribing to an observer
+
+data sequeences can take many forms such as a response form backend  or stream of event like user input or notification.
+reactive extwnsion represent data seq as observalble seq called observble.
+observable sqe help us manage asynchrous data like data coming fomr backend service.
+treat event as a collection.
+observbles are used within angular itself including event system and its HTTP client service
+
+operators are methods on observables that compose new observables
+transforms the source sobservable in someway
+map filter merge are some operators
+
+Composing operators
+
+
+promise vs observable
+promise:provides a single future value,notlazy,not cancellable
+
+Sending Http request:
+
+subscribing to an observable:
+subscribe();subscribe(Observer);subscribe({nextFn,errorFn, completeFn})
+return subscription
+
+
+
+============
+
+
+npm install -g @angular/cli -> to install cli globally
+ng g c products/product-detail --flat --> to create a folder in cli; this creates .css,.html,,spects,,ts files
+
+
+==================
+HOW ROUTING works?
+
+an angular app is an single page app. that means all o four views are displaued within one page
+normally defined in index.html file. so each of the 5 10 or 100 views take turn on appearing on one page
+how do we manage it? that is the purpose of routing
+we configure a route for each component that wants to display its view onpage
+as part of app design we provide menu bar tool button datament etc to user
+we tie a route to each option or action. when user select the action the associated route is activated
+activataitng a route dispalys the component view
+
+say burron 'product list' 
+we tie a route to it using built in router directive called routerlink
+when user click on product list option the angular router navigates to product route
+<a routerLink="/products">Product List</a?
+the browsers location URL changes to match the path segment(routerlinK), by default angular use html style url .
+user html5 style url we need to configure our websrever url rewriting
+angular also support hash style routing that does not require url rewriting
+when the browsers url changes , the angular router lookd for route defnition marhcing the route segment(product here), it includes the component to load
+{path: 'products', component:productListComponent }
+then angular loads the product compnent and displays where we given routeroutlet
+<route-outlet><route-outlet>
+
+import { RouteModule } form @angular/route';
+in ngmodule
+RouterModule.forRoot([])<-- here we mentin weather it is html5 or hash 
+each route will have its own path
+=============
+
+
+

@@ -1,0 +1,83 @@
+Hibernate framework simplifies the development of java application to interact with the database.
+Hibernate is an open source, lightweight, ORM (Object Relational Mapping) tool.
+
+
+Advantages of Hibernate Framework
+There are many advantages of Hibernate Framework. They are as follows:
+
+1) Opensource and Lightweight: Hibernate framework is opensource under the LGPL license and lightweight.
+
+2) Fast performance: The performance of hibernate framework is fast because cache is internally used in hibernate framework. There are two types of cache in hibernate framework first level cache and second level cache. First level cache is enabled bydefault.
+
+3) Database Independent query: HQL (Hibernate Query Language) is the object-oriented version of SQL. It generates the database independent queries. So you don't need to write database specific queries. Before Hibernate, If database is changed for the project, we need to change the SQL query as well that leads to the maintenance problem.
+
+4) Automatic table creation: Hibernate framework provides the facility to create the tables of the database automatically. So there is no need to create tables in the database manually.
+
+5) Simplifies complex join: To fetch data form multiple tables is easy in hibernate framework.
+
+6) Provides query statistics and database status: Hibernate supports Query cache and provide statistics about query and database status.
+
+
+Hibernate framework uses many objects session factory, session, transaction etc.
+ alongwith existing Java API such as JDBC (Java Database Connectivity), JTA (Java Transaction API) and JNDI (Java Naming Directory Interface)
+
+
+
+next ?? prev
+Hibernate Architecture
+Hibernate Architecture
+Elements of Hibernate Architecture
+SessionFactory
+Session
+Transaction
+ConnectionProvider
+TransactionFactory
+The Hibernate architecture includes many objects persistent object, session factory, transaction factory, connection factory, session, transaction etc.
+
+
+There are 4 layers in hibernate architecture java application layer, hibernate framework layer, backhand api layer and database layer.Let's see the diagram of hibernate architecture:
+
+hibernate architecture
+This is the high level architecture of Hibernate with mapping file and configuration file.
+
+hibernate architecture
+Hibernate framework uses many objects session factory, session, transaction etc. alongwith existing Java API such as JDBC (Java Database Connectivity), JTA (Java Transaction API) and JNDI (Java Naming Directory Interface).
+
+
+ 
+SessionFactory
+The SessionFactory is a factory of session and client of ConnectionProvider. 
+
+Session
+The session object provides an interface between the application and data stored in the database.
+
+
+
+    //creating configuration object  
+    Configuration cfg=new Configuration();  
+    cfg.configure("hibernate.cfg.xml");//populates the data of the configuration file  
+      
+    //creating seession factory object  
+    SessionFactory factory=cfg.buildSessionFactory();  
+      
+    //creating session object  
+    Session session=factory.openSession();  
+      
+    //creating transaction object  
+    Transaction t=session.beginTransaction();  
+          
+    Employee e1=new Employee();  
+    e1.setId(115);  
+    e1.setFirstName("sonoo");  
+    e1.setLastName("jaiswal");  
+      
+    session.persist(e1);//persisting the object  
+      
+    t.commit();//transaction is commited  
+    session.close();  
+      
+    System.out.println("successfully saved");  
+
+
+
+

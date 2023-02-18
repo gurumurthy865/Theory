@@ -1,0 +1,83 @@
+Tell me about you and your last project architectire and how deployment is done...
+
+
+Java:
+6.Difference between final,finally,finalize 
+
+1.Can static objects be inherited?
+	static can be shraed by child classes as long as it is not hidden by other static variables.
+
+2.Explain the internal implementation of Hashmap. What happens if you do not override equal method?
+ 	if two objects are equal there hashcode also be same. if equal not overrided, two equal object may sit in the same bucket
+		if not hashcode not overrided,two same obj produce diff hashcode and go into diff bucket
+
+3.When you serialize an object what will be the output of the attribute with modifier transient?
+
+4.Do you know about multithreading? what is the difference between callable and runnable interface?
+
+5.what are solid principles of java?
+	single reponsibility;open closed;liskov substitue;interface segregation;dependency inversion
+
+Database:
+1.Have u written stored procedure?what are the best practices?
+	SQL keywords in caps;SET nocount on;while looop over cursor;no select *;move complex quey to views
+2.Is it good to use temp tables? They compile everytime;use cache execution plan
+3.How would you load the data from excel into sql?
+4.why do we use index? when you writing a query what u keep in mind when using where statement
+5.Customer with id,name;Order with id,custid,orderedItem;Sales with id,amount;order id
+	now i want list of records customerNames name xyz whose order amount is 1000
+
+
+jump,impulse,   
+
+Java8:
+Whare are lambda expressions?
+explain optional class?difference between optional and optinalof
+can you call static method using method reference? classname::methodname is syntax
+	collection.sort(prsonLIst,classname::comparebyName)
+
+
+Hibernate:
+explain ORM,, one to many,, what is the use of mapped by?
+first and second level cache in hibernate
+
+Struts:
+which version have you used?
+interceptors
+life cycle of servlet; loaded, isntantiated, intitialized,request,destroyed
+load-on startup in servlet?
+
+
+Springboot:
+@SpringBootapplication,what happens when you start applicaiton
+can we replace @Servcie by @component 	 
+Exception handling in springboot
+I want to develop a user form in spring boot to collect feedback of the interview,, can you design it in spirngboot
+@Transaction works;required ,support, mandatory, never, not suuported,nested;;;required is default propogation
+Have you worked on spring aop module
+
+mvc:
+how do you connect two databases;
+what happens when i hit a url in spring,, dispatcher sevlet,, coller,, mvc,, view
+what are @pathvariables
+
+Javascript:
+isNaN fucntion;not a number returns boolean
+difference between var and let.. var can be defined through out the program
+alert confirn promt are pop up opitons
+difference between call and apply
+
+
+Testing:
+what are tools you used;
+how you mock db connection
+how do you checking test coverage,,any tools
+
+Jenkins,Docker,Kubernetes,Cloud experience
+
+security:
+how to secure your applciation
+what is login mechanixsma.. ie authentication and authorization
+
+
+

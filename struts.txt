@@ -1,0 +1,6 @@
+struts framework
+once web.xml we will action action servlet(front controller for struts framework)
+then we can config and context param where we pass so many web.xml,, chained xml files to action servlet
+then we have already returning mapping in struts confiugration file ,,, forward action mapping etc... .do files
+osa framework for batches and all 
+

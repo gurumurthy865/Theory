@@ -1,0 +1,66 @@
+@Test
+@AsserEquals
+@AssertFalse-->checks weather given method returns false,turn green if false
+@Before-->that method will execute before every @test method id tested, say @before method id some setup
+@After-->say closing a db connection
+@BeforeClass
+@AfterClass
+methods of beforeclass should be a static method,we can have only class level things instantiated here
+executed only once, probably used for db connections.. perfomance would be better
+
+Comparing arrays in jUnit:
+
+@Test
+public void testarray(){
+int[] numbers={2,3,1};
+int[] expected={1,2,3};
+Arrays.sort(numbers);
+assertEquals(expected,numbers);-->returns false because it compares objects and not content
+assertArrayEquals(expected,numbers);->returns true
+}
+
+Testing exceptions in junit:
+@Test
+public void testarray(){
+int[] numbers=null;
+Arrays.sort(numbers);-->throws nullpointer exception, but put this in try catch block , then it succeeds
+}
+
+or use @Test(expected=NullPointerException.class)
+
+Testing performace in junit:
+@Test(timeout=10000)
+public void performancetest(){
+int array[]={1,2};
+for (int i=1;i<100000;i++){
+array[0]=i;
+Arrays.sort(array);
+}}
+
+Parameterized test:
+
+@RunWith(Parameterized.class)
+public class StringTest{
+StringHelper helper=new StringHelper();
+
+@Parameters
+public static collection testConditions(){
+String expectedoutput{}{} ={{1,2},[3,4}}<-- expected input output array
+return Arrays.asList()expectedoutputs;
+}
+}
+
+created a constructor with parmeters and then test passing them as pramaeter to method to be tested
+
+
+Oraganizing junit suites-->can organize group of method insted of all methods
+@RunWith(Suite.class)
+@SuiteClasses({list of classes to be tests)
+public class Alltests{
+}
+
+may be used to run tests that not required often or very slow,, this the flexibility that offers
+
+
+MOCKITO:
+

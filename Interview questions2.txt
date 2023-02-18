@@ -1,0 +1,358 @@
+coding:
+{1,1,2,3,3,4,4,8,8}-- by iterating only once find the non duplicate values?
+String s="aaaabbcccfdd",which letter repeated how many times?
+
+
+agile:
+what are the agile ceramonies you attend?retrospective meeting,sprint planning,stand up
+how do you estimate the story point?have you ever missed the estimate?
+what is your team velocity?
+
+
+Micorservices:
+what is asynchronous communication?
+which event bus is used by saga pattern?
+
+
+Rest API:
+By default what is the response format of rest api?Json
+if we need xml as response what we should do? we can chagne produces value for that api. 
+how do @RequestBody @Valid works interanlly in rest api?
+Explain @Requestparam,@Pathvariable,@Required,@Nullable,@Nonnullable in a rest api
+how json object converted into object internally?Which library does objectmapper belong?
+how do you control the authorization for an endpoint? 
+if someone alter the bearer token and hit the rest api, how do you authenticate?
+spring security need to be studied
+Which is the best method to save credit card details in databse, post or put? 
+how you secure you api's?
+what is the protocal used in restAPI?
+
+SpringSecurity:
+how to maintain authorization and authentication in springboot?
+
+Application:
+Tell me about your roles and responsibility?
+is your application centralized in logged?
+do you have a tool to monitor response time?ex:Graphana is a tool... we use aop implemetation pointcut to monitor req and res
+what is the use of Kibana?hwo kibana and Graphana are configured?
+if bug is raised saying after impolementing certain feature,application performance is slow? how will you tackle the situation?
+
+
+
+
+SpringBoot:
+How do you create a springboot project?
+How does springboot application kickstarts?
+What are the difference models in springBoot?
+what are the major componenets of springboot? thre is are four is what interface..like starter,actuator,commnadline interface etc etc
+Difference between controller and restController?
+how jpaRepository works internally?
+explain springboot Structure?
+what is the differnce between springbootstarterParent and springBootstarterWeb?
+what is the use of @SpringBootApplication annotation?what annotations it comprimises of? 
+since @SpringBootApplication contain @ComponentScan annotation what package by default it contain?package in which starter application file is there
+what is the starting point of springboot application?it is when we load the springbootapplication.class
+in which calss we have @SpringBootApplication? where we write this annotation is the main class,, from here it takes to compile the springboot application
+do you need to follow any specific keyword to declare database conenction details?what are they?
+tell me about actuator? Have you ever written your own endpiont in actuator?how to configure it?
+Is bean threadSafe?
+what are the different scopes of bean?which is the default scope?what is global session?where will you use in real time scenario?
+what happens whwn we call springapplication.run() method?
+what are spring core annotations?
+what are spring framework sterreotype annotations?
+why @Restcontroller when already @Controller and @Responsebody present? RESTful ewb service default behaviour/output/function is @Controller+@Responsebody hence it is used in spring
+what are the swagger tools you have used?
+what is embedded container in springboot? how do we disable in higher environment?
+what is devtools in springboot?
+how do you configure external server in springboot?
+if a parent bean is singleton and child bean is prototype,whenw we do a getbean on  parent what is the child scope here?
+how to stop bean getting initialization in spring? using @Conditional annotation we can achieve it
+what is the importance of @Repository?
+how do you configure your own springboot starter?
+when you create an object using reflection outside the container in springBoot, how do you bring it inside container?
+what is the difference between @component and @Repository
+how do you convert your springboot project for war to jar?
+what is the use of sending status in response entitiy? like success message, failure etc
+Explain spring-bean lifecycle
+what are the types of dependency injection?
+what are different types of transaction management?
+what are the default endpoints enabled in actuator?info and health
+how do you enable all endpoints?how do you enable specific endpionts?how do you see list of all api's exposed?
+springboot initialization logic?commandline vs postcontruct vs applicationListner vs eventListner
+wht is the use of plugins in springboot?
+what are the lifecycle of maven?
+@Transaction working internally
+can we replace @Service with @Component? Yes is is child of @Component
+what are the differnt types of annotations?
+wht constructon injection is best than field injection? no need to use @Autowired,makes field immutable object which is robust and threadsafe , also forces obj created with required dependecy, no reflection is used unlike other, reflection makes application slower
+
+Mockito
+how do you test for each error response?
+what is the differnce between mock and stub?
+we can talk about scipt written to test code.
+How do you mock the database connection?
+
+Java8
+what is lambda expression?
+what is functional interface? when you have already interface in java7 why we went for funcational interface?
+can it have tostring and equals method? what are the default funcation interface available?
+can you extend an funcational interface? can you Implement your own functional interface?
+what is method reference? how to create an object using method reference?
+how to you access static variable using method reference?can you call a static method using method reference? Given an example of calling an static method reference?
+what is constructor reference?
+what is optional class? what are the methods present in optional class? what is difference between optioanl.of and optional.ofnullable?
+How do you implement ifPresentOrElse method?
+completableFuture interface is introduced in java8,what is the benifit of it over future of java7?
+what is asupplyasync function in completable?
+what is stream and how it is different from collection?
+what is parallel stream? is there a way you can increase the performance of parallel stream by using completableFuture and multiThread?
+what are intermediate and terminal operations?(intermediate are lazy and terminal operations are not lazy)
+how to debug the stream?what is peek and how do you use it stream?
+difference between map and flatmap?(stream of stream or steam of list then we go for flatmap)
+what is boxed stream?streams better or loops?why stream when we already have forloop?
+explain about comparator chaining?
+what is metaspace that is introduced in java8?
+
+
+
+
+
+how do you iterate List<List<String>>?Flatmap
+
+
+
+
+JDBC:
+what is rowset?
+
+Hibernate:
+how to generate custom id using hibernate?
+
+DB:
+how you worked on performance tuning?
+best way to read million record from excel and load in db?
+
+
+Java
+Is class name camelcase or pascal?
+How do you run a jar file through command prompt?
+what is the differnce between JDK and JRE?
+What are the jars present in JRE?
+what is the difference between webserver and application server?
+what is the differnce between jar and ear files?
+how do you set a classpath for your application?
+explain the oops concept in java in detail?
+What is the difference between volatile and atomic variables?
+from a array or arraylist i need a second largest number,how do you get it? sort it and get the index(1)...
+How can you create an immutable class?what is the need of it? to stop object from being modified.. class,variables will be final,no setters,,
+what are the solid principles in java?
+where to static block get stored? in metaspace of native heap as they are associated with the class
+what is externalization in java? for custom serialization mechanism
+what is heap memory in java?
+what is garbage collector?SYSTEM.GC() runs garbage collector
+what is generics in java? to provide type safety
+what is type erasure in generics?
+difference between application srver and web server?
+what is jax rs and jersey and when and why we should use them?
+exception and error defnition?
+what is springpoolconstant?
+advantage and disadvantage of string,stringbuilder and stringbuffer
+what is singleton in java and singleton in springboot? what is the difference?
+can we create our own hashmap class?
+if you are implementing hashmap interface what are the method you need to override?
+Have you heard of static keyword?can you tell us about it?
+is static class and nested classes same?
+can static object be inherited? 
+when you serialize a object and one of the attribue is transient,, when you desirialize  you get null for the object or you will have that object lost. how to you store the object after deserialzation?
+what is method hiding in java?
+if there a linkedlhashmap,two values which are same fall in the same bucket how insertion order is preserved? how insertion order preserved if fell into different buckets?
+what is blocking que?what is the internal implementaion of treemap?
+
+
+collection:
+find the sum of two linkedlist using stack
+create an datastructure that throws exception on reaching upperboundlimit and loweBoundlimit. BlockingQueue
+how hashmap behaves if hashcode is overridden but not equals and viceversa?
+
+
+
+
+MultiThreading:
+ways to create thread?
+difference between runnable and callable interface?
+what is re-entrant lock?why we use it?
+completableFuture interface is introduced in java8,what is the benifit of it over future of java7?
+can we call run method directly?if we call directly will it work as multithreading or just as a normal method?act as single main thread if start is not used
+print 1-10 sequentially using 3 threads.(we can do using wait and notify)
+how to avoid dead lock?
+what is thread local?
+how to control multiple request coming from client and how to control access to shared resources in java(ans:semaphore)
+why use threadpool executor when already there is executor framework?
+will increasing thread count increases performnce? it depends on type of intense operationa and implementation
+
+
+
+Database:
+what are the various concurrency control you use to maintain the consistency in database?what is pessimestic and optimistic control?
+say in web application when multiple users try to hit database simultaneously how do you maintain consistency? is it in your code or databse?
+
+how do you integrate sonarqube into jenkins and springboot?
+Learn about your application architecture.
+last recent use caching mechanism
+
+
+
+
+WHAT IS THE DIFFERNCE BETWEEN Instance0f and isIntsance()?
+instanceof operator and isInstance() method both are used for checking the class of the object. But main difference comes when we want to check the class of object dynamically. 
+In this case isInstance() method will work. There is no way we can do this by instanceof operator.
+public class Test
+{
+    public static void main(String[] args)
+    {
+        Integer i = new Integer(5);
+  
+        System.out.println(i instanceof Integer);--->prints true
+
+        System.out.println(i instanceof String)--> throws compile time error Interget cannot be converted to string, incompitable type error
+//The right-hand-operand of instanceof operator must be evaluated to a type (class or interface), which is known at compile time. 
+There may be chances when you don't know the type name at compile time and you want to pass it as an argument that will be resolved at run time.
+ In those circumstances you won't be able to use instanceof operator because instanceof does not work for types evaluated at run time.
+    }
+}
+
+ // string 'c'. 
+    public static boolean fun(Object obj, String c) 
+                      throws ClassNotFoundException 
+    { 
+        return Class.forName(c).isInstance(obj); 
+    } 
+
+The isInstance() method, which is dynamic equivalent of the Java language instanceof operator does type checking at run time. 
+The public boolean isInstance(Object obj) method determines if the specified Object is assignment-compatible with the object represented by this Class. 
+This method returns true if the specified Object argument is non-null and can be casted to the reference type represented by this Class object without raising a ClassCastException. 
+It returns false otherwise
+
+class A {}
+class B extends A {}
+class C extends A {}
+ 
+public class InstanceofDemo
+{
+  public static void main(String args[])
+  {
+    A a = new A();
+    B b = new B();
+    C c = new C();
+ 
+    System.out.println("a instanceof A: " + (a instanceof A)); //true
+    System.out.println("b instanceof A: " + (b instanceof A)); //true
+    System.out.println("c instanceof A: " + (c instanceof A)); //true
+    System.out.println("a instanceof B: " + (a instanceof B)); //false
+    System.out.println("null instanceof A: " + (null instanceof A)); //false
+    System.out.println("a.getClass().isInstance(a): " + a.getClass().isInstance(a)); //true
+    System.out.println("b.getClass().isInstance(c): " + b.getClass().isInstance(c)); //false
+  }
+}
+
+
+
+
+
+Funcational interfaces are also called as SAM interfaces ,what is SAM?
+SAM were already present in java7, its called funcational interface in java8 and these are represented by lamba,contructore and method references in java8
+There’s an annotation introduced- @FunctionalInterface which can be used for compiler level errors when the interface you have annotated is not a valid Functional Interfac
+The interface can also declare the abstract methods from the java.lang.Object class, ie.methods like toString,equals but still the interface can be called as a Functional Interface:
+Functional interface are is used in a "safe" multiple inheritance. Differences:
+A class may extend multiple functional interfaces.
+Functional interfaces may have only a single abstract method.
+
+
+
+what are intermediate and terminal operations?
+(intermediate are lazy and terminal operations are not lazy)
+when you invoke an intermedaite operation on a stream, the operation is not executed immeditately.it is executed only when a terminal operation is invoked on that stream.
+in a way,an intermediate operation is memorized and is recalled as soon as terminal operation is invoked.
+you can chain multiple intermediate operations and none of them will do anything untill you invoke a terminal operation.
+
+what is executor service?
+it is a construct that allows you to pass a task to be executed by a thread asychronously. the executor service creates and maintains resuable pool of threads for executing submitted tasks
+
+
+what are the solid principles in java?
+single responsibility principle;openclosed principle;liskovs substitue;interface seggregatin;dependency inversion
+
+what is heap memory in java?
+is the run time data area form which the memroy for all java instances and arrays is allocated.the heap is created when the jvm starts up and may increase or decrease in size while the application runs
+the size of heap can be specified using -xmzjvm blah blah
+
+how to avoid dead lock?
+by avoiding unnessary lock,avoidng nested lock,use thread.join method,lock ordering,lock time out
+
+what is type erasure in generics?
+it is a process in which compiler replaces a generic parameter with actual class or bridge method. compiler ensure no extra classes are created and there is no runtime overheard
+
+
+why use threadpool executor when already there is executor framework?
+source code of Executors.newfixedthreadpool is 
+public static ExecutorService new FixedThreadpool(int n threads){
+TimeUnit.MILLISECONDS<new LinkedBLockingQueue<Runnable>):
+}
+thsi method used threadpoolexecutor class which used default configuration. now there is a scenario where default is not suitalbe and you need priorityque, in such cases user can directly call underlying threadpoolexecutor class
+
+
+what happens whwn we call springapplication.run() method?
+when we run this class as java applicaiton, then our app get started. run is a statuc method and it returns an configurable application context.
+ConfigurableApplicationContext ctx=SpringApplication.run(StudentApplication.class,args);
+thsi spring container gets started , which is responsible for 1.creating all objects:this is done by @ComponentScan 2.Dependency Injection 2. managing life cycle of bean
+
+
+what is boxed stream?
+to convert a stream of object to collection
+primitives cannot be convert to stream,gives compilation error. hence they first have to be boxed
+List<Integer> intList=IntStream.of(1,2,3,4,5).collect(Collectors.tolist());//compilation error
+
+what are spring core annotations?
+@Qualifier,@Autowired,@Configuration,@ComponentScan@Required,@Bean,@Lazy,@Value
+what are spring framework sterreotype annotations?
+@Component,@Controller,@Service,@Repository
+List<Integer> intList=IntStream.of(1,2,3,4,5).boxed().collect(Collectors.tolist());
+
+what are the swagger tools you have used?
+swagger editor:can edit open api specifications
+swagger ui: a collection of html css javascirpt assets that dymaically generate beautiful documentation
+swagger codegen:allows geneation of api client libraries
+swagger parser: Library for parsin open API defnitions from java
+swagger core: java related libraries for creating,consuming and working with openAPI defnitions
+swagger inspector:api testing tool
+swagger hub: built for teams working with openAPI
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

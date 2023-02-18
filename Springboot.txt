@@ -1,0 +1,200 @@
+REST:representational state transfer ia a statesless client server architecture where web services are resources and can be identified by their URI's
+GET POST PUT DELETE PATCH,HEAD, OPTIONS and TRACE
+post when creating new, put when updating. only post is not idempotent
+when making multiple identical requests has the same effect as making a single request – then that REST API is called idempotent
+
+soap is protocol and are tightly couple and bind with the WSDL contract,rigid type checking
+whereas rest is architectural style, no contact with consuming api,human readable
+
+SPRINGBOOT:start.spring.io
+Starter web:compitable for web devleopment and autoconfiguration.. uses spring mvc,rest,validation,jackson databinding
+                    and tomcat,jetty, undertow,ie. pulls in all dependencies related to web app. also configures dispatcher servlet, errorpage,embedded servlet container
+
+dev tools:exclude step of compile and run;pick up the changes and restart the application.
+	thymlead disable caching and allow update of pages
+	Auto-restart means reloading of Java classes and configure it at the server-side
+	embedded server called LiveReload. It allows the application to automictically trigger a browser refresh whenever we make changes in the resources
+data jpa:
+h2 database:
+
+@component and @configuratin are same but @config used @bean and config can be @compo and not vice versa
+
+BEAN can be created by xml config,@component and @configuration
+
+BEAN SCOPE:
+singleton:all requests for that bean name will return the same object, which is cached. Any modifications to the object will be reflected in all references to the bean. one instance per bean defnition
+                say 4 employee bean,2 each refers to 2 department bean IT and HR.. so single bean rererred by IT is returned everytime
+prototype;A bean with prototype scope will return a different instance every time it is requested from the container
+request,session,application,websocket
+
+
+application.properties;
+spring.jpa.show-sql=true--->shows all sql queries in console
+spring.h2.console.enabled-->true, allow us to browse h2 console via browser
+http://localhost:8080/h2-console,reacreates a table everytime so we use data.sql to store table and other details
+
+
+JPA REPOSITORY-->dao layer which does db operation extends jparepository and annotated with @Repository
+
+
+
+@Requuestbody--> Spring will bind the incoming HTTP request body(for the URL mentioned in @RequestMapping for that method) to that parameter
+                                 While doing that, Spring will [behind the scenes] use HTTP Message converters to convert the HTTP request body into domain object [deserialize request body to domain object], based on Accept header present in request.
+		method(@requestbody User user){ obj.createuser(user);}
+@ResponseBody-->If a method is annotated with @ResponseBody, Spring will bind the return value to outgoing HTTP response body. While doing that, Spring will [behind the scenes] use HTTP Message converters to convert the return value to HTTP response body [serialize the object to response body], based on Content-Type present in request HTTP header
+@Pathvariable-->when sending the value in url
+
+
+EXCEPTION HANDLING and RESPONSE STATUS CODES:
+1xx informational response – the request was received, continuing process
+2xx successful – the request was successfully received, understood, and accepted
+3xx redirection – further action needs to be taken in order to complete the request
+4xx client error – the request contains bad syntax or cannot be fulfilled
+5xx server error – the server failed to fulfil an apparently valid request
+
+RESPONSESTATUSEXCEPTION:
+spring 5 introduces ResponseStatusException class a fast way for basic error handling in rest api's
+it is an alrernative to @ResponseStatus and is the base class for exceptions used for applying status to an HTTP response
+we can create an instance of it providing an httpstatus, optionally a reason and cause too
+it is a runtime exception,not global exception handling,fast,no need of custom exception class
+can be combined with global exception @controlleradvice
+canb e put in all layers
+1.create a customexceptinclass extends Exception
+2.method throws exceptions, check exception in service layer
+3.catch in try catch blcok and implement responsestatusexception in controller layer
+notfound,badrequest, also 201 created and Location header with user path for createuser service in controller layer
+
+VALIDATION AND GLOBAL EXCEPTION HANDLING:
+@notnull+@blank(no whitespace)=@notempty,,@min,@max,@email,@size,@digits,@negative,@pattern,@future,@futureorpresent,@pastorpresent,@length,@range,@uniqueelement,@assertrye(proerty value is true)
+createusermethod(@Valid @Requestbody User user), it automatically bootstraps the default JSR380 hibernate validation implentation and validations argument.when failed it throws methodargumentnotvalidexception
+
+@controlleradvice-->allow us to write gloval code than can be applied across controllers,applied to @Restcontroller also
+@Exceptionhandler-->annotation for handling exception in specific handler class or method,if used with controller directly then have to define it per controller 
+@Restcontrolelradvice-->@controlleradvice+@responsebody
+@CA+REEH-->methodargumentnotvalidexception,httprequestmethodnotsupportedexception
+@CA+@Exceptionhandler-->usernamenotfound,constraintvoilation
+@RCS+@EH-->usernamenotfound,Exception.class predefined exception
+
+1.customeerrordetails that contain date,msg,errordetails properties,constructor,its getter setters
+2.customglobalexceptionhandler extends ResponseEntityexceptionHandler
+  make it @Controlleradvice, above base class has lot of predefined exceptions like methodnotsupported,mediatypenotsuppored,notacceptlemediatype,missingpathvariabeex,typemismathcex,bindexception,nohandlerfoundex,timeoutexecption
+ create a procted overrie method and create bean of customererrordetails 
+ 
+@ExceptionHandler(UserNameNotFoundException.class)<- to catch and throw when occur
+protected ResponseEntity<Object> handleMethodArgumentNotValid(methodargumentnotvalidexception ex,HttpHeader header,HttpStatus status, Webrequest request){
+CED ced=newCED(new Date(),"FROM class ABC",ex.getMessage());
+return ResponseEntity<>(ced,HttpStatus.BADREQUEST,)
+}
+
+
+
+
+LocationHeader:
+The HTTP headers are used to pass additional information between the clients and the server through the request and response header
+createusermethod(@Reqeuestbody User user,UricomponentBuilder builder){
+once user is created what should happen is important, so defie
+HttpHeader headers=new HttpHeaders();
+headers.serLocation(builder.path("/usrs/{id}.buildAndExpand(user.getId().toURI())));
+now i have location header set and i need to set response entity
+return new ResponseEntity<void>(headers,HttpStatus.CREATED);
+
+
+
+
+HATEOAS:Hypermedia as the engine of applicaton state
+an extra level upon rest, used ot represent info about a rest apito a client without need to bring up the api documentation
+it includes links in a returned response adn client can use those api links to further communicate with the server
+self linking and relationship linking
+self link is nothing but create link for own object, say for user 101,we give details of him in link user/101 or his orders
+realtionship link for all orders irrespective of user
+we do versioning of paths,methods and hateoas helps client breakign due to change to the service
+API Discovery
+Spring hateoas provides three abstractions for creating the URI
+1.Resourcesupport 
+2.Link 
+3.ConttrollerLinkBuilder
+we can use these to build API URL's adn associate it to the resource
+we extend entites classes from the ResourceSupport class to inherit the add() method
+once we create a link we can easily associate that link to a resource without addign any new fields to the resource or boiler plate code
+
+SELFLINK:
+Long userid=user.getuserid();
+Link selflink=ControllerLinkBuilder.linkTo(this.getClass()).slash(userid).withselfRel());
+user.add(selflink)<--add method provvided by hateoas
+Resource<User> finalResource=new Resource<User>(user);<--value as user, 
+return finalResource;
+http://localhost:8080/hateoascontroller/101 a link same as the link hit by the user
+no onmethod used here , only add
+
+RELATIONSHIPLINK; in selflink we gave details of user
+now in realtionshiplink we will give a link to get all order details of the user
+to do it make getallorders method reutrn resource type , in get alluser/get user method write relationshiplink as follows
+
+Resources<order> orders=ControllerLinkBuilder.methodon(odderhateoascontoller.class[controller],[paramerter]).getallorders(userid);
+Link orderslink=Controllerlinkbuilder.linkto(orders).withrel("all-orders");
+user.add(orderslink);http:locao.../orders
+
+
+
+INTERNATIONLIZATION:
+in Main method
+@bean
+LocalResolver localresovler(){
+AcceptHeaderLocalResovler obj=new AcceptHeaderLocalResovler();
+obj.setdefaultlocale(default.us);
+return obj}
+
+message.properties.... label.hello=Hello world
+message_fr.properties... label.hello=Bonjour
+
+@Bean -->we are setting that our files starts with messages
+public ResourceBUndleMessageSource messagesource{
+RBMS obj=new RBMS();
+obj.setBasename("messages");
+return messagesource;
+}
+
+now create a rest service that supports internationlization and test vis postman witn accept language headers
+
+@Getmapping("/hello-int")
+public stirng int18format(@RequestHeader (name="Accept-Language",required false) String locale){
+return messagesource.getmessage("label.hello",null,new Locale(locale));
+}
+
+
+
+FILTERING:
+Static Filtering:
+@jsonignore-->at field level
+@jsonignoreproperties-->at class level and then we can mention fields to be ignored
+hides the fields from jackson parser and does not give back these content back to the uri request
+a con : post or put ie. create and update method fails when applying these annotations .... those fields you make nullable in hibernate validation so those wont fail
+
+Dynamic Filtering:
+mappingJacksonvalue to implement dynamic filtering
+@jsonfiler applied at model class with filtername
+rest all logic related to filtering will be defined in service or controller layer
+
+
+
+
+
+
+
+
+
+@RequestMapping(value="/user/create", method=RequestMethod.POST)
+public ResponseEntity<Void> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder){
+    System.out.println("Creating User "+user.getName());
+     
+    if(userService.isUserExist(user)){
+        System.out.println("A User with name "+user.getName()+" already exist");
+        return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+    }
+ 
+    userService.saveUser(user);
+     
+    HttpHeaders headers = new HttpHeaders();
+    headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
+    return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+}

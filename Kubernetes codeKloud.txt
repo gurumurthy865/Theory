@@ -1,0 +1,322 @@
+Kubernetes or K8's
+
+Container overview:
+Container+orchestration
+
+MATRIX from HELL!
+libraties,Dependencies
+operating system
+hardware infrastructure
+
+Containers having libs,dependencies
+Docker
+operating system
+hardware infrastructure
+
+so containers are completly isolated environment that can have there own servies,databased,vm'servies
+docker utilized lxi contianers
+
+os-->ubuntu,sessu contain os kernel and set of software to interact with hardware
+os kernel here is linux
+
+lets say we have docker installed on ubuntu and both docker ,ubuntu used same kernel. docker has its own software and thats what it makes different
+
+but windows do not have the linux kernel shared
+so we go for docker for desktop or tool box
+
+Containers vs virtual machines:
+vm has hardware .os .hypervisor ,appliation with libs and depencies and os as vm(high memory utilixation , boot up and maintainance is problem)
+vm has hardware .os .docker ,appliation with libs and depencies as docker
+
+================
+CONTAINER ORCHESTRAION:
+
+==================
+KUBERNETES ARCHITECTURE:
+A node is a machine on which kubernetes is installed. that is where containers will be launched by kubernetes. that is known as minnios in past.
+we need to have more than one nodes if in case fails. Having multiple node also help in sharing load as well.
+but who will manage nodes? who controls? Thats where master comes. Master is actually responsible for orchestration of containers
+ API server-->act as front end :users ,management,devies ,cli all talk to api server to interact with kubernetes cluster
+ etcd-->is reliable key value store used to store all data used to manage cluster.Details of multiple master and multiple nodes
+ kubelet-->to make sure container running on node as expected, runs on each node in cluster
+ scheduler-->distrubuting work to containers through nodes
+ controllers--> brain behind orchestration, looking at health
+ contianer runtime--> docker
+ 
+ 
+ Master node has </>kube-apiserver and thats what it makes master,master has etcd, controller ,scheduler and other feature as well
+ slaves has </>kubelet for interacting with master and carry out action given by master
+ 
+ cubecommandlinetool--> also know as Kbectl also called Kube controller. kubectl tool used to deploy and manage application on a kubernetes cluster.
+ kubectl run hello-minikube-->to deploy an app on cluster
+ kubectl cluster-info
+ kubectl get nodes--> to get details of all the nodes
+ 
+======================
+ KUBERNETES SETUP:
+ Minicube,Micro k8's,Kubeadm--> to play around for developers
+ aws,dcp ,azure-->Hosted solutions
+ 
+ Minicube bundles all the componenet of master and worker node into a singel image providing as a pre configured single node kubernetes cluster to start in minuts
+ For windows we need to use the virtual box or hyper v
+ also need to install kubectl and minikube.exe installed
+ 
+ all basic tasks can be performed on muniKube
+ ofcourse before that we need to install kubectl utility.(commands are executed to install these)
+ 
+ 
+ our goal is to setup a cluster on ubuntu linux machine
+ 
+ 
+ #kubectl version--> provides version of kubectl
+ #sudo intall minicube blah blah blah
+ #minicube start --driver=virtualbox
+ #minicube status
+ #minicube start, stop,delete etc
+ #kubectl get nodes(gives name,age,role,status,date)
+ #kubectl get deployments
+ #kubectl expose deployments blah blah
+ #minicube service  hello-minikube
+ 
+ Hit url through browser 
+ 
+ ======================
+ 
+KUBERNTETES CONCEPTS:
+POD's:
+The containers are encapsulared in pods and then depolyed in nodes of kubernetes.
+A POD is a single instance , a smallest object you can create on kubernetes.
+Consider a single node kubernetes cluster having single instance of your application running in a single docker container encapsulated in a pod
+what if application need to be scaled up to share the load?
+do we bring new contianer inside same pod? no different pod we bring up in same node.
+what if current node run out of memory? then bring new node.
+POD has 1-1 relationship with contianer
+are we restricted to single contianer to single pod?
+no, single pod can have multiple ocntiner except for fact that there are not usually multiple contianer of same kind
+in some scenario you might have helper contianer that doing some supporting task for our web application such as  the user entered data processing , or processing file  and wnat them along application contianer it can be done . when conterenr of app dies helper instance also dies
+
+Say we need 4 instance of app and using link command we need to link 4 health contianers to them. we need to keep eye on container health and also link volumes to it. that map has to be maintainerd. when they fail we need to remove health instance manully as they no longer requeisrted
+In kubernetes , it is all taken care of itself
+Note:Multi pod per Node is rare use
+
+How to deploy pods;
+kubectl run nginx --image nginx  --> createsa pod and deploys nginx image
+      pod/nginx created
+kubectl get pods--> gets list of pods, name ready(no of containers running) status restarts age are columns
+kubectl describe pod nginx --> provide more detials abour pod(laberl priority node start time status ip containers image port etc)
+kubectl get pods -o wide--> name ready status restartes, node , nominated node details
+
+==============
+How to create POD using yaml defnition file:
+Kubernetes userd yaml file as input to create objects such as POD's, replicas,deployment services etc. 
+all follow same structure:all contain top level mandatory fileds: apiversion(kubernetes version) ,kind(type of obj being cretated like pod, replicaset ,deployment or service), metadata(name label[these are dictionary] etc about obj), spec(additonal info pertaining to obj,say contianers[list])
+under metadata key cant be anything, but label is child of metadata and under laberl key vlaue can be anything
+
+File name:pod-defnition.yml
+
+apiVerison: v1
+kind:Pod
+metadata:
+ name: myapp
+ labels:
+     app:myapp
+     type:front-end
+spec:
+ contianers:
+   -name:nginx-containers
+    image: nginx
+
+kubectl create -f pod-defnition.yml --> pod id created
+kubectl get pods --> to see pod created
+
+kibectl apply -f pod.yaml --> apply command work same as crate commnad
+
+kubectl delete pod webapp
+================
+CONTROLLERS;
+Repliation controller:
+to bring up replication pod on failure, load balacing and scaling,
+one replication controller spans across multiple nodes having multiple pods, thats how load balacing is achived
+
+Replica set is new recommended way to setup replication contoller
+
+rc-defnition.yml
+
+apiversrion:v1
+kind:ReplicationController
+metadata:
+ name:myapp-rc
+ laber:
+   app:myapp
+   type:front-end
+spec:
+ template:
+        metadata:
+            name: myapp
+         labels:
+            app:myapp
+             type:front-end
+         spec:
+             contianers:
+               -name:nginx-containers
+                image: nginx
+ replicas:3
+
+kubectl crate -f rc-defnition.yml---> create pod 3 numbers 
+kubectl get replicationcontroller---> all replica details will be shown
+
+
+
+
+replicaset-defnition.yml
+
+apiversrion:app/v1  --> version v1 does not support replicaset
+kind:ReplicationSEt
+metadata:
+ name:myapp-replicaset
+ labels:
+   app:myapp
+   type:front-end
+spec:
+ template:
+        metadata:
+            name: myapp
+         labels:
+            app:myapp
+             type:front-end
+         spec:
+             contianers:
+               -name:nginx-containers
+                image: nginx
+ replicas:3
+ selector:  -->mandatory for replicaset,have to mention what pod falls under it, becasue replicaset can also manage pods which are not part of replicaset,ex: pods created before replicaset
+   matchLabels:
+         type:front-end -->matches labels mention on top
+
+Labels and selectors:say we deploy three instance for front end
+we need to create 3 rs or rc to ensure 3 active . Role of replica set is to monitor the health and create new if failed. how replica know what pods to monitor.
+this is where labelling parts during creation comes in handy
+
+Note:since we already had 3 pods with same label  crated by replica controller, replicaset wont create new pods. we need to provide a a new template session not to create a pod
+if pods fail in future, replica set has to create pod and for that template session is required.
+how do we scale to six instances;
+first change replicas:6 then run 
+kubectl replace -f replicaset-defnition.yml
+kubectl scale --replicas=6 -f replicaset-defnition.yml
+kubectl scale --replicas=6 replicaset myapp-replicaset(replicaset is type and my-app replicaset is name)
+there is also methods to automatically scale based on load , ie an advanced topic
+
+=============
+DEPLOYMENTS:
+ Rolling updates:updating the instances one by one so user ownt be affected.
+You should also he able to roll back the changes in cas of any issue.
+container-->pos-->replicasets->deployment
+How do we create deployment?
+definiton file of deployment same as replicasets,except
+kind:Deployment
+now run 
+kubectl create -f deployment-defnition.yml
+kubectl get deployments
+kubectl get replicaset
+kubectl get pods
+
+kubectl get replicasets.apps-->to see how many replicas running
+kubectl get deployments.apps--> to see how many deploymets exist
+kubectl describe deployments.apps frontend-deployment | grep -i image -->to see the image used for deplyment
+kubectl create deployment httpd-frontend;replicas:3 ;--image=httpd:2.4-alpine
+
+
+Rollback and updates:
+when you first crate a deployment it triggers a rollout
+a new rollout creates a new deployment version, say revision 1
+when contianer is udpated in guture, new deployment rolles our say revision2
+kubectl rollout status deployment/myapp-deployment--> to get rollout details
+kubectl rollout history deployment/myapp-deployment--> revision and history of deployment
+
+Deployment startergy;
+destroy all running instances and create new five--> application will be down  for sometime
+above is called recreate startergy and this is not default
+
+bring one down, bring one up--> no downtime , it is called rolling udpate whcich is a default deployment stratergt
+
+modifying files:
+kubectl applu -f deployment -defnition.yml
+another way to make image changes 
+kubectl set image deployment/myapp-deployment \ nginx=nginx;1.9.1
+
+Differnce between recreate and rolling udpate can be seen during the deployment
+
+================
+NETWORKING:
+Node has an ipaddress(if we are using minikube node then we are talking about minikube ip on hypervisor0
+pod hosts a container,, ip address assigned to pod unlike docker where ip addressed to container
+when kubernetes initially confiugred we create an internal private network with the address rendered with each pod with won ip connectedd to one ip
+
+Cluster networking:
+when there are muliple nodes,say two and both has one pod each with their own ip address and connecte to internal ip address(internal ip address is different from node ip address)
+Kubernetes automaticcaly does not setup networking to handle the issues, like both nodes having same internal ip address which is nto allowed
+Fortunately, we need to do all work as some prebuilt servies are avilable like cisto,ciliu, flanner, vmware, nsx etc
+these creates a virtual network of all pods and nodes where they are all assigned to a unique ip address
+
+==================
+Services
+
+kubernetes service enable communication between various components within and outside application.
+kubernetes services help us connect applications together with teh otehr applications or users.
+ex:our multilple pods of an application for fronend,database, outside services. . services help in communicate between pods
+earlier we seen how pods do inter communication through ip address.
+lets see external communication:
+the kuberneres node has a ip adress,,, my laptop is on same network as well so it has similr ip address.
+the intenal pod is in some range and pod has an ip. clearly i can t ping or access pod as it is in separeate nwtwrok.
+so what are the options to see web page?
+first if we were to SSH to kubernetes,,,,,,, to be continued.
+what if laptop wnat to access directly and not ssh/
+kubernetes service comes into play here which is  object just like pod that listen to a port and forward request on that port to a port on the pod.
+above is called nodeport service. ie. listens to node and sends to port
+
+service types:
+NodePort
+ClusterIP:service creates virtural ip inside cluster to listen to servers
+LoadBalancer:to distrub load across webserver in frontend tier
+
+service-defnition.yml
+
+spec:
+ type:NodePort
+ports:
+   -targetport:80(of pods)
+   port:80
+   nodeport:30000
+selector:
+  app:myapp
+ type:front-end
+
+kubectl get services
+
+=====
+Kubernetes in microservices
+
+=======
+Kubernetes in AWS(EKS)
+
+self Hosted/Turnkey solutions:
+your provision vm's,configure vm's, you scipt to depoly cluster, example: kubernetes on AWS using kops or kubeone
+
+Hosted solution:
+kibenetes as a service, provide provision vm, provider instaslls kubernetes, ex:Google container engine(GKE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

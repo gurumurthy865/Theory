@@ -1,0 +1,227 @@
+Dividends
+Issued in the form of shares
+It is not mandatory for the company to give dividends
+Say google gives 5% ie.say 5$,, if you reinvesting it in FD return might be 2-3% which is very less;so they only try to reinvest and not give dividends
+now dividends are taxable
+is 100% dividends possible?yes but what 100%? market value?hell no dividends is on face value
+if face value of company say MRF is 10RS and they give 100% dividends then they will you 10rs for each share you hold
+
+
+Face Value:Original price at which shraes were brought by promoters who started the company
+           there can be multiple promoters
+		   Every company(promoters) decide what is the face value
+		   
+
+LTCG->long term capital gain;more than one year investment;tax free till 2.5L;
+
+
+Britania                                 2014		2015	2016		
+  TurnOver(top line growth)              6348 		 7269	7881
+  Profit before tax						  543		883		1149
+  Profit after tax(bottom line growth)	  370 		662		763	
+  share price on 31st march				  843		277		2686
+
+currently britania share market value is around 4000 which is less compared by last year, did market fall No
+no, they did stock split, ie. when share value is 8000, they double the no of shares bringing each share value down by 50% ie. 4000. in such scenario the face value will be down from 2RS to 1RS
+the moment stock splits, face value is also halved
+
+MoneyControl:
+if anything to be seached about a company go for money control
+Closing price:the price at which shared has closed today.. ie. LTP latest traded price(LTP changes every second, we are talking about LTP at 3 30) , ie. share value at 3:30PM
+Previous close: price at which yesterday share has closed
+
+Pre market session:at 9 15 whn open many would be restless and make lot of bid,, that would flctuate the market value up to 3 within first 15 min which is huge
+		   this was causing loss to small investors, so new segment started between 9 to 9:15 which is called pre opening market session;time during which you are able to palce buy or sell.
+		   say in those 15 min, for first 7 min many bids go, in next 3-4 minutes orders but sell will be matched and in last 3 min you get to know the trend of the market
+there is also a session between 3 30 to 4 which is not for retail investors like us but for brokers
+after market hours:4PM to 9AM,, can we place order during these hours,,? yes we can. 
+		   
+open price:will be equal to previous close ideally but 99 this is not true;depending upon after market investment the open price value varies
+Gap up opening: if share is 100rs closing and open at 101rs
+Gap down opening: if share is 100rs opening and opens at 99rs
+UNCH: unchanges which is a very rare scenario where opens at same price
+
+there will be slight change in share value between 3 30 to 4PM
+
+Bid price(Qty)=26;this means 26 people wants to but the share
+offer price(Qty)=40;no of people who wants to sell share
+volume:99224 ie. no of shares that chagned hands
+       always you should check the volume over 2 days,5days,30days
+	   
+Todays low high;
+52 weeks low high->max and min price reached in last one year
+
+Coporate action in money control:
+gives deatils of annual meeting;bonus,splits, dividends issued;board meeting;etc
+
+Bonus: bonus 8:25 means you get 8 bonus shares for every 25 shares you held
+		announcement data->day on which bonus announced;record data;ex bonus(excluding bonus) date which is 2 days less than recorded date{2 working days excluded holiday)
+		you will be entitleted to avail bonus even after announcement date, if announce made data is june 1st and recorded date which will be always greater is august 1st
+		say share price is 100rs and bonus of 1:1 is declared share price will become half after ex bounus date  ;ex bonus date is a date on which share start trading on revised price
+		issues bonus brings down the share value and  attracts investment ;bonus is alternative to dividends and also used by cash crunch companies that wants to pay dividends
+		
+Three stock exchanges of india:
+NSE
+BSE
+MSEI:also know as MCE multi commodity exchange
+		
+members of exchange: in local word brokers
+retails investors does not recognize retail investors,so we need to trade through its members like zerodha
+
+Investors:RII->retail individul investors(less than 2L rs in IPO)	;HNI ->High networth individual; DII->Domestic institutional investor(banks/LIC etc);FII/FPI->foreign protfoli investors
+helps during ipo, like RII segment HNI segment allotment etc	
+
+tading T+2 days; after 2days we get shares in our account or the money when sold
+
+then we have clearing houses which take care of movement of shares ie. from whom to whom stock moves. ex: National securities clearing coproration ltd takes care of NSE;ICCL takes care of BSE
+
+Depositories and DP's:NSDL adn CDSL are depositories who materalize and dematiralize shares
+today since patanjali not listed,its shares is in physical format; company when listed wants to dematerialize then it goes to depository
+DP's depository parties: Brokers
+ours accounts indirectly opened with depositories
+
+Does company knows who buys and sells shares?
+Depository will have all the list;there is a mandatory disclouse that if an investor holding shares more than 5% they should disclouse it else SEBI takes actions
+
+IPO:
+when ipo is alloted, its not through BSE or NSE but through primary market.. in primary market company sells you share
+then it comes to secondary market on listed day, where you cannot sell back to company but traded between investors in secondary market
+
+
+Trade date: the day you traded share
+Settlement date: date on which amount /share is depsoited
+Traded date + 2 days = settlement date
+STT:security transaction charge which is mandatory
+There will be GST on brokerage charg3 which is 18%
+
+
+MIS account/INTRADAY:
+Margin intraday settlement
+here we buy and sell on same day
+ie. Short selling; sell high and when it goes low then buy
+various brokets square off at differnt time, say 3 10 some at 3:20PM like zerodha..
+
+Upper circuit: All buyers and no sellers
+say you are bearish and  sold 100 shares which you did not have at 150rs and when trying to sell at lower price to make profit
+ but  when shares are traded in upper circuit ie. say stock prices goes above 150 ie. ended at cloing price 170rs ,share auction(done by brokers between 3 30 and 4 ) comes into picture where they buy shares behalf of you at whatever the price available and you incur loss 
+
+
+FUTURES and OPTIONS:
+Meaning of derivtives:type of financial instruments which derives its value from an underlying asset
+financial instruments are the assets that can be traded; ex: shares ,debenture, bonds are such assets where FD is not
+financial instrument is a real or virtual document representing a legal agreement involving the monetory value
+Lets say you start a cofee shop and your profits/loss depends on price on milk,, say we can say milk is the underlying asset
+or say price of sugar is derived from sugarcane availability
+
+There are differnet types of derivatives:
+1.Stock derivatives(say HDFC bank stock)--->HDFC bank future goes up when HDFC stocks goes up ie. future derived from stock
+2.Index derivatives(NIFTY)--->if nifty goes up nifty future goes up
+3.Commodity derivatives(Agro and Bullion derivatives)
+4.Curreny derivatives--->USD-INR;JPY-INT;EURO-INR are some allowed in indian market
+5.Interest rate derivatives
+
+derivatives were introduced mainly to minimize the portfolio loses; practically it is used by traders to make profit
+
+Forwars;Furutes;Options;Swaps
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+JYOTHI BANSAL:
+Technical analysis is combination of art and science to forecase the price anlysing past trend
+there are two types of analysis
+Fundamental:use of fundatamental information of the company like chekcing the balance sheet,P&L,cash flow etc it si concerned with why the price is.. what it is
+Technical:Ignore teh fundamentals and focus on price movements;it is concerned with what than why
+ technical analysis is based on three basics
+	Price disounts everything
+	Price moves in trend
+	History tends to repeat itself
+	
+	
+	
+Cycle of market emotions:
+pessimisml,hope,relief,excitement,greed,euphoria,anxiety,denial,despair,desperation and again hope(Sceenshot Jyothi1)
+
+Types of Charts:
+x represetns time and y the price
+Line charts-->formed by closing prices over period of time
+Bar charts-->used to see daily actions of a trade;top tip shows highes of day,bottom shows lowest of day,left tip shows opening and right tip shows closing price of the day(Jyoth2 Bar chart)
+Candle charts-->candle stick displays the open,high,low and closing prices similar to bar chart but also gives additional info about market psychology
+                if market closed higher than opening, green candle is shown otherwise in red(Jyothe candle chart)
+				
+Trend:each high is known as PEAK or TOP and each down as Trough or Bottom
+     Types of trends
+		Uptrends we keep getting higher top and higher bottom in every cycle;market will be bullish;(Jyothi4 higher trend)
+		Downtrend :each top is lower thatn than previous top so does bottom.;here supply is more than demand; you should withdraw when downtrend starts
+		Sideways trends: horizonatal trend and there is little movement; we should not trend during this time; at best we can buy at bottom and sell at top
+    Trend within a trend:
+	    Secular trend:lasted for last 5 to 10 years; major trends are more than 1 year best for investors;intermediate tredn between 1 -3 months for postion traders;minor trends less than one month(Jyothi5 trade within trade)
+		
+4 Stages of stock market:
+satge 1: consolidated stage ie. after continous trend market consolidates and starts gaining. this is a good point to enter
+stage 2: signifies breakout form market;stage2 is most attractive stage and majority money made here which is public participation stage;longer uptrend losts more invertor enter
+stage 3:again consolidated and starts dropping but here buyer and seller are same where we should get ready to sell ,its a distrubution phase;here market breaksdown or sometime start another uptrend rarely(Jyothi6 trade staging)
+        accumulation phase which is flat,, then upwardTrend, then EXCESS UPWARDTREND which is danger as there will be sudden fall of high volume;a sharp reversal then a consolidation phase(flat);distrubution phase and starting of downward trend;again accumulation and upward trend(Jyothi7 trade staging)
+		
+Time framing: when anlysing chart it is important;if you choosing time frame for one day ,or 1 hour or 1 month etc 
+            choosing timeframe depends on what kind of trading you are doing
+	Intraday->few minutes to few hours(prefer 15 minute chart)
+	Scaliping->few seconds to few minutes
+	postional trding-->who hold threre positon overnight, it can be 2 days to few months
+	   in that intermediate from weeks to months and then short term few days to few weeks
+	Long term investments-->months to years; to deterimine exist point chart is necessry here;for long term our charts should be weekly chart
+	
+
+How to read current trend:
+for intraday, look at 15 min chart
+for positon , look at daily chart over few months
+for long, look at weekly chart over years
+
+Short Selling:
+
+		
+
+
+
+
+
+	
+
+
+
+
+Debentures?

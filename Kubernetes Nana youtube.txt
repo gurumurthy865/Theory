@@ -1,0 +1,431 @@
+What is Kubernetes[codeKloud]
+K8s architecture
+main K8s components
+Minikube and kubectl local setup
+mail kubectl commands K8s CLI
+K8s YAMO configuration file
+K8s Namespaces-organize your components
+K8s ingress
+Helm-package manager
+Volumes-Persisting Data in K8s
+K8s statefulSet-Deploying Stateful Apps
+K8s Services
+
+Kubernetes is an open source container orchestration tool
+Adv:High availablily or no downtime;scalability or high performance;Disaster recovery-backup and restore;
+
+Basic Components:
+Pod:smallest unit of K8s;Abstraction over container ie. Pod containes Container;usually 1 application per Pod;A Node will contain Pod
+    Each Pod gets its own IP address;Each Pod can communicate with each other using there internal IP address;
+	say you lose DB POD(POD can die easily), new POD will come up and IP address of new POD will changes. Hence Service is used
+
+Service:Permanet IP address,lifecycle of Pod and service are not connected
+
+External Service:App should be accessible by browser
+Internal Service:say DB should be accessible to other Pods
+Ingress:Instead of external service Ingress is used;route traffic into cluster
+
+ConfigMap:external configuration of your application;contains URL of database and other services
+Secret: configmap connot contain credentials;hence Secret is used to store data in base64 encoder;this built in security is not enalbed by default
+        used it as environment variable or as a properties file
+
+Volume:if DB container or POD is restarted all data is gone;but we need our application or databse data to be persisted;way to do is by using volumes
+       a physical hard drive is attached to the POD ie. Storage on local machine; or remote outside of the K8s cluster
+	   
+What happens when my POD dies?
+There can be a downtime;so instead of relying on single app pod and DB pod we replicate the servers;the replica is connected to same service(Permanent IP);
+load balancer will manager the load;
+
+Deployment:we can define buleprint of Pods,ie. how many replicas required. this is another component called Deployment;in practical you wont create Pods but deployments
+           it is abstraction of Pods,ie. Deployments contains Pods
+
+StatefulSet:DB cant be replicated using deployment, becase DB has state;there we need some mechanism to know which pod reading, which pod writing data;
+			make sure database is synchronized;Deploying statefulSet not easy as deployment;so DB are often hosted outside K8s cluster
+
+Basic Architecture:
+Two types of nodes: Master and Slave
+Each worker service or Node has multiple pods in it;3 process must be isntalled on every node;they are 
+	Container runtime: 
+	Kubelet interacts with both the container and node;Kubelet starts the pod with the contianer iside;each node will have a kubelet
+	Kube Proxy:forward the request;makes communication happens effectively with low overhead;
+
+So how do you interact with this cluster?
+how to schedule pod,monitor,rescedule/restart pod;join a new node
+All these Managing process are done by Master Node
+
+4 Process run on Master Node:
+api server:when user wants to deploy a new 
+
+
+application you interact with api server using browser or cli like kubelet
+	 api server is a cluster gateway;act as a gateKeeper;
+Scheduler:decides to which node the pod is to be scheduled;least busy node will have the pod scheduled
+Controller Manager:when pods die there must be way to detect it and rescedule them.controller manager detects it and requests scheduler to schedule pod
+etcd:key value store of a cluster state;etc is the cluster brain;when pod dies ,new pod up etc all are stored in key value. this is how scheduler know the resource avilablility or pod state etc
+	 applicationd data is not store in etcd
+
+
+Master nodes will have less load, hence less resources like RAM,storage required
+2 master and each has 3 salves/nodes
+
+
+Minikube and kubeCtl:
+In a production cluster setup master nodes willhave api server,scheduler.controller manager and etcd
+salves node wlll have kubectl,pods etc..
+Minikube is basically one node cluster where master process and worker processes run with docker pre-installed.
+minikube created a virtual box on our laptor and node runs in that virtual box;this is for testing purposes
+now we have virtual node in local;to interact with cluster Kubectl comes into picture
+
+KubeCtl:a commond line tool K8s
+         it is used to interact with cloud cluster or minikube cluster
+		 
+minikube start --vm-driver=hyperkit (telling minikube which hypervisor to be used to start)
+works even if docker is not installed in your machine as it has pre-installed docker
+
+kubectl get nodes-->get status of nodes,, ie. name,status,roles(master/slave),age,version
+minikube status---.host,kubelet,apiserver and kubeconfig status shown
+kubectl version
+
+Basic kubectl commands:
+kubectl get nodes
+kubectl get pod
+kubectl get servics
+kubectl create -h (for help)
+kubectl create deployment nginx-depl --image=nginx-depl
+kubectl get deployment
+kubectl get replicaset
+kubectl edit deployment nginx-depl(deployment name)--.we get autoGenerated file
+kubectl logs nginx-depl-883f-fgss(pod name)
+kubectl exec -it podname -bin/bash (we get the terminal of it;it means interactive)
+kubectl delete deployment deploymentName
+kubectl crate deployment name image option1 option2
+kubctl apply -f(stands for file Name) config-file.yaml
+touch deployment.yaml
+vim deployment.yaml(for changing configuration in command prompt itself)
+kubectl apply -f deployment.yaml
+
+
+Syntax of Configuration file:
+CRUD commands;satus of different K8's componenets;Debugging pods;using kubernetes for configuring components
+
+YAML file:
+3 parts of configuration file
+1.metadata like name ,labels
+2.specifications like replicates,selector,template(template has its own metadata like label container,image ports etc)
+  specifications attributes depends upon what Kind of file is yaml, ie. deployment or service
+3.status like desired state;actual state
+ 
+ etcd holds the current status of K8s componenets
+ 
+BluePrint of Pods:
+Pods get hte label through the template blueprint
+this labels is matched to the selector
+deployment will also have its own labels
+
+you create two files ngnix-deployment.yaml and ngnix-service.yaml
+run kubectl apply -f ngnix-deployment.yaml and then kubectl apply -f ngnix-service
+kubectl get pod--> gives the no of pods that mention in deployment file,shows they are up and running
+kubectl get service-->shows the servies and tis ip,port as defined in service yaml file
+kubectl describe servie ngnix-service -->here we see endpoints where we see all status info defined in config file,the target ports ,endpoints of pods to which service is connected also be verified
+kubectl get pod -o wide --->connection between pod and service
+kubectl get deployment ngnix-deployment -o yaml -->etcd contains the latest deploymetn file which will be shown now;this is updated constanly by kubernetes
+kubectl get deployment ngnix-deployment -o yaml >ngnix-deployment-result.yaml -->saves file and it can be opened with editor
+kubectl delete -f ngnix-deployment.yaml --> t0 delete the deployment ,same can be done for service
+
+
+DEMO:
+
+mango-express and mango-db
+
+first we will create a mango db pod;to talk to the pod we need servie that has to be created
+no external requests are allowed to the pod and only internal components can talk to it
+then we need mango DB url so mango extress can connect to mango DB
+then credentials as DB so we can validated 
+they can be passed to mango express thorugh configuration file and we create secret and then reference through deployment file.
+to make them access through browser url,we will create a service that will allow external requests to talk to the pod url will be jttp + ip address of node + service port
+so flow will be browser-->mango express external service-->mango service-->mango db internal service-->mangoDB-->verify using secret
+lets configure it using kubernates file
+
+kubectl get all-->gets all the services;by now there will be only one service which is defalut kubenetes service
+
+fileName:mango.yaml
+
+1
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+	name:mangodb-deployment
+	labels:
+		app:mangdo
+spec:
+	replicas: 1
+	selector:
+		matchLabels:
+			app:mangdo
+	tamplate:
+		metadata:
+			labels:
+				app:mangodb
+		sepc:
+			containers:
+				-name:mangodb
+				image:mongo
+				ports:
+					-containerPort:27017        ----->(Note1)
+				env:
+					- name:MONGO_INITDB_ROOT_USERNAME ---->(Note2 to 4)
+					valueFrom:					--->instead of value here we write value from to read from secret
+						secretKeyRef:
+							name:mongo-secret
+							key:mongo-root-username
+					- name: MONGO_INITDB_ROOT_PASSWORD
+					valueFrom:secretKeyRef:
+							name:mongo-secret
+							key:mongo-root-password
+					
+					
+					
+				
+Note1:in hub.docker.com you can see for mangoDb image;its default port;its username;password which are configured in the config file as above
+Note2:we create secret to store credentials and it should be in base 64 encoded value;
+Note3:secret file has to be created before deployment file
+Note4:secret file has to be created before deployment file
+
+fileName:mango.yaml
+apiVersion: v1
+kind: Secret
+metadate:
+	name:mangodb-secret
+type: Opaque
+data:
+	mango-root-username:dfads4%4=(encoded value)
+	mango-root-password:djfd$tjdj=
+		
+echo -n 'username' | username -->converts into base64 value
+
+we have written only configuration file and we havent written anything in cluster
+
+cd k8's-configuration/
+kubectl apply -f mongo-secret.yaml --->secret created
+kubectl get secret -> you should be able to see the secret and you can reference this in deployment file
+
+once deployment file is ready
+
+kubectl apply -f mongo.yaml -->created depoyment
+kubectl get all -->you should see pod getting ready etc
+kubectl get pod --watch
+kubectl describe pod podname
+
+now we got a pod runnign;as next step lets crate a servie going back to yaml file
+
+Note: in yaml one file you can put multiple files
+
+
+fileName:mangodo-service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+	name: magnodb-service
+spec:
+	selector:   -->selector is to connect to pod through label
+		app: mangodb
+	ports:
+		- protocol:TCP
+		port:27017      --->service port
+		tatgetPort: 27017  ---->container or pod port; above two ports can be same or different
+	
+kubectl apply -f mongo-service.yaml
+kubectl get service
+kubectl describe service serviceName -->here you see endpoint ie. IP address of pod and the port in which it is listening
+kubectl get -0 wide --> you get additional info that include ip address
+kubectl get all -->gives all components
+
+
+Now Lets Create MangoExpressDeployment and Service and ConfigMap
+configMap is where we put database url and other details; it is centralized;can be used by multiple components
+
+fileName:mango-express.yaml deployment file
+
+fileName:mangodb-configmap.yaml
+apiVersion: v1
+kidn:ConfigMap
+metadata:
+	name:mangodb-configmap
+data:
+	database_url:mangodb-service
+
+Note:in mango-express.yaml is is defined as configMapKeyRef instead of secretKeyRef
+
+kubectl logs fileName--> to see the logs
+
+Creating An External Service:
+fineName:mango-express-servie.yaml
+apiVersion:v1
+kind: Service
+metadata:
+	name:mango-express-service
+spec:
+	selector:
+		app:mango-express
+	type: LoadBalancer    -->this makes the service external,loadBlancer is not a good name though
+	ports:
+		-protocol: TCP
+		ports: 8081
+		targetPort: 8081
+		nodePort:30000   -->  port where external ip address is open , if not using type then this is how you make service external
+		
+kubectl apply -f mango-express.yaml
+
+minikube servie mango-express-servie --> this will open an browser wil the ip address, assigns expernal serive a ip address 
+				  
+
+NameSpace:
+you can organize resources in namespaces
+you can have multiple namespaces in a cluster
+you can call it virutal cluster inside a cluster
+when you create a cluster by default kubenetes keep 4 namespaces by default which is in out of box
+kube-system namespace --> not for us,its for system process so do not modify
+kube-public -->contains public accesible data like cluster info,configMap etc
+kube-node-lease --> holds info about heartbeat of nodes
+default --> we use to create resources
+
+kubectl crate nameSpace my-nameSpace --> to crate a namespace
+otherwise can be created using namespace configuration file
+
+wha is need of nameSpace?
+imagine we have only default namespace and we create resource using them.
+now when we have a complex application with multiple deployment,replicaSet,services,configMaps nameSpace will be fille with data and bad overView
+so best wayis to resource grouped in NameSpaces like Database nameSpace where it will have db related files;Elastic Stack namespace where kibana etc resources go;monitoring namespaces
+should not use when it is a small project is google suggestion
+useCases:
+image two teams using the same cluster;one team deploys the app called my-app and deploymet has certain config; and accidentally secong team also has same file name for deployment but different ocnfig that would disrupt the process; so its better to have separeate nameSpaces for them
+nginx-ingress controller that can be common two both teams or services can be created in a separate namespace
+Blue-Green Deployment: two isntances of production environment; blue is one in production;green is one ready for next production
+access and resource limit on NameSpaces;limit the resources each namesapce use such as CPU,RAM,Storage
+
+accessing serive in another Namespaces is a topic to learn
+components which cant be created within a namespace and lives globally in a cluster are such as volume,node.
+when creating components in command if you do not mention namespace , it will be created in default namespace
+kubectl apply -f mysql-configmap.yaml --namespace=mynamespace.yaml or you can mention namespace: mynamespace in metadat in configMap file
+
+Change Active Namespace:
+there is a tool called kubens which you can install be commadn brew install kubens
+then execute command 'kubens' that gives list of namespaces
+kubens my-namespace ---> now this will be active namespace and now you can execute kubectl commands without mentioning namespace
+
+Kubernetes Ingress:
+lets imagine simple kubernets cluster where we have a pod and service.
+for external request be able to reach our serive,we will have external service throgh ip address in browser but this is not production grade
+so way to do is using component ingress.
+instead of external service we will have interval service; request from browser will come to ingress; ingress will direct to internal service;then it will eventually end up with the pod
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+	name:myapp-ingress
+spec:
+	rules:
+	- host: myapp.com   -->name that user enters in browser
+	http:
+		paths:			--> url path rules can be defined here
+		- backend:
+			serviceName:myapp-internal-service
+			servicePort: 8080
+
+serviceName above should match the name of internalService.
+host:valid domain name,mapdomain name to nodes ip address which is the entrypoint to kubernetes cluster
+
+How to configure ingress in your cluster?
+the implementation that is required is called ingrss-controller
+this has to be additionally istalled in kubeneters cluster
+the funcation of ingress controller is to evaluate all the rules define in the cluster and this way manage all the redirections
+this will be the entry point to the main domain and sub domains defined
+to implement which one of many different third pary we should chose from 
+  ex:kubernetes nginx ingress controller
+aws ,gcp may have there own entrypoints;if you building on bare metal then you may have to do on own one way is to have proxy server that also act as load balancer;
+minikube addons enable ingress -->install ingress on minikube
+kubectl get pod -n kube-system --> here you will see ingress pod running in your cluster
+
+kubectl get ns
+kubectl get all -n kubernetes-dashboard
+kubectl get ingresss -n kubernetes-dashboard
+kubectl get ingresss -n kubernetes-dashboard --watch
+
+ingress also has something called ingress backend
+defalut backend--> that maps to the request coming into cluster that is not mapped to any port, then this port will handle these services so you can get some default error message
+
+one host can have multiple paths and vice versa
+
+Configuring TLS certificate:
+define attribte called tls above host section and  under host secretName which points to secret file that contians tls certificat,tls key etc
+
+
+Helm-package:
+overview;helm;helmchart;how to use;where to user;what is tiller
+Helm is a package manager for kubernetes;
+its a convinient way for packaging collections of kubernetes yaml file and distrubute them in private and public registry
+lets say we deployed our app in kubernetes cluster and additionally we wnt to deploy elastic in our cluster for logs;
+to deploy elastic stack we would need stateful,configmap,secret,kubernets users ,permissions and couple of services
+collecting all these files from and doing is tedious,it makes sense if someone make package of it and store it so others also can use it
+it is called helmChart;we also create our own helm chart
+monitoting tool like promotherous,mangodb,elastic stack etc all have heml chart in some helmRepository
+in microservie environment using helm we can define blueprint,replace dynamic vlaue by placeHolders;
+
+Heml chart Structure:
+mychart -->name of chart,top level folder
+	chart.yaml--> meta info about  chat like name,version,dependency
+		values.yaml -->values configures for template file used dymanically
+			chats/ -->chart dependency,ie which chart depends on which chart
+				templates/ -->filled with values from values.yaml
+
+helm install --values=my-values.yaml
+
+another feature of heml in release management:
+in version 2 it ocmes in two parts: Client(heml CLI) and server called Tiller
+when client send the request, till uses the helm to create the components from these yaml files inside kubernetes cluster and exactly this also provide release management feature
+when creating chart, it tiller stores a copy;and any update will use this instead of crating new one by deleting old
+downside is tiller has too much power, it can create,update, delete components which makes it a security issue and hence till is removed in version 3 of helm
+
+
+Volumes:
+persistent volume,persistent volume claim,storage class
+
+when pod is restarted all logs are gone because k8 does not give you storate by default
+when pod dies and new pod comes up it picks upto date the data from storage;as you will not know on which node the pod will come up the storage should be avilable at any given node;
+storage should also be avilable even when whole cluster crashes
+Peristent volume is like ram or cpu;crated via YAML file;in specification you should define capacity,storage,ram,volume mode,accessmode like read,read write,etc
+storage can be harddrive,nfs server,cloud storage etc,multiple storage can also be used
+persistent volumes cannot be pur in namespaces,its available to whole cluster
+Local vs remote volume types: both have there own adv and disadvantage
+persistent volume should already be there in the cluter before pod comes up
+
+persistent volume claim is also created with yaml file;
+use the PVC in pods configuration
+pods ask claim which in turn goes and check for right volume in cluster
+pvc must be in namespace
+volume mounted to pod;which in turn mounted to container
+why abstraction of pvc to access volume? to make it easier for developer no need to worry about where and how storage being done
+
+storage class persists volume dynamically in the backend
+
+
+podState
+stateful
+volume scaling
+pod identitiy
+2 pod endpoints
+replicating stateful apps are some of the topics to be studied
+
+
+
+
+
+storage can be harddrive,nfs server,cloud storage etc,multiple storage can also be used
+
+
+
+
+
+
+	

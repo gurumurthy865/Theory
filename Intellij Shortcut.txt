@@ -1,0 +1,120 @@
+
+TEXT NAVIGATION:
+alt + >		-->to move arrow one word at a time in a line
+ctr + >		-->to move cursor to end of the line
+fn  + uparrrow 		-->moves the cursor from one method to the other
+fn + ctr + uparrrow		--> to move to top of the file
+
+CAMEL HUMP:
+Just type initial letters of the word
+
+MOVE LINES AND STATEMENTS:
+Lets say line 13 has to be moved to line 18
+Sft + alt + down	-->moves the line on which cursor present  down by one line at a time
+if a forloop has to be moved,keep cursor on the forLoop line but here use ctrl
+sft + ctr + down	-->move statement downwards
+
+DUPLICATE AND DELETE LINE:
+ctr + D		-->Duplicates the line
+ctr + delete		--> Deletes line
+
+VIEW PARAMETER INFORMATION:
+ctrl + P		-->Moving the cursor out of method signature removes intellisense, when curosr bought back this command helps to see suggestion
+
+COMMENTING AND BLOCK COMMENTING CODE:
+ctrl + /		--> select lines and execute shortcut for individual line comment
+alt + ctrl + /	--> to comment blocl of code
+
+FOLDING AND EXPANDING CODE:
+ctr + -		--> the method on which cursor is kept will be collapsed
+ctr + +		--> to expand the collapsed code
+
+NAVIGATING TO CLASS:
+ctr + [ --> search in the moveable window
+ctr + O --> other way to open the same moveable window
+ctr + alt + <	--> to navigate back to the class
+ctr + N		--> to navigate to a class
+
+NAVIGATING TO SYMBOLS:
+ctr + alt + O 	--> lets say we need to find Employee.getName() shows in movable window
+CamelHump.getName like E.getName	--> to filter name by class name
+
+NAVIGATING TO FILE:
+ctr + sft + O --> type slash at the end to find the folders ex:resource/
+
+NAVIGATING TO ACTION:
+sft + ctr + A	 --> type theme
+sft + ctr + A	-->to change the java compiler type compiler
+				-->type increase to vary font size
+				
+SEARCH EVERYWHERE:
+sft + sft --> searches everywhere;press tab to move between sections
+
+NAVIGATING BETWEEN TABS:
+sft + ctr + A --> type placement and select none; now all tab's willb e gone
+ctr + E		--> it brings up the recent used files;press arrow key to the file required and press enter;you can type and serach too
+sft + ctr + E 	--> to recent edited files
+
+SELECTING CHARACTER,TEXTS OR LINES:
+sft + rightArrow	--> to select one character at a time
+sft + alt + rightArrow	--> to select one word at a time
+sft + ctr + rightArrow	--> to select complete line
+
+EXTENDING AND SHRINKING SELECTION:
+         	--> selects one complet string;two times arrow selects two string of a line
+					 keep pressing it selects whole block;then whole method;then whole class;
+ctr + W		--> to extend selection
+sht + ctr + W	--> to shrink the selection					 
+
+CODE COMPLETION:
+sft + ctrl + space --> shows suggestions to completion
+					   same inside method parameter bracker also works
+sft + ctrl + space(twice) --> pressing the above command twice gives static method suggestion instead of simple suggestions
+ctr + space(twice) -->(static method suggstion list) asserSame is a method and you dont know which class it belongs type and use command, it gives all static class
+alt + enter		-->static import
+
+POSTFIX COMPLETION:
+ctrl + J --> Stirng s; s. gives normal suggestion; when you press this command and select if gives if condition for null pointer exception
+			similarly you can create syncronized block,forloop,try block etc
+ctr + alt + A --> type postfix and you can see all postfix completion templates
+
+GENERATING STUB TEST,SETUP and TEARDOWN METHOD:
+ ctr + insert 	-->select testMethod;insteading of typing @Test manually and a methodname
+				in generate menu, you can select setup method,teardown methods as well in a test class
+
+VERSION CONTROL:
+ctr + K	-->
+ctr + D
+ctr + alt + Z
+ctr + v --> all version options
+
+REFORMAT:
+alt + ctr + L -->to format whole class;select text to format certain method
+
+OPTIMIZE IMPORT:
+ctl + alt + O	-->unused imports are removed
+
+NAVIGATING TO COMPILATION ERROR:
+esc key when compilation error occurs takes focus to error
+ctr + alt + downwards --> takes to the next error
+
+LANGUAGE INJECTOR:
+String s="";
+lets say we need to have json as an string value 
+ctr + N --.now when cursor is inside double quotes press select inject language or reference;select json;other are text,xml..kotlin etc
+or ctr + enter --.then again ctr + N  give a new tab where you can start typing json string,its equivalent sting will appear in original editor
+ctr + w --> to exit json fragment
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+

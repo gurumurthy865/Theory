@@ -1,0 +1,322 @@
+Security,performance,scalability are non funcational requirement that are not defined by client but we need to set it up
+Security is required to save our internal implementation logic,to make sure only authenticated user access only authorized features
+without security both data and money are lost
+CRFS,CORS,etc attack should be avoided
+
+adding spring security dependency itself will give username password feature in UI
+
+
+understanding on how multiple request work with out asking credentials again and again?
+ the spring security automatically generates a session id ie. jsession id as cookie when first tiem logged in with user name and password and that will be used further..... can be verifie in postman
+
+Spring internalFlow of security and architecture?
+ refer pdf
+when user enters credenitials it is intercepted by Authentication filter class,, then authentication interface creates an credentials objects and passes to authentication manager
+ auth manager decides which is the correspondent authentication provider the request should go,, we may have lot of credentials to validate like database or oAUth or etc.....
+ once auth provider recieves,, here is all our business logic related to security like how to validate the user is implemented
+ auth provider inturn users two interfaces,,, user details service which holds user schema ie. how user credentails look like and
+ passwoed encoder is interface explains how passwoed is encoded,decoded,encrypted decrypted etc
+then flow go back to authn manager to auth filter... once filter recieves authntication object from manger the object is passed to security context where details will be stored inside container
+ in this scenario the token is hold by security context.... call it  place where all credetials stored once authenticated,,, so next time when same credentials it wont go through complete process since 
+ already data exist in security context
+
+ 
+WebsecurityConfigurerAdapter interface implementation..
+ it has confiure method which says all formLogins() ie. coming through forms(browser) and httpsBasic ie request from restTemplate/postman through backend has to be authnticated.
+
+spring security by defaults expects all requets to be authenticated
+then we can customize saying these request need to be authenticated and these not
+then going further,assume all the request to be denied from night 12PM to 4PM ,,, in such scenario instead of authenticated, use  anyRequest().denyAll() which rejects even authnticated user requests
+ throwing 403 forbidden error
+when you do not want security at all,then use anyRequest.permitAll()
+
+above all is achieved by overriding the method configure(HttpSecurity http) method of websecurityconfigurerAdapter
+our application is not accessed by single user,,, to customize for multiple users we again overload the configure method as shown below
+
+protected void configure(AuthenticationManagerBuilder auth) method
+{
+auth.inMemoryAuthentication().withUser("admin).password("234").authorities("admin").and().*here another user can be configured*.passwordencoder(NpOpPasswordEncoder.getInstance());}
+passwordEncoder is very important factor here
+now the credentials in application.prop is not acceptd but above is
+
+but for more users configureation you cal also IMMemoryUserDetailsManager userDetailService=new InMemoryUserDetailsManager();
+UserDetails user= User.withUsername("admin").password("123").authorities("admin").build();
+userDetailService.createUser(user);
+auth.userDetailService(userDetailService); where auth is parameter of method configure (AuthenticationManagerBuilder auth)
+
+it will throw error unles you create password encoder as below
+@Bean
+public PasswordEncoder passwordEncoder(){
+return NoOpPasswordEncoder.getInstance();
+}}
+
+
+Understanding User Management interfaces and classes:
+
+InMemoryUserDetailsManger,JdbcUserDetailsManager,LdapUserDetailsManager classes implements UserDetailsManager interface that has methods  create user,updateuser,changepassword,userexist etc
+UserDetailsManager interface inturn implements UserDetailsService interface that has method loadByUserName(that returns UserDetails object)
+ which implements interfce UserDetails which has getpassword,getusername,getauthorry, is accountNonExpired(),isCredentialsNotExpired,isEnabled() etc
+
+loadByUserName-- to get the data from database, we should not enquire using password as db could debug the quries and it is not good
+so UserDetailsService is more into how we should fetch the data from the database
+
+we can also have our own custom implmentation of UserDetailsService by using jpa reposiroty and returing UserDetails object in service layer
+
+
+Password Management with Password Encoders:
+ how password is validated? spring calls loadByUserName to get the data from db ,, when mathces further it process else throws 401 unathourized error
+ this is not good as password is stored in the database directly,, but this the default implementation by springSecurity
+
+Encoding Vs Encryption Vs Hashing
+ Encoding is process of converting data form one form to other,,, noting related to cryptography.... say 12345 converted to 54321 using algorithm and in backend again an algorithm to reverse and read it
+ but it lacks inetegrity as anybody can decode easily if someone knows encoding approach,, encoding is not used in security ,,, is used in say sending image you will send in binary and then decode again
+ ASCII,BASE64,UNICODE are some examples of encoding
+
+Encryption:
+ while encrypted it gurantees confidentiality, to achieve it encryption requires the use of a secret whichis cryptographic terms ,,we call it a "Key"
+ encryption divided into symmetric and asummetric,,, even though they know algorithm they cant decrypt because it is associated with key,, which is used in encryption and decryption
+we need to store the keys in properties file, or environment variable, which is a security concern
+ example:credit card details ie. database encyption an example of symettric encryption
+example:TLS,VPN,SSH are asymetric where there is public key known to everyone to encrypt and private key. privat key used by encryptor to decruypt... 
+it is reversible
+
+Hashing:
+Non reversible function,,, once hash is generated out of string , no one can reverse and see the origin text
+then how it(password) is verified or authenticated..... it compared the hashcode generated in our end and hashcode generated by database,,
+
+How our password will be validted using hashing by Spring Security?
+ loadbyUsername method return hashcode,,, also data recieved from ui is also hashed to generate code to compare aganist
+ 
+ PasscodeEncoder interface has three method, 
+String Encode(CharSequence rawpassword) accept raw password from user and encoded using encryption or hashing or any other method,
+boolean matches(CharSequence rawpassword,String encodedPassword), compared with the database password
+default boolean upgradeEncoding(Stirng encodedPassword).. encodes the encoded data,,, double security by processing time will be more
+
+other flavours of password encoders are like
+Noop,standars,pbkdf2,BCrypt,SCrypt,, most of the application should be good leveraging these features... Bcrypt is the famous encoder....
+
+NoOpPaawordEncoder: all our code should follow implementation provided by NoOpPasswordEncoder,, it is depreceated as it is not production grade implementation
+
+StandardPasswordEncoder:uses SHA-256,, in this two constructors,, one withour using any salt or hashing;other one is we can also mentino a secret
+	in matches method it tries to decode the encodedpassword,then from it generates the salt and compared with raw password.. here it is not way hashing,reversible and hence not recommended
+
+BCrypt and SCrypt:
+Bcrypt can be instantiating a no argument construter,,, also in 2nd constructor you can mention coefficient value an integer ie. how many times you need to encode,,, third you can pass SecureRandom
+object to generate a ranodm salt value
+PasswordEncoder p=new BCryptPasswordEncoder();PasswordEncoder p=new BCryptPasswordEncoder(4);
+SecureRandom s=SecureRandom.getInstanceStrong();PasswordEncoder p=new BCryptPasswordEncoder(4,S);
+in Bcrypt you can also mention of verion 2A,2Y,2B....
+Bcrypt.hashpw(rawpasswors,salt);
+Bcrypt.checkpw(rawpassword,encodedpassword)-->returns boolean
+
+ with sophositcated gui/cpu even this can be attcked... 
+hence we prefer Scrypt as well
+
+Scrypt uses a Scrypt hashing function to encode the password,, also it has so many parameters and depends upon the algorithm time taken to decrypt by user making it secure.
+long time ,memory ,processor requried to crack
+Scrypt(16384,8,1,32,64),, cpucost,memoery cost,parallization,keylength,saltlength(that you want to generate) of the algorithm are defined in the constructor
+
+
+pbkdf2passwordEncoder:password based key derivation fucnation 2 is apretty easy slow hashing fuction that performs an hashed message authentication code as many times as specified.
+ it has constructor to define lenght of hash and no of iteration,,, more these values stronger the hash to decode,,, drawback is slow but more secure than B and S crypt.
+it has encode matches and decode method as it is 
+
+Implementation of Bcrypt: in ui you will give username and password correctly as stored in DB, still login fails because password in the databse is not ecrypted but plain text.
+ "encoded password does not look like BCrypt" error thrown by spring security
+how to replace the password now in Bcrypt value?
+the userDetails method that implemented Bcryptpasswordencoder will take care of it when stored initially or r go to bcrypt-generator.com generate for ur password and update in database
+
+Note:Spring Security Crypto package is what provides methos like SecureRandom etc to generate salt and hashing.
+
+
+
+AuthenticationProvider Role and Implementatino in SpringSecurity:
+ It leverages userDetailsService(how call will come to validate) and PasswordEncoder( how encode,generate salt) perform authentication.
+ 
+ user details-->AuthnticationFilter-->AuthenticationManager-->AuthenticationProvider-->USerDetailsService and PasswordEncoder
+
+scenario 1 --> application 1 ;user credentials accepted and authenticated by spring security as discussed so far
+scenario 2-->application 2 which accepts finder print
+scenario 2-->applciation 2 which accepts OTP code
+when we have our own custom authentication not provided by spirng security, then we can build our own authntication logic by implementing AuthenticationProvider interface
+
+AuthenticationProvider has two methods authenticate which accept and return Authentication object and other method is "supports" to check on what type of authenticaton it is .. like fact or fingerprint etc
+ AuthnticationProvider and AuthnticationManager are same except support method in AP
+
+java.security.Principal(Interface) that has method getName()..ie.name of the user implements org.springframework.security.core.Authentication that has methods 
+ getAuthorities,getcredentials,getdtails,getprincipal,isAuthnticated,setAuthenticated
+ getPrinciple usually referred to the username
+
+
+if we see our earlier implementation we used UserDetailsService interface implementation that return UserDetails object by loadbyUserName method but how this uses AuthenticationProvider?
+ check DaoAuthnticationManager-->AbstractUserDetailsAuthnProvider-->search authnticat method,,call will go to retrieveUser__> here you will see UserDetails return type.. and backtracking help you find
+ createSuccessAuthntication method where it leverages data used by UserDetails
+
+
+implementation:
+create a @Componenet class implements AuthnticationProvider,,, override autnticate and support method where user name and password taken from authnticaton object and directly calling repository
+and return UsernamePasswordAuthenticationToken
+
+in support method mention return authenticationType.equals(UsernamePasswordAuthenticationToken)..
+similarly you can keep changing  authenticationType.equals(FingerPrintAuthenticationToken).. in different class for different types
+
+
+
+CORS and CSRF:
+cors: cross origin resource sharing
+csrf:cross site reqeust forgery
+How to handle them using spring security framework?
+
+if a request is coming from a differnt scheme(https or https) or a differnet domain or a different port then it is called cors origin.. CORS is not security concent but default security implementation
+say ui runing on https:/domain1.com  consuming backend api runing on https://domain2.com
+in monolithic applciaton fornt end backend db everything hosted in single war file and hence no cors concept requeried,, it came up with microservices
+cors can be defined saying what is the origin domain,what type method allowed,headers,credentials and max time the cached detials can stay
+ implementation done in configre method of webconfiguretadapter implementation like...
+ https.cors().confiurationsource............
+
+
+CSRF is nothing realted to CORS,comes even in monolitic application... it is about checking which user has what restapi access,,, in general for crud operations
+ CSRF does not steal the use identitiy but it performs operations without the users consent
+  ex. netflix.com password is changed by hacker using travelblog.com by passing the victim cookie and the endpoint used by victim as an html code in travelblog.com websire
+  or that cookie can be stealed when an user clicks on maliciours link
+this can be prevented by issuing CSRF token, this is used first when user loging to netflix.com during login which is never stored in cookie or browser session... but tied to user session
+implementation done along with cors itself.. you can enable and disable it
+how to generate csrf token in backend?
+csrf90.csrfTokenRepositoty.withHttpOnlyFalse()(which says can be read only by our UI).and().authorizedRequest()........ .. .. ..  and sent through http header
+this is stored in angular code in session storage with same name as XSRF token
+also inside intercept method of angular which is called everytime when backend api is called,we can pass csrf token store in session as header parameter
+ we can make changes to ensure CSRF is not applicable to certain rest api's
+
+
+Authorization:
+how internal flow is in spring security/
+authorization filter-->authentication filter-->controllers
+both point to security context
+once authentication is done data is stored in security context and then authorization is done
+
+GrantedAutority interface has single method getAuthority that provides the list of authorities the user has.. this will be called by spring security at run time
+in UserDetails object authorities properties will also be stored
+
+hasAuthority()--->single authority configured for endpoint,hasAnyAuthority()-->accepts multiple authorities,access()-->uses spring expression language to provide unlimited configuration
+authorities detials can be stored in a database table and map it with user table
+
+Role Vs authority
+
+
+
+Filters in spring
+Lot of times we need to perform some house keeping activities during the authenticationa nd authorization flow such as input validation,tracing,auditing,logging ip,encryption,otp authntication etc
+all such requirements can be handled using http filters isnide spring security
+authntication filter,authorization,cors filter are some inbuild filters in spring security
+Spring security is based on chain of filter design where each filter does its job and trnasfer the control to other filter
+Check for FIlterChainProxy.class-->VirtualFilterChain.classes doFIlter method
+
+our custom filters will have three paramters httpServletRequest,servletResponse and FilterChain and 
+three methods, addFIlterBefore,addFilterAfter,addFilterAt
+
+lets say we should not accept he username that has text "test" , in order to achieve it we can write a filter and inject into spring security using addFilterBefore method
+1st step implement Filter Interface
+then add that filter in config class that implements webconfiguresecurity interface
+
+addFilterAt-->say this filter and other filter same will have same order of execution and any of them might be executed first like threads by JVM
+
+GenericFilterBean and OncePerRequestFIlter are high level filters whereas previous discussed are basic implementation
+OncePerRequestFIlter extends OncePerRequestFIlter ,,,,,, they give doFIlterInternal Method
+
+
+JWT:Json web token
+Instead of username and password everytime JWT toekn is seen as a efficient way of authntication and authorizing.
+A token can be a plain string of format universally unique identifier(UUID) or it can be of type JWT usally that get generated when user get authicated for the first time
+
+when credentials validated,a token is sent to the client and this token is used to authnticate and authorize whenver request made by the user
+this token can be stored in databse or reddis optimized memeroy server or in session etc
+
+when JWT is used, we no need to use CSRF security as cookie is not used
+CSRF token and JSESSIONID tokens we had used earlier
+
+JWT has 3 pars separed by dots,,, header payload and signature which is optional
+JWT can used beyond auth and authroziation. we can store info inside token in encrypted format that need to be sent to client or other systerm
+header will have metadat,, like type of token,algorithm used etc,, before sending client it is converted using encode Base64 so client can decode it
+in body we will have user details when crated when expires(so use of session is avoided) etc again which is converted into Base64 encoded value
+signature can be used to ensure token is not tampered using hashvalue
+
+implementation-->sessionManagement().sessionCreationPolicy(STATELESS).and().cors()......... and expose headers Authorization
+
+configuring filter to generate and validate JWT Token:
+
+class JWTTOkenGeneratorFIlter exgends oncePerRequestFilter
+ define like when path is not /user do not apply this filter in overridden method called shouldNotFilter
+ then genrate key in doFIlterInternal method and set it in response header
+then we have to write one more filter to validate token by getting it from response header in all cases except /user ,, this also extends onceperrequestFilter 
+ here the hashcode is generated from jwt token and compare with already hashvalue presnt in jwt token to ensure jwt is not tampered
+if allgoes well we get username, get authorities and build new authentication object and pass on to next filter
+when each request is made, new authenticatin object is created
+in configuration class addFIlterbefore used for validationa and addFIlterafter to generate the token
+
+in angular interceptor class you can get JWT token and send it as a header parameter each time the request happens to backend
+
+
+@EnableGlobalMethodSecurity can be used to put security at service repository levels
+
+
+oAuth2:
+problem with oAuth is we get username and password,,, where we share over and over again,, execute logic every time,, also maintianing credentials is also a concern
+say we have 3 application and an user has to have 3 credentials or atleaset we should have multiple authentication done for each application(if multiple database there that is also issue)
+so Common authorization server is preferred
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

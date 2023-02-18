@@ -1,0 +1,173 @@
+NPB architecture:
+national private banking is loan portal aganist pleding securuties,shares
+scalable application,,,Two tenants: fidility and ITNC...wealth management portfolio
+UI-->angular
+middle layer--> series of sb , microservie architecure
+sql as server at premise,,, TIBCO integration layer which speaks to fidility and ITNC
+TIBCO also talks to collataral engine ICE which calculates credit amount on securuties
+containerization,, orchestration,,,,,, using docker and kubernates
+vm is virtualization in hardware level ,, whereas containerization is virtualization on hardware level
+
+API composition pattern in microservice
+a facade layer called npb server core act as aggregate
+UI layer interact with this face layer which inturn interact with other microservices
+
+Rancher:UI interface of kubernetes cluster
+
+K8's pipeline rauncher--> is a folder where we write all configures about deployment
+Namespace-->one physical cluster of kubernetes divided into multiple namespace
+ these config avilable in jenkins-pipeline-config.poperties
+
+
+Similar to configserver in kubernetes we have configmaps for all environments,, which will be injected as environmental variables into containers
+
+Kubernetes DNS discovery ...
+
+instead of zulu api gateway we use ingress controller which act as loaderbalancer,router,gateway or to UI.
+
+kibana
+
+logging:never log customer info,,ie.. PI info like dob,ssn,aadhar etc,,,, use debug logging for it
+
+jenkins for deployment
+
+every sb app has a dockerfile ,a set of instruction to docker hub containers
+
+twistlock in jenkins scans the image,, checks versions used is latest,if it is vunarable etc security issues flagged out by it
+deployment done only to dev layer,, then it is only promotion to higher layer...
+===============================================================================================================
+
+Security:
+authentication and authorization:
+autorization is about access to services
+central identity access management across organization:
+each app has one id and federated server check if user has access to this id and takes action
+
+Tool:SAML tracer to check the logs of login
+
+welscape talks to --->federation server--->now user wants to access NPB app( reflects if he has acess)-->redirects to our app with open token
+contains basic info like id,name,firmid,role,authcontext,subject,portalid,LOB etc
+token valid for 7 seconds to reidrect to our app in prod, 20-30 seconds in dev staging env
+authentication will not stop on redirecting, authorization happens on users access to rest api's
+ex:borrower is logged in, he should not be able to login to trust page,,, all these taken care in spring security
+JWTUtil.java is class where token is created
+
+filter creates an authenticationt token which will be validated by provider,,, used database to validate,,,,
+similar logic used to valid our end request
+NPCPreAuthFilter.java generates token... X-Auth_token is the name of the JWT token
+token generated sentto NPBpreAuthProvider.java 
+NPBPreuhUserDetailService.java 
+if no error in above classes,on successful authentication  the token is set into spring security context 
+note:client or business user is differenciated based on role attribute
+NPBsecurityconfig.java
+pageaccessfilter.java--> to check which rest api it has access
+resourceaccessfilter.java
+requestvalidator.java
+
+cachingfilter-->every request is a stream,,once read it will close and does not reach controller
+                        so we have decorator pattern here we are reading reqeust and we are caching it as array, so that request can be read multiple times
+                        
+
+
+FILTERCHAIN PATTERN IN SPRINGSECURITY
+
+=============================
+Client security:Introducton to PI and audit trail
+
+
+otp service and kba service are microservices designed for authentication
+otp-service is an one time password generation service,service consumed by applyservice within us bank
+kba- knowledge base authntication,,lepsis which is us govt org service is integrated  and nothing developed in this ms on own
+        static kba and dynamic kba--> same set of   questions or varied questions
+     to access kba we should know ssn and dob
+
+confluenceconsumerbanking.us.bank-dns.com is where you will find documents related to security
+
+auditable.java has attribute that is commo  to all entities/tables which contains column like user,created by ,created data etc
+agreement.java;auditawareimpl.java
+audit.java is also a common entity like autidable.java
+
+PI-->personal investor
+
+===================================================
+Database:
+
+select * from NPB.NPBApp.AGREEMENT
+when user pledge asset and whatever colletaral engine give the result is called agreement
+
+agreement table has two types of records:agreement_type-->application,illustration
+
+select * from npbApp.AGREEMENT_ASSN_XREF
+should never delete data from above table either in uat or prod
+
+Players:am  a player if am pledging my securuties and other person borrwoing money
+            a trust can be a player
+  AGREEMENT_INVOLVED_PARTY==>one to many table one pledger can have multiple borrower 
+ all the pledgers will be linked to illustration and borrower to application
+
+AGREEMENT_INVOLVED_ACCOUNTS:as name suggest this will contain all account involved in a particular aggrement
+ACCOUNT:account details in detail
+PARTY:all the entity,business,trust identified as party,there are be thrree types business  natural person or trust. thsi table gives that info
+
+
+advisor always belong to a firsm(ie. organisation, fidility has lot of firm associated with it)
+when advisor login,firm details will be attached to token.consider a person logging for the first to aapp, the firm related details will be saved in 
+FIRM table:
+when business say firm=FIRM+PARTY as a business combination records,, there is foreign key relation
+
+PARTY_RELATIONSHIP:relationship between two parties,, like spourse, firm partnet,custodian parent etc.
+USER PROFILE:
+ACCESS_role:
+these are the above tables that affected when user loging for the first time
+say tomorrow user got promotion, we expire old profile and create new one with new userid.
+
+DB session2:
+INtrest_rate-schedule and interest_rate-tier are master table , data not changed through application
+
+AGREEMENT_HIST:history details
+LOOKUP:master table, dropdown like country code etcand other details mentioned here 
+data-procssing-logs-->data inserted into this table only when batch ie. scheduler runs
+
+==========================
+PRE and POST production steps:
+GIT
+push to master
+maintaining db code version
+fortify security:has high, moderate and low issues, there should be no high issues.. similar to veracode
+adn we have blackduck as well for same job
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
