@@ -1,0 +1,440 @@
+1.Tell me about yourself.[2 min]
+My name is Gurumurthy.
+I have total expierence of 7 years in IT field.
+Currently am working as software specialist in Societe Generale.
+To summarise my technical expertise:
+Started my career with oracle pl/sql developer where my day to day life involved writing stored procedure,functions,creating views,index,
+performance optimiztion,data loading etc. I worked for around 2 years.
+Then moved on to a java support role for an monolithic banking application that calcualred stock market fund perfomace analysis, lot of upstream
+and downstream data that we processed in batches. Its a legacy application with JDBC,sybase and java 7.I worked for an another two years.
+That's when i fell in love with java and moved on to become an full fledge backend java developer for US bank for another 1.5 years.
+In current organization my day to day activity involes sprint planning in agive methodology,backend developement, code review and i have picked up some slack
+react and angular too.This is about my technical background and experience.
+About me as a person:
+I like to describe myself as a good listener,team player and self starter who can also work independently with evaulation approches driven by goals and
+deadlines and constantly work on things where there is scope for me to to improve like express myself in simple way/explaining things clearly.
+Because i love teaching and training people and at the end of the day i like to leave office with a smile on my face.
+
+================================================================================================================================================
+2.Your roles and responsiblities in your application . [1min]
+
+
+
+================================================================================================================================================
+3.Tell me about the architechture of your application.[3 min]
+Title: First and foremost the goal and purpose of project I work for is to achieve zero physical papaerwork,ecofriendly by adopting e-signature of documents/contracts in banking domain .
+Microservice: Coming to architecture ours is an Microservice based application designed using facade design pattern.
+    Initially we have services one service that act as facade contian all api and one for core logic, one for communication like email, otp,send reminders
+ and finally to a module to recieve webhook notifications from third parties. We have thrid party dependency that would bring downtime to our application so we converted
+our service that had core logic into a multi module and incorporated another service provider so if one is down you can still choose other to create contrats.    
+Backend:No need to mention its an enterprise application where we use java 11
+Deployment:It is a CI/CD application. Code is moved to git, jenkins is used for deployment. An image is created in UAT and same is promoted to production.
+Hosted environment: AWS cloud, application sits on ec2 server.
+Framework: springboot framework where we exploit feature likes transaction manangement,AOP Aspectj for logging,actuator for health check,swagger io
+DD:hibernate used to connect to db which is postgres
+cache:Not extensively used, but we caffine 
+Logging: we use log4J, we used to log for cloudwatch on aws, now we intregrate Kibana for central logging 
+Authentication:and finally authentication
+
+================================================================================================================================================
+4.Agile methodology [1min]
+sprint duration 
+sprint retrospective 
+sprint planning 
+spring closing ceremony
+jira
+================================================================================================================================================
+4.Tell me about security of your application.[5 min]
+Security is the biggest non functional requirement and its very crucial for any application.
+
+First part let's talk about Authentication:
+Here question is how do i secure my web/mobile application?How do i verify an user ? how do i handle multiple logins?
+We use in house SSO(Signle sign on ) authentication method  that enables users to securely authenticate with multiple applications and websites by using just one set of credentials.
+SSO works based upon a trust relationship set up between an application also called service provider, and an identity providerIn SSO.
+This identity data takes the form of tokens which contain identifying bits of information about the user like a user’s email address or a username.
+The login flow usually looks like this:
+1.A user browses to the application or website they want access.
+2.The Service Provider sends a token that contains some information about the user, like their email address, to the SSO system
+3.The Identity Provider first checks to see whether the user has already been authenticated, in which case it will grant the user access to the Service Provider application and skip to step 5
+4.If the user hasn’t logged in, they will be prompted to do so by providing the credentials required by the Identity Provider. This could simply be a username and password or it might include some other form of authentication like a One-Time Password (OTP).
+5.Once the Identity Provider validates the credentials provided, it will send a token back to the Service Provider confirming a successful authentication.
+6.This token is passed through the user’s browser to the Service Provider.
+7.The user is granted access to the Service Provider.
+When the user tries to access a different website, the new website would have to have a similar trust relationship configured with the SSO solution and the authentication flow would follow the same steps.
+Here the token sent will also contain details of the application to which user has access, the api's that they can access, roles etc.
+
+
+Second part is Authorization:
+When it comes to authorization the question i ask myself is: how to maintain user level security based on their roles and grants associated with them?
+This is where spring security comes.
+Spring Security’s Servlet support is based on Servlet Filters, so it is helpful to look at the role of Filters generally first.
+FilterChain:we are using four filters and order of them is defined using annotation @order(1),, @order(2)... etc
+1.PublicTokenAuthenticationFilter
+2.TrustedClientApplicationFilter
+3.RoleFilter
+3.CsrfHeaderFilter
+
+The client sends a request to the application, in Springboot application the Servlet is an instance of DispatcherServlet that can handle a single HttpServletRequest and HttpServletResponse at a time, but can have multiple filters.
+Each filter modify the HttpServletRequest or HttpServletResponse used by the downstream Filter instances and the Servlet and 
+chain.doFilter(request, response) used to send it to next filter.
+
+A.AuthenticationFilter: intercepts and performs authentication of a particular request by delegating it to the authentication manager. 
+
+B.Authentication:The Authentication interface serves two main purposes within Spring Security:
+An input to AuthenticationManager to provide the credentials a user has provided to authenticate.When used in this scenario, isAuthenticated() returns false.
+Represent the currently authenticated user.You can obtain the current Authentication from the SecurityContext.
+
+C.AuthenticationManager - the API that defines how Spring Security’s Filters perform authentication.
+Authenticationmanager(parent)-->ProviderManager-->AuthenticationProviders
+ProviderManager - the most common implementation of AuthenticationManager.
+AuthenticationProvider - used by ProviderManager to perform a specific type of authentication.
+one AuthenticationProvider might be able to validate a username/password, while another might be able to authenticate a SAML assertion.
+This lets each AuthenticationProvider do a very specific type of authentication while supporting multiple types of authentication and expose only a single AuthenticationManager bean.
+
+D.SecurityContextHolder - The SecurityContextHolder is where Spring Security stores the details of who is authenticated successfully.
+ Spring Security does not care how the SecurityContextHolder is populated. If it contains a value, it is used as the currently authenticated user.
+Authentication authentication = SecurityContextHolder.getContext.getAuthorization();
+SecurityContext - is obtained from the SecurityContextHolder and contains the Authentication of 
+the currently authenticated user.
+ie.securityContextholder-->securitycontext-->Authetication-->principals,credential,authorities
+The Authentication contains:
+principal: Identifies the user. When authenticating with a username/password this is often an instance of UserDetails.
+credentials: Often a password. In many cases, this is cleared after the user is authenticated, to ensure that it is not leaked.
+authorities: The GrantedAuthority instances are high-level permissions the user is granted. Two examples of grantedAuthorities are roles and scopes.
+You can obtain GrantedAuthority instances from the Authentication.getAuthorities() which is a collection.If this collection is null we decline access.
+These roles are later configured for web authorization, method authorization, and domain object authorization.
+
+How do i implement security at each level of my application using authorization rules?
+As of now we have applied authorization rules on the API paths/URLs using spring security but method level
+security allows to apply the authorization rules at any layer of an application like in service layer or repository layer
+etc. Method level security can be enabled using the annotation @EnableGlobalMethodSecurity on the configuration class.
+Then Invocation authorization -->@PreAuthorize annotation is used.
+@Service
+public class LoanService {
+@PreAuthorize("hasAuthority(‘admin’)”)
+@PreAuthorize("hasRole(‘admin’)”)
+@PreAuthorize("hasAnyRole(‘admin’)”)
+@PreAuthorize("# username == authentication.principal.username")
+@PreAuthorize("hasPermission(returnObject, 'admin')")
+public Loan getLoanDetails(String username) {
+return loanRepository.loadLoanByUserName(username);
+}
+}
+
+There is also Filtering authorization –->@PostAUthorize Validates what a method can receive through its parameters and what the invoker
+can receive back from the method post business logic executed.
+
+like 
+@Service
+public class LoanService {
+@PostAuthorize ("returnObject.username == authentication.principal.username”)
+@PostAuthorize("hasPermission(returnObject, 'admin')")
+public Loan getLoanDetails(String username) {
+return loanRepository.loadLoanByUserName(username);
+}
+}
+
+If we have a scenario where we don’t want to control the invocation of the method but we want to make sure that
+the parameters sent and received to/from the method need to follow authorization rules, then we can consider
+filtering
+
+@Service
+public class LoanService {
+@PreFilter("filterObject.username == authentication.principal.username")
+public Loan updateLoanDetails(Loan loan) {
+// business logic
+return loan;
+}
+}
+
+
+@Service
+public class LoanService {
+@PostFilter("filterObject.username == authentication.principal.username")
+public Loan getLoanDetails() {
+// business logic
+return loans;
+}
+}
+We can use the @PostFilter on the Spring Data repository methods as well to filter any unwanted data coming from the database.
+
+
+
+
+
+how to store my password,validate them,encode,decode them using industry encryption standard?
+
+CSRF attacks and CORS restrication and how to overcome them?
+JWT and oAuth2. how to protect my web app using them?
+how to prevent brute attacks,security attacks,stealing of data, session fixations etc.
+
+================================================================================================================================================
+what is object class?
+The Object class is the parent class of all the classes in java by default. In other words, it is the topmost class of java.
+The Object class is beneficial if you want to refer any object whose type you don't know.
+
+what are the methods in object class?
+Totally 9 methods
+
+1.equals()
+Object class equals method does reference comparison ( == operator).
+
+It is reflexive: for any non-null reference value x, x.equals(x) should return true.
+It is symmetric: for any non-null reference values x and y, x.equals(y) should return true if and only if y.equals(x) returns true.
+It is transitive: for any non-null reference values x, y, and z, if x.equals(y) returns true and y.equals(z) returns true, then x.equals(z) should return true.
+It is consistent: for any non-null reference values x and y, multiple invocations of x.equals(y) consistently return true or consistently return false, provided no information used in equals comparisons on the objects is modified.
+For any non-null reference value x, x.equals(null) should return false.
+For any non-null reference values x and y, this method returns true if and only if x and y refer to the same object (x == y has the value true).
+
+        String str = "guru";
+        String str2= "guru";
+        String str4= new String("guru");
+        String str5 = new String("guru");
+
+        System.out.println(str.equals(str2)); true
+        System.out.println(str4.equals(str5)); true
+        System.out.println(str4 == str5 ); false
+        System.out.println(str == str2 ); true
+        System.out.println(str == str5 ); false.. to understand this it is necessary to know how objects created in heap and scp 
+
+
+2.public int hashCode()
+Returns a hash code value for the object.
+The general contract of hashCode is:
+Whenever it is invoked on the same object more than once during an execution of a Java application, the hashCode method must consistently return the same integer, provided no information used in equals comparisons on the object is modified. 
+An object hash code value can change in multiple executions of the same application.
+        String str = "guru";
+        String str2= "guru";
+        String str4= new String("guru");
+        String str5 = new String("guru");
+        String str6 = new String("gurumurthy");
+
+        System.out.println(str.hashCode());
+        System.out.println(str.hashCode());
+        System.out.println(str2.hashCode());
+        System.out.println(str2.hashCode());
+        System.out.println(str4.hashCode());
+        System.out.println(str5.hashCode());..............all above returns same hashcode
+	String str6 = new String("gurumurthy");........ this one produces a different hashcode
+
+Note:In above case hashcodes are produced based on string value
+public String2(String original) {
+        this.value = original.value;
+        this.hash = original.hash;
+}
+
+If two objects are equal according to equals() method of object class,their hash code must be same as they will have same reference..ie. in above example str and str2 should return same hashcode...
+however, it does not mean if two objects are unequal, then hashCode method on each of the two objects must produce distinct integer results. However, the programmer should be aware that producing distinct integer results for unequal objects may improve the performance of hash tables. ie.In above exmaple str4 and str5 are not equals ,, but the hashcode are same which is need not to be.
+whereas str5 and str6 hashcodes are not same
+
+As much as is reasonably practical, the hashCode method defined by class Object does return distinct integers for distinct objects.
+for example str4 and str5 are differnt objects but produces same hashcode.
+Distinct hashcode is typlically implemented by converting the internal address of the object into an integer, but this implementation technique is not required by the JavaTM programming language.
+
+3.toString();
+4.getClass();
+5.clone();
+6.finalize()
+7.wait();
+8.notify();
+9.notifyAll()
+
+what is the contract between equals and hashcode method?
+Note that it is generally necessary to override the hashCode method whenever equals method is overridden, so as to maintain the general contract for the hashCode method, which states that equal objects must have equal hash codes.
+
+what happens when equal method is overridden and not the hashcode method and viceversa?
+Note that your program will not throw any exceptions if the equals() and hashCode() contract is violated, if you are not planning to use the class as Hash table key, then it will not create any problem. 
+https://www.youtube.com/watch?v=WB1Jia3sXh0
+So object class has equals , hashcode and tostring method.
+Lets consider a class 
+public class person {
+private string name;
+private int age;
+constructor(int age,string name){
+this.age = age;
+this.name =name;
+}
+
+public class TestPerson{
+public static void main (string[] arg){
+Person p1 = new Person("A",20);
+System.out.println(p1); or System.out.println(p1.tostring);both are same as p1 calls internally tostring my object class
+System.out.println(p1.hashcode());
+}
+}
+this produces output demo.person@456da3 where 456da3 is a hashcode in hexadecimal value and 156783839938 is a hashcode integer
+
+Now lets override hashcode method by introducing the this method in person class
+@override
+public int hashcode(){
+return this.age;
+}
+this produces output demo.person@13 where 14 is a hashcode for age 20 in hexadecimal value and 20 is a hashcode integer
+
+
+Now let me compare two objects 
+Person p1 = new Person("A",20);
+Person p2 = new Person("A",20);
+System.out.println(p1 == p2); this compares address of first object to address(reference) of second object and returns false
+System.out.println(p1.equals(p2));Note p1 is an object,so equals is an object class method & returns false.but here it should compare content
+Here equals method is of object class and object class(in general super class) cannot compare data of person class(child class)
+so lets override the equal method so we can compare objects based on data
+
+@override
+public boolean equals(Object obj){
+if (obj == this)
+    return true;
+if (!(obj instanceof return Person))
+    return false;
+Person person = (Person) obj;
+return person.getAge() == this.getAge()
+                && person.getName() == this.getName();
+}
+when we call p1.equals(p2),,p1 calls method equals,so "this" refers to object p1 and argument obj is p1.. hence we return true when obj == this
+
+@override
+public string toString(object obj){
+return this.age + "," + this.name;
+}
+tostring is to get some meaningful name when object is printed,, instead of garbage and  hashcode in hexadecimal value
+now System.out.println(p1.tostring) or even System.out.println(p1) would return A,20 instead of demo.person@456da3
+
+at this moment , everything is working fine ,, equals method works fine,, so there is no scope of overrding hashcode method...
+
+lets wait,,,,,,,,
+public static void main (string[] arg){
+Set set  = new LinkedHashSet<>();
+set.add(new Person("A",20));
+set.add(new Person("B",30));
+set.add(new Person("A",20));
+set.add(new Person("C",20));
+for(Person p: set)
+System.out.println(p1);
+}
+}
+ideally above should print only 3 values but it prints 4,, 
+why? we have an
+object with value A and 20,, whose hashcode is 200
+object with value B and 30,, whose hashcode is 300
+object with value A and 20,, whose hashcode is 400
+Now first object goes to a bucket say 2 with formula bucket= hashcode/100;where 100 is no of buckets,,, second to 3rd bucket and third object
+to 4th bucket allowing a duplicate value in set
+To eliminate this, we have to make sure the 3rd object goes to bucket 2..where 1st and 3rd object are compared and inserted only if not same
+so accepting hashcode provided by java caused issue, hence we should override
+
+in the above overrided method, we returned age as hashcode becuase of contract, when object are equal hashcode must be equal.. 
+so ideally if objects are equal then there ages must also be equal,, hence we returned age.
+so with this 3rd object is directed to first bucket based on age value 20 and it is compared based on age and name and then inserted.
+so if we bring another 4th object say, B and 20,, then it would direct us to 2nd bucket ,, but inserts value as A 20 is differnt from B 20.
+
+
+if only equals method is overridden, we won’t be able to retrieve the value because HashMap use hash code to find the bucket to look for the entry and it might look at wrong bucket as while inserting key produced a differnt hashcode than what it is now. and one another factor is allows the duplicate key as it generates a different hashcode for the same key
+If we only override hashCode(),all the time same hashcode will be returned and we go to the right bucket but value may not be retrieved because equals() method might return false as it does reference comparison.
+
+
+why there is notify and other multithread related methods in object class?
+Important point to note here is that monitor is assigned to an object not to a particular thread. That's one reason why these methods are in Object class. To reiterate threads wait on an Object's monitor (lock) and notify() is also called on an object to wake up a thread waiting on the Object's monitor
+================================================================================================================================================
+String:
+case 1:
+String s = new String("guru"); 2 objects will be created .
+using the new keyword guarantees that a new String object will be created and a new memory location will be allocated in the Heap memory,so compulsory  one object "guru" will be created in heap area with s as reference and 
+for every String literals and constant String expressions a new object will be created in string constant pool, that is why the name constant.
+note that this is  are cached at compile time.. ie. when application loads.The compiler puts them in the String Literal Pool to prevent duplicates and improve memory consumption
+implicitly reference variable is maintained by jvm for scp objects. some part of Heap area is reserved for scp
+objects in scp is not elegible for garbage collector , it is maintained by jvm
+String s = "guru"; 1 object will be created.
+that is in scp area.If the object is not present with the content only then the object will be created.
+so for String s = new String("guru") and String s = "guru"; totally only 2 objects will be created.
+
+
+case2:
+String s1 = new String("guru"); 2 objects,since new keyword is used one in heap area with refernce s1 and other in scp as content guru is not present in scp
+String s2 = new String("guru"); 1 object,since new keyword is used one in heap area with refernce s2 and already content is present in scp so not created
+String s3 = "guru";0 object,since there is no new keyword no heap area object and already content is present in scp so s3 refercne is pointed to scp
+String s4 = "guru";s4 refernce is pointed to content "guru" in scp area(future purpose: this is scp is used)
+totally 3,ie. 2 objects in heap area and 1 object in scp
+
+case3:
+String s = new String("guru");2, one in heap and other in scp
+s.concat("murthy"); 1 in scp with content murthy as it is literal,
+during runtime operation if objects are created, it is created only in heap area not in scp. so 1 object with content gurumurty in heap.
+but it does not have any reference in heap memeory, hence it is availbe for garbage collector. 
+s = s.concat("solutions"); 1 in scp with solutions as it is literal,due to run time opearation 1 object gurumurthysolutions in heap area referencing s
+since s now reference gurumurthysolutions , guru will be availabe for GC
+toally 6 objects, guru, gurumurthy,gurumurthy solutions in heap area with guru availabe for gc and guru,murthy,solutions in scp
+
+
+
+
+
+============================================================================================================================================
+what is singleton class? how do you create it.
+In Java, Singleton class is a class that controls the object creation.
+It means the singleton class allows us to create a single object of the class, at a time.
+It is usually used to control access to resources, such as database connections
+It ensures that only one connection is made and a thread can access the connection at a time.
+Nevertheless, if we try to create the second object of the singleton class, it points to the first instance of the singleton class. 
+
+To create a singleton class, we must follow the steps, given below:
+Ensure that only one instance of the class exists.
+Provide global access to that instance by:
+Declaring all constructors of the class to be private.
+Providing a static method that returns a reference to the instance. The lazy initialization concept is used to write the static methods.
+The instance is stored as a private static variable.
+
+The main difference between these normal and singleton classes is an instantiation. To create an instance of a normal class, we use a constructor. On the other hand, to create an instance of a singleton class, we use getInstance() method.
+
+class SingletonClassExample   
+{   
+// static variable s of type Singleton   
+private static Singleton s = null;   
+// variable of type String   
+public String str;   
+//private constructor of the Singleton class that restricted to this class itself   
+private Singleton()   
+{   
+str = "it is an example of singleton class.";   
+}   
+//static method to create an instance of the Singleton class   
+// we can also create a method with the same name as the class name  
+public static Singleton getInstance()   
+{   
+//lazy initialization  
+if (s== null)   
+s = new SingletonClassExample();   
+return s;   
+}   
+}  
+================================================================================================================================================
+Memory model of Java:
+
+
+================================================================================================================================================
+Static modifier:
+1. We are decalre a variable,method as static.
+2. Also we can declare inner classes as statis but not the top classes.
+3.In case of instance variable for every object a separate copy will be created, in case of static a single copy is created at class level.
+ie...
+ex:
+public class Test{
+static int x = 10;
+int y=20;
+psvm(){
+Test t = new Test();
+t.x=100;
+t.y=20
+sout(t) ,,, wil give 100,200
+Test t2 = new Test();
+sout(t2)... will give 100,20
+}
+}
+4.Instance variables cannot be directly accessed in static methods
+5.Inheritance application for static methods inlcuding the main method
+6.If you are not using any instance varaible compulsorily you should mark method as static
+  simple utility method, lets say a method that accepts 2 integers and returns sum should be a static method
+7.
+================================================================================================================================================
+
+
+
