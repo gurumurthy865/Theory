@@ -1,25 +1,17 @@
+Angular is a javascipt framework for builiding client side application using HTML,CSS and TypeScipt which is a superscipt of javascipt
 
+why Angular?Expressive HTMl,Powerful data binding, ModularByDesign,Builtinbackend integration
 
-
-Angular is a javascipt framework for builiding client side application
-using HTML,CSS and TypeScipt which is a superscipt of javascipt
-
-why Angular?
-Expressive HTMl,Powerful data binding, ModularByDesign,Builtinbackend integratio
-
-why a new New angular?
-Built for speed,modern,simplified API's,enhances productivity
+why a new New angular?Built for speed,modern,simplified API's,enhances productivity
 
 Anatomy of angular application
 application=component+component+services
 component=template+class(properties,methods)+metadata
 
 Angular modules. 
-It help us organise the application into cohesive block of funcationality
-Angular project atlest contain one module called Root angular module
-then we have feature angular module
+It help us organise the application into cohesive block of funcationality.Angular project atleast contain one module called Root angular module,then we have feature angular module
 
-First thing first
+First thing first:
 Introductiont to components
 Templates,interpolation and directives
 Data Binding and Pipes 
@@ -30,7 +22,6 @@ Retrieving data using Http
 Navigation and routing
 Angular modues
 Building, testing and deploying with CLI
-
 
 
 Typescript:
@@ -52,42 +43,43 @@ Angular ->Framework and libraries, Angular CLI, Typescript, Testing tools ,linte
       ex:devdependencies like angular cli, linters to evaluate code for best practice, rxjs etc
 by defining angular.json we make sure all have installed necessary libraries and packages
 
+
+Creating a new project:
+ng new projectName:ng is not recognized as an internal or external command ... if this error occurs run below command 
+npm install -g @angular/cli and if does not work try adding path C:\Users\Administrator\AppData\Roaming\npm\node_modules\angular-cli\bin to envrionment variable only if necessary
+then run ng new projectName it should work
+npm install --save bootstrap: not an mandatory, it is angular library thats installed for particular project ,, add the path in angular.json file under style's property as a attribute. path should be like "node_modules/boostrap/dist/css/bootstrap.min.css or 
+you can simply add @import "~bootstrap/dist/css/bootstrap.css" in styles.css file
+ng g c firstComponent
+ng g c firstComponent --skip-tests
+
+
 Directory structure:
 src
 under source app folder contains our code
 other files are configuration and setup files oftern called boiler plate files
 
-
-npm install-->installs all the dependencies including those mentioned in package.json
-                       it creates node_module folder under main folder where it has all the installed packages
-
 Running application:
+npm install-->installs all the dependencies including those mentioned in package.json;it creates node_module folder under main folder where it has all the installed packages
 In package.json already we have given commands for start, build,test,lint etc
 "start":"ng serve -o", it runs the application and -o says to launch browser
-
 npm start-->now CLI starts the webserver and runs the app
-
 ctrl+c to close the application, else even if browser closed application will be running
 
 Modules:
-Module is a file and file is a module.
-no need to mention name for a made.in ES 2015 just create a file, export and import something.file becomes a module
+Module is a file and file is a module.no need to mention name for a module.In ES 2015 just create a file, export and import something.file becomes a module.
 Angular also has angular modules.
 
 export class Product{
 //this becomes module as we exporting a file product.ts
 }
-
 import { product } from './products'
-//above this too becomes a module as we import
-//here it is imported from product.js,,, note that prodcut.ts file compiled in product.js file ie. transpile
+//above this too becomes a module as we import;here it is imported from product.js,,, note that prodcut.ts file compiled in product.js file ie. transpile
 
 Angular Modules:
-app module is root module, feature moduels, common modules to put code used by different modules
-each component declared under module belongs only to that module
+app module is root module, feature moduels, common modules to put code used by different modules;each component declared under module belongs only to that module
 
 
-============================================
 COMPONENTS:
 what is component,creating component class, defining metadata with decorator, importing what we need ,bootstrapping our app component and angular compiler and errors
 Component=template(view layour created with html and we use angular binding and directives)+ class(class in typescipt having properites and methods)+metadata(definies a class as component,defined with decorator provides data for angular methods,class and its properties)
@@ -96,7 +88,7 @@ example:app.component.ts(metadata-temp;ate-class)
 import { component } from '@angular/core';
 
 @component({
-selector: 'pm-root',
+selector: 'tm-root',
 template:
 <div><h1>{{pageTitle}}<h1>
 <div>My FIrst Component</div>
@@ -107,20 +99,36 @@ export class AppComponent{
 pageTitle: Sting ='abc';
 }
 
-export keyword makes the class available for use by all modules
-pageTitle is property name ,string is datatype and abc is default value
-methods are not created in above example
+or 
 
-a class becomes component when we give it @component annotation (call decorator in angular)
-it need metadata to understand how to instantiate the component,construct view and interact with component
-A Decorator is a fuction that adds metadata to a class,its members or method argumetns
-It is a javascipt language feature implemented in typescipt and prefixed with an @
+@component({
+selector: 'app-root',
+templateUrl: './app.component.html',
+styleUrls:['./app.component.css'] , 
+})
+
+export class AppComponent{
+pageTitle: 'abc';
+}
+
+template vs templateurl:in teamplte we can write inline html code;note that either template or templateurl is an mandatory directive inside @Component
+style vs styleurls:unlike templatulr, it takes multiple values as array.Again inline styling is allowed
+selector:
+in any html page if you need to represent app.component.html page then use <app-root>.. but ideally <app-root> is mention in index.html
+selector:[app-root],we can define like this also but in html we should werite like <div app-root></div>;otherwise code breaks
+now this is selected by attributes and not by element itself as we changed selector
+another way is <div class='app-root'></div>
+export keyword makes the class available for use by all modules
+pageTitle is property name ,string is datatype and abc is default value;methods are not created in above example
+
+A class becomes component when we give it @component annotation(this annotation is called decorator in angular)
+It need metadata to understand how to instantiate the component,construct view and interact with other components
+A Decorator is a fuction that adds metadata to a class,its members or method argumetns;It is a javascipt language feature implemented in typescipt and prefixed with an @
 selector defines component directive name,directive is a simple tag in html
-a compnent shoud always have template whrere  view is defined and data is binded by {{}}
+a component should always have template where view is defined and data is binded by {{}}
 
 Before we use an external function or class we should define where to find it 
-import statement
-import allow us to use exported members from external ES modules
+import statement:import allow us to use exported members from external ES modules
 import form third pary library, ES module or our own module or by angular itself
 ex:@angular/core,@angular/animate,@angular/common,@angular/router
 
@@ -128,16 +136,20 @@ import { component } from '@angular/core';
 in above code component is decoratar name/member name and @angular/core is angular library module name 
 
 
-run:
+How application loads?
+main.ts is the first file to be loaded when it loads the application to get details of all components and directives etc
+main .ts-->points to AppModule--> loads everything in appmodule
+index.html-->now calls app component,since appcomponent is already loaded under appmodule,now it can be redered
+
+
 Bootstrapping our app component:
 1.Host the application through index.html
 2.Defining the angular module to bootstrap our angular component
 
-index.html contains the mainpage for application. this is oftern only web page of the application/
-hence an angular application is called a Single page application
+index.html contains the mainpage for application. this is oftern only web page of the application;hence an angular application is called a SPA
 so to bootstrap add selector in index.html  where we want our template to be displayed.
 but how does angluar compiler come to know about customised template? It looks at AppModule
-As we already know angulr module provides cohestive functions and boundrie to our application. 
+As we already know angulr module provides cohesive functions and boundries to our application. 
 they also provide templare resolution module. what does that mean.?
 when compiler finds a directive in template it looks into appmodule/angular module for defnition.so we declare app component in angular module
 it also use module to bootstrap our start up component which is our app component
@@ -160,13 +172,10 @@ import { AppComponent } from './app.component';
 export class AppModule { }
 
 in above code:
-We define an angular moduel using the class
-identified the class as angular module by @NgModule
-for ngmodule decorator properties are arrays
-in declarion arry we define which components belong to the module
-here appcomponent belong to appModule module, we can declare other components as well
-in imports arry we define external module we want it availble for the modules in declaration
-here broweser prodive service like error handling
+We define an angular moduel using the class,identified the class as angular module by @NgModule
+ngmodule decorator properties are arrays
+in declarion array we define which components belong to the module;here appcomponent belong to appModule module, we can declare other components as well
+in imports arry we define external module we want it availble for the modules in declaration;here broweser prodive service like error handling
 bootrstap array mentions the startup component whcih is appcomponent and start component should contian selector we use in index.html page
 
 
@@ -179,6 +188,7 @@ using two compilers may cause trouble as code may not work in other compiler
 so we stick to AOT nowadays
 
 if there is compilation error we get  "cannot GET /" error in browser, can be debug using f12
+
 =========================
 TEMPLATES,INTERPOLATIONA AND DIRECTIVES
 Building a template
@@ -186,54 +196,348 @@ using a component as a directive
 binding with interpolation
 adding logic with directives
 
-
-Inline template and Linked Template:
-linked template is when you give url in your component instead of writing html code
-
+DataBinding:
 
 Binding:coordinates communication between the component's class and its template and often involves passing data
 InterPolarion:{{pageTitle}}, it is a one way binding from class property to template
   we can even call class method, do concatination, sum,etc inside interpolation property
-	pageTitle is called Template expression which is validated by component
-Directives:Custom HTML element or attribute used to power up and extend our html
-   we can use custom directives or angular directives
-some angular bilut in directives are
- Structural directives--> *ngIf:If logic  ;  *ngFor:for logic; *says its structural directive
- browser modules take care of built in directives(to be authenticated)
+  pageTitle is called Template expression which is validated by component
+Directives:Custom HTML element or attribute used to power up and extend our html; we can use custom directives or angular directives
+ some angular bilut in directives are
+   Structural directives--> *ngIf:If logic  ;  *ngFor:for logic; *says its structural directive
+   browser modules take care of built in directives(to be authenticated)
 
-for of vs for in 
-arr[]=['a','b','c']
-for of -->.iterates over iterable objects such as array--.give a b c
-for in--> iterates over the properties of an object--. gives 1 2 3 instead of a b c
-
-===========================
-
-DATABINDING and PIPES:
-property binding
 handing event with event binding
 handing input with two way binding
 transforming data with pipes
 
-Property binding: <img [src]='product.imageUrl'>
-[]->binding target; ''-->Binding source
-binding using inperpolation--. <img src={{product.imageUrl}}>
+1.Property binding: 
+<img [src]='product.imageUrl'>;[]->binding target; ''-->Binding source
+binding using inperpolation--> <img src={{product.imageUrl}}>
+
+<h2> {{title}}</h2>
+<img src="{{imageUrl}}" />
+Interpolation is double curly braces syntax used to display data.Above interpretation of two lines is just syntactical sugar.
+Behind the scene when angular compiles our templates. it translates these interpolations into what we call property binding.
+Instead of using interpolation using property binding lets rewrite to <img [src]="imageUrl" />
+With property binding we bind a property of a dumb element like src here to a field or a property.
+I want to bind source property so i put it between square brackets and for value i use imageURl. Note we dont have double braces
+note here we do not have string interpolation, when we use string interpolaiton angular translate that into second syntax
+whenever the value of the imageurl field changes, the source attributes of this image is automatically updated.
+Wondering weather we should use string interpolation or the square bracktes syntax?
+Interpolation works well for adding dynamic values between heading like h2 or if you using div span etc.
+if we have to use property binding in h2 we have to use like <h2 [textContent]="title"></h2>
+Note that property binding works only one way from component to the DOM.so if fields like title in component change angular will update the DOM.
+Any changes in the DOM are not reflected back in the component.Incase if we have a input field then the value will not be updated in the component.
+
+2.Attribute binding:
+<table>
+<tr>
+<td [colspan]="colspan"></td> where colspan in a property lets say an integer
+<tr>
+</table>
+In browser we get blank page,we get error "can't bind colspan since it itsn't a know property of td".
+In order to understand the error we need to understand the difference between DOM(document object model) and HTML.
+when broser passes on a document, it creates a tree of objects in memory that we refer to as DOM.ie. HTML--> has head and body as branches and so  on
+We can create this using vanilla javascript too, we do not need HTML but using HTML is far simpler.
+Most of the attributes of HTML elements such as src have a one to one mapping to properties of DOM object.However there are few exceptions of 1%.
+here colspan attribute is an example which does not have a property in DOM.thats why we get this error.
+viceversa, textContent we used earlier is a property that present in DOM but does not have representation in HTML.
+Now when usig property binding , we should that you are actually bidnign to a property of DOM object and not an attribute of HTML.
+so <td [attr.colspan]="colspan"></td>.
+This way we are telling angular that you are targeting the colspan attribute of an HTML element ,in this case td.
 
 
-Event binding:
-the property binding was one way binding , we may need two way bidning
-there comes event binding which does both 1 way and 2 way binding, <button (click)='toggleImage()'>
-click()-->is target event and taggleimage() in '' --> templae statement
+3.Class binding:
+There are times that we may want to add additional classes to an element based on some conditons,
+for example in below case we want to apply the active class on this one based on the state fo the underlaying component.
+we use variation of property binding for that. so we start with property bidng syntax [] and we have class property here and
+then we specify name of the target class ie. active;then we mention the field in value position
 
-for two way binding we use ngModel
-ngmodule is part of formsmodule, and we import it to appcomponent
 
-pipes; |
+<button class="btn btn-primary" [class.active]="isActive"></button>
+ isActive = true;
+
+4.Style binding:
+This is a variation of property binding,very similar to class binding
+<button [style.backgroundColor]="isActive ? 'blue' : 'red' ></button>
+
+
+5.Event binding:
+the property binding was one way binding , we may need two way binding;there comes event binding which does both 1 way and 2 way binding,
+ <button (click)='toggleImage()'></button>; click()-->is target event and taggleimage() within '' --> template statement
+mouseclicks , hovering etc are events. here instead of [] we use () then we bind this to method in our component
+Also, <button (click)='onSave($event)>
+onSave($event){console.log(event)}
+This dollar event object is something known to angular;Here we are dealing with DOM object thats the button.
+This dollar event object represents a som event ,a standard dom event that you have seen in vanilla js or jquery.
+All the dom evnets bubble up the dom tree unless a handler along the way prevents bulling. what i mean is 
+<div (click)='onxyz($event)>
+ <div (click)='onSun($event)>
+<button (click)='onSave($event)>
+</div>
+</div>
+so we can define one line on onSave method . ie. $event.stopPropagation();
+This is nothing specific to angular, but what you see in valina js
+
+
+
+6.Event filtering:
+lets say we have an event called keyup.
+<input (keyup)="onKeyUp($event)">
+onKeyUp($event){conosle.log(event.target.value)},, this prints value on every value typed
+lets say it should work only when user click on enter. so we can write like 
+<input (keyup.enter)="onKeyUp($event)">.. then you no need to define event paramter in onKeyUp method
+onKeyUp(){ console.log("enter was pressed"}
+
+7.Temaplate variable.
+if we need to send values on typing , one way is event binding. Other way we can achive this is using template varialbe.
+Lets say we have a field capturing email, so idelcare a variable using this #... #email here ,,we call this template variable
+and thid reference input field which can be passed while calling onKeyUp method as shown below
+<input #email  (keyup)="onKeyUp(email.value)">
+onKeyUp(email){ console.log(email)}
+
+8.Two way binding:
+Last code using teamplate variable, this we could do better.We dont want the email parameter or argument passed around.
+we should not really pass paramters around because we use OOP and object encapsulates some data and some behaviour.
+so if an object or a class has all the data it needs, we dont have to pass paramters around.What we wrote above is 30years old style
+so
+lets create an field called email in the component
+so we can pass value as onKeyUp(){ console.log(this.email)}.. here our method has no parameter ,, cleaner and easier to read
+Also going back to definition of component, component encapsulates the data,the logic and HTML markup behind of you.
+Here email field is used to encapuslate the data, the onKeyUp method represents the bahaviour/logic and ofcourse html template that we already have.
+Earlier we learnt about property binding, sowe can bind the value property of this input object in the DOM to this email field.
+<input [value]="email" (keyup.enter)="onKeyUp()">
+At this stage, lets say we have initialized email to "xyz@dkkf.com" and now we input value as "zzz@xxx.com" but it does not reflect in console. why?
+Becasue with property bindign, the direction of binding is from the component to the view.So here what we need is two way binding.
+<input  [value]="email" (keyup.enter)="email = $event.target.value; onKeyUp()">
+above, we have two statements,, and it works but is there a better way?
+Lets use two way binding property
+<input [(ngModel)]="email" (keyup.enter)="onKeyUp()">
+DOM object does not have a property called ngModel.This is something angular adds to DOM object.
+Earlier we used, ngfor which is a directive and we use directive to manipulative DOM. ngModel is another such directive
+so,for two way binding we use ngModel
+ngmodule is part of formsmodule, and we import it to appcomponent. Before that in app.module.ts import the formsModule
+
+import { Component } from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import { CoursesService } from './courses.services';
+
+@Component({
+    selector:'courses',
+    template: `<h2>Courses {{"Titles: " + title}}</h2>
+                <h2>[textContent] = 'title"></h2>
+                <img src="{{imageUrl}}" />
+                <ul>
+                    <li *ngFor="let course of courses">
+                    {{course}}
+                    </li>
+                </ul>
+                <button class="btn btn-primary" [class.active]="isActive"></button>
+                <button class="btn btn-primary" [style.backgroundColor]="isActive ? 'green' : 'red'"></button>
+                <button class="btn btn-primary" (click)="onSave($event)"></button>
+                <input (keyup)="onKeyUp($event)">
+                <input (keyup.enter)="onKeyUpOnEnter()">
+                <br>
+                <input #emails  (keyup)="templateVariable(emails.value)">
+                <input [value]="emailId" (keyup.enter)="printEmail()">
+                <!--<input  [value]="emailId" (keyup.enter)="emailId = $event?.target.value; printEmail2()"> -->
+                <input  [(ngModel)]="email" (keyup.enter)="ngModelImpl()">
+                `
+})
+export class CoursesComponent {
+ email = "abc.dsfk@dkf.com";
+ emailId = "xyz@dkf.com";
+ isActive = false;
+ title = "List of courses";
+ imageUrl = "data=";
+ courses;
+
+ constructor(service:CoursesService){
+    this.courses = service.getCourses();
+ }
+ onSave($event:any) {
+    console.log("in onsave method "+ $event?.target.value);
+ }
+ onKeyUp($event:any){
+    console.log("on key up method log " + $event?.target.value)
+ }
+ onKeyUpOnEnter(){
+    console.log("Enter was pressed ");
+ }
+ templateVariable(email:string){
+    console.log("Template variable demonstration" + email)
+ }
+ printEmail(){
+    console.log("printing email id,but only default value printed all the tme "+ this.emailId)
+ }
+ printEmail2(){
+    console.log("printing email id2 "+ this.emailId)
+ }
+ ngModelImpl(){
+    console.log("this is how ngModel works " + this.email);
+ }
+}
+
+
+Now lets look at how to pass data, raise cusotm events,apply styles, shadow DOM and view encapsulation.
+
+1.Passing data:
+so for we looked at how data can be passed between a compnent file and its tempalte file.Now lets look at how data can be passed between the compnents.
+Lets say we have a compnent called <favorite></favorite> being used in app.component.html
+I wanna set the initial state of this favorite component using some objects that we have in host component app.component.ts
+Here in app component, lets say we get a post object from the server
+export class Appcompnent{
+post = {
+title: "Title",
+isFavorite: true
+}
+}
+unfortunately we cannot do proeprty biding her like <favorite [isFavorite]="post.isFavorite"></favorite>
+error: cannot bind 'isFavorite' since it isn't a know property of 'favorite';this does not work even though we have isFavorite public field in favorite componentyou .
+Becasue in angular template in order to use the property binding,you need to define that field as input property.
+
+So to make this favorite component more reusable, we want to add support for property and event binding.
+For example, lets say we want to be notified whenever user clicks on the favorite component we can write as below and call this method on host component ie.app.component.ts
+ <favorite [isFavorite]="post.isFavorite" (change)= "onFavoriteChange()"></favorite>/.... here isFavorite is input and change in output property
+But once agian, we need to define a special property in this favorite component that we refer to as an output property. 
+In otherwords, in order to make a component more reusable we should use @input and @output.
+we use input properties to pass input or state to a compnent and we use output properties to raise events from these components.
+This input and output forms what we call public API fo that component.
+
+
+@input:
+In app.component.ts as
+export class AppComponent {
+  post = {
+    title: "Title",
+    isFavorite: true
+    };
+  title = 'crashCourse';
+}
+
+
+in app.compnent.html
+<h1>Angular</h1>
+<courses></courses>
+<favorite [is-favorite]="post.isFavorite"></favorite>
+
+in favorite.component.ts
+  @Input('is-favorite') isFavorite: boolean = false;
+
+
+@output:
+ <favorite [isFavorite]="post.isFavorite" (change)= "onFavoriteChange()"></favorite>
+
+export class FavoriteComponent {
+  @Input('is-favorite') isFavorite: boolean = false;
+  @Output() change = new EventEmitter();
+
+  constructor(){}
+
+  onClick(){
+    this.isFavorite = this.isFavorite;
+    this.change.emit;
+  }
+}
+
+export class AppComponent {
+  post = {
+    title: "Title",
+    isFavorite: true
+    };
+  title = 'crashCourse';
+
+  onFavoriteChange(){
+    console.log('onFavoriteChange');
+  }
+
+}
+so here i want this component to raise a customevent like change that we can bind into a method in our host component.
+so in app component we had method onFavoritechange and this method will be called whenever our Favorite component riases change event.
+name should match as 'change'.. now we should also initialize event emitter class. EventEmitter is not a primitive type in typescipt hence we use new operator.
+
+
+currently in the above scenario, we are just raising an event . we dont know if the user has marked the object as favorite object.ie. we do not know the change in value of paramters
+so in this.change.emit() we can pass optional value and this value will be availble to all the subscribers of this event.
+in our case,
+  onClick(){
+    this.isFavorite = this.isFavorite;
+    this.change.emit(this.isFavorite);
+  }
+ onFavoriteChange(isFavoriteValue){
+    console.log('onFavoriteChange' + isFavoriteValue);
+  }
+
+<favorite [isFavorite]="post.isFavorite" (change)= "onFavoriteChange($event)"></favorite>
+
+this is an simple example where we passed a boolean value, in complex project we may be passing a object
+this.change.emit({newValue: this.isFavorite});
+back in the app.component template the dollar event object now represents an actual javascript object that has a property called newValue.
+<favorite [isFavorite]="post.isFavorite" (change)= "onFavoriteChange($event)"></favorite>
+and 
+ onFavoriteChange(eventArgs:{newValue:Boolean}){
+    console.log('onFavoriteChange' + eventArgs);
+  }
+
+if you define an interface lets say FavoriteChangedEventArgs that contain attribute newVlaue, then you can represent as 
+
+onFavoriteChange(eventArgs:FavoriteChangedEventArgs){
+    console.log('onFavoriteChange' + eventArgs);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pipes and custom pipes
 Transaform bound properties before display
 built in pipes: data, number, decimal,percent, currency,json,slice etc
 can built own custom pipes
 example:{{product.prouductcode | lowercase}}
 
 
+for of vs for in 
+arr[]=['a','b','c']
+for of -->.iterates over iterable objects such as array--.give a b c
+for in--> iterates over the properties of an object--. gives 1 2 3 instead of a b c
 
 ================================
 
@@ -385,7 +689,3 @@ import { RouteModule } form @angular/route';
 in ngmodule
 RouterModule.forRoot([])<-- here we mentin weather it is html5 or hash 
 each route will have its own path
-=============
-
-
-
