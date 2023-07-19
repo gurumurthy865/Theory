@@ -1,3 +1,4 @@
+Database
 Java
 Java 8
 Java hands on
@@ -8,7 +9,6 @@ Microservices
 HTML CSS Javascript
 Angular
 React
-Database
 Database hands on
 Jenkins
 Docker
