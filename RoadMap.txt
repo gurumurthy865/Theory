@@ -1,0 +1,18 @@
+Java
+Java 8
+Java hands on
+Springboot
+SpringSecurity
+Design pattern
+Microservices
+HTML CSS Javascript
+Angular
+React
+Database
+Database hands on
+Jenkins
+Docker
+Kubernates
+Git
+Data structure
+Kafka
