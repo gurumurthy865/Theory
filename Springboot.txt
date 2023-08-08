@@ -21,11 +21,6 @@ h2 database:
 
 BEAN can be created by xml config,@component and @configuration
 
-BEAN SCOPE:
-singleton:all requests for that bean name will return the same object, which is cached. Any modifications to the object will be reflected in all references to the bean. one instance per bean defnition
-                say 4 employee bean,2 each refers to 2 department bean IT and HR.. so single bean rererred by IT is returned everytime
-prototype;A bean with prototype scope will return a different instance every time it is requested from the container
-request,session,application,websocket
 
 
 application.properties;
@@ -34,15 +29,6 @@ spring.h2.console.enabled-->true, allow us to browse h2 console via browser
 http://localhost:8080/h2-console,reacreates a table everytime so we use data.sql to store table and other details
 
 
-JPA REPOSITORY-->dao layer which does db operation extends jparepository and annotated with @Repository
-
-
-
-@Requuestbody--> Spring will bind the incoming HTTP request body(for the URL mentioned in @RequestMapping for that method) to that parameter
-                                 While doing that, Spring will [behind the scenes] use HTTP Message converters to convert the HTTP request body into domain object [deserialize request body to domain object], based on Accept header present in request.
-		method(@requestbody User user){ obj.createuser(user);}
-@ResponseBody-->If a method is annotated with @ResponseBody, Spring will bind the return value to outgoing HTTP response body. While doing that, Spring will [behind the scenes] use HTTP Message converters to convert the return value to HTTP response body [serialize the object to response body], based on Content-Type present in request HTTP header
-@Pathvariable-->when sending the value in url
 
 
 EXCEPTION HANDLING and RESPONSE STATUS CODES:
