@@ -1,18 +1,17 @@
-Database
-Java
-Java 8
-Java hands on
-Springboot
-SpringSecurity
-Design pattern
-Microservices
-HTML CSS Javascript
-Angular
-React
-Database hands on
-Jenkins
-Docker
-Kubernates
-Git
-Data structure
-Kafka
+Design patterns and solid principles ---> 0.5hour
+Database and hands on ------------------> 0.5hour
+Springboot -----------------------------> 0.5hour
+SpringSecurity -------------------------> 0.5hour
+Java and Java 8,11,17 theory -----------> 0.5hour
+Java hands on --------------------------> 2 hours
+Microservices --------------------------> 1 hour
+Git-------------------------------------> 0.5hour
+Docker----------------------------------> 0.5hour
+Kubernates------------------------------> 0.5hour
+Jenkins---------------------------------> 0.5hour
+HTML CSS Javascript--------------------->
+Angular--------------------------------->
+React----------------------------------->
+Data structure-------------------------->
+Algorithms------------------------------>
+Kafka----------------------------------->
