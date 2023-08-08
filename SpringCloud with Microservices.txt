@@ -308,6 +308,439 @@ env.getProperty("local.server.port")--> to get currently running instance port..
 
 
 
+====================other copy of above=========
+SpringCloud config server and bus
+load balancing with ribbon and feign
+implementing naming server with eureka
+api gateway with zuul
+distrubuted tracing with zipkin
+fault tolerance with Hystrix
+
+https://github.com/in28minutes/spring-microservices
+
+
+@RequestMapping(method= RequestMethod.GET,path="/helloWorldBean")
+    public HelloWorldBean helloWorldBean(){
+        return new HelloWorldBean( "hello world");
+    }
+when hit what happens?
+what is dipsatcher servelet?
+who configure disparhcer servlet?
+how does the helloworldbean object converted to json?
+who is configuring error mapping?
+
+set in application.properties logging.level.org.springframework = debug
+now you can see more logs than previously in console when app is started
+one important thing you see is autoconfiguring report that has lot of report
+it configures disparcher servelet(because we added spring web) becasue it finds it in the classpath-->Mapping servlet: 'dispatcherServlet' to [/]
+dispatcherServlet looks at uri,method and finds the right controller and method based on bean
+you also see errorMVCAutoConfiguration and defaultErrorViewResolver by springboot auto configurer they are configured
+HttpMessageConverters are auto configured which are responsible to convert the object into json 
+JacksonAutoConfiguration.Jackson2ObjectMapperBuilderCustomizerConfiguration does the conversion from bean to json and vice versa
+and @RestController returns the response
+
+
+In responseEntity there is a need of sending metadata because when you create an user success 200 status is sent which is http.ok, but actually what it should be is status 201 crated.
+similarly when you delete a user and that user is not available in the database still you get 200. instead when you do a exception handling on a return object you can throw the proper exception with annotation @ResponseStatus(HttpStatus.NOT_FOUND) on your UserNotFoundException classpath--
+and also other metadata like location of user created or something else can be sent over the header
+
+
+Challenges in microservices:
+Boundry context:like what you should do and what should not be done in a particular services,it is an evolutionary process to write right boundries
+Configuration Management: lets say we have 5 or 50 services, each has multiple evironment and several instances
+Dynamic scale up and scale down:loads on different services will be different at differnet instance of time. we should be able to bring up and down the services with dynamic load balancing
+                                and also need to ensure the load is distrubted across all instances correctly
+Visibility: Lets say there is a bug, how do you identify? you should have proper centralized logging,also there should be monitoring of all servies for failure which should be automated
+Pack of Cards: if not deisigned properly, it is pack of cards ; say if some service goes down with bad design, whole application might go down
+
+
+Swagger:consumer should know how to use the api's. whta is the request, what is the response, are there any constraints?
+you can use notepad++ and generate the document manually
+you can also generate the swagger automatically using spirngdoc-openapi  in pom ass spirngdoc-openpai-doc dependency
+then hit url localhost:8080/swagger-ui/index.html,here we see all details
+and also we can share swagger UI document generated and tell client to go thorugh to consume our api
+same document can also be seen in more structured way in another url localshos:8080/v3/api-docs
+open api's,servers,paths,components are the high level things in swagger document
+
+
+Dynamic Filtering:
+to control the json fields sent in reposne can be configured at controller layer, done in entity class is static filtering
+SImpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("name","dob");
+FilterProvider filters= new SimpleFilperProvider().addFilter("someBeanFilter",filter);
+MappingJacksonValue mapping = new MappingJacksonValue(someBean);
+mapping.setFilters(filters);
+return mapping; return type will be mappingJacksonValue    
+Note: in entity class you need to define below @entity @JsonFilter("someBeanFilter")						
+
+Setting up dynamic port in response:
+Load balancing-->we should know which instance is providing the response,, hence knowing the port is necessary
+				To know the port we can use the class called Environment which is autowired. environment.getProperty("local.server.port"); we get port detail in response of api (we will have it set)
+				if two instances are to be run, you can make changes in eclipse/intellij by configuring a different port and run it locally 
+				
+				
+Feing:
+using restTemplate it is hard to make calls to other microservices, ie. a lot of code
+hence sping cloud provides Fieng, which has dependency spring-cloud-openfeing
+@EnableFeingClient in main class and @FeignClient(name="currency-exchange",url="localhost:8080"); in a proxy class say CurrenyExchangeProxy of other microservices
+int he class where you making call using restClient, autowire CurrenyExchangeProxy and call the method defined in CurrenyExchangeProxy class which gives required value of other service response
+ currently in proxy class we are hardcoding the url,ie. mainly port. if using differnt instances we cant always point to 8080 so we user Naming server or service registry
+ 
+Naming Server or Service Registry:(Eureka Server)
+For Naming server create a new springboot prokect and add Eureka server as dependency
+@EnableEurekaServer in main class,, give port and application name in properties file
+eureka.client.register-with-client=false--->to stop eureka register with itself
+hit localhost:8061 then it gives a UI with all the details expected
+now lets make curreny-conversion microservice talk to currency-exchange microservice through Naming server
+open pom.xml of these two services  and add spring-clud-starter-netflix-eureka-client dependency
+eureka.client.serviceurl.defaultzone=http://localhost:8061/eureka add in two services properties file
+now if you hit localhost:8061 you will see details of microservies and there registered ports and there instances details
+
+LoadBalancing  between instances with Eureka,Feing and spring:
+in CurrenyExchangeProxy class remove port and write as @FeignClient(name="currency-exchange"); now we do not have specific instance configured for currency-exchange
+so now launch currenty instance of currency-exchange,,, so now it automatically register with eureka and now you can see on screen the instance registered
+now Feing will do load balance,in spring-clud-starter-netflix-eureka-client there is child dependency such as spring-cloud-starter-loadbalancer and spring-cloud-loadBalancer
+
+
+Setting up API gateway:
+Cross cutting converns like SSL authentication autorization,security concerns,tight coupling,impact on user experience are advese effects when there is direct communication architeture if application is not small
+So we have API gateway a special service that stays between the client apps and microservices.
+It behaves like a reverse proxy and routes the client requests to the correct microservices. In addition to this, it also provides other cross-cutting features such as authentication, SSL, cache, rate limiting etc
+we can use single gateway or like multiple gatways like one for web ui other for ios mobile app etc
+Disadvantage of apigateway is potential single point of failure
+create an another springboot project with eureka discovery client  and gateway dependency;define name and port in properties file;also add eureka url so it is registered with naming server
+also add, spring.cloud.gateway.discovery.locator.enabled=true
+
+Enabling discovery locater with eureka for spring cloud gateway:
+in url.txt file you should define urls of all the services ,, similarly define for apigateway too ,, for example
+http://localhsot:8765/CURRENCY-EXCHANGE(nameGivenInPropertiesMayBe)/currency-exchange(mayBeDefinedInController)/(apiname)from/USD/to/INR
+now hit above url which are registered with eureka through apigateway
+
+Exploring Router with spring gateway:
+@Configuration
+public class ApiGatewayConfiguration{
+@Bean
+public RouteLocator gatewayRouter(RouteLocatorBuilder builder){
+Funcation<PredicateSpec,Buildable<ROute>> routeFuncation= p->p.path("/get").uri(:http://http.bin.org:80");-->a custom route when reques come to /get talk to eureka and redirected to mention uri
+--hit  localhost:port/get you will some details. in above custom you can also add request header and other details
+return builder.routes().route(routeFunction).build();
+}}
+similarly we can write multiple routes for multiple urls in above lambda expression
+
+Cloud Gatewat Logging Filter:
+public class LOggingFilter implements GLobalFIlter{
+Logger logger = LoggerFactory.getLogger blah blah
+public Mono<void> filter(ServerWebExchange exchange,GatewayFilterChain chain){
+reutn chain.filter(exchange)
+}
+in console you can log the details thats being called
+
+
+Circuit Breaker:RESILIENCE4J
+lets say you have multile services chained and one of then is down or slow . if slow other servies might have build up of calls
+can we return a fallback response if a servie is down?
+can we retry request in case of temporary failures?
+can we implement rate limiting?
+Resilience4J is a lightweight easy to use fault tolerance libraary inspired by Netflix Hystrix but designed for java8 and funcational programming
+add dependency in pom.xml resilience4j-spring-xxxxx
+@RestController
+public class CircuitBreakerController{
+@GetMapping("/sample-api")
+@Retry(name="sampleapi" fallbackMethod="hardcodedResponse") hardcodedResponse-->is a method that gives a response instad of error which is an exception string
+{
+Response response=new RestTemplate.getforEntity("http:/localhost:8080/dummy",String.class)
+return response.getbody();
+}
+now since we used @Retry it tried 3 times before returning error message to UI
+you can define no of try in properties resilience4j.retry.instances.sample-api.maxRetryAttempts=5
+resilience4j.retry.instances.sample-api.waitDuration=5 , time need to wait before retrying
+resilience4j.retry.instances.sample-api.exponentialBackof=5.. first time 1sec, 2nd try 2 sec later,, 3rd try after 4 seconds .....
+
+But what if service down for long time?
+then we go for circuit breaker pattern
+in above replace @Retry annotation by @CircuitBreakerController
+what cb does is when hundred request are made or all of hte request made are failing, it directly calls fallback method instead of executing logic
+how do we know if servie is up again?
+CB has three state closed,open ,half open; closed is when continuos calls are made;open cb will not call dependent service but fallback;halfopen a certain percentage makes call
+initially CD will be in closed,, when failed mulitple times goes to open state, after certain time gets into halfopen, if works fine goes to closed else to open state
+
+resilience4j.circuitbreaker.blah blahblha=5
+
+Rate Limiting  and bulkhead feature:
+below @CircuitBreaker write @RateLimiter(name="sampleapi") where you say in 10s you will allow only 10thousand calls
+in application.properties resilience4j.ratelimiter.instances.default.limitforPeriod=10000;limitRefresherPeriod=10s
+@Bulkhead(name="sampleapi"), resilience4j.bulhead....maxconcurrentcalls=10
+
+
+
+Docker:
+
+
+==============================
+Event-Driven Microservices, CQRS, SAGA, Axon, Spring Boot
+
+Architecture:
+httpRequest-->api gateway-->load balancer-->1.user microserive 2.product service 3.another instance of product servie so on through http call
+inbetween these services also talk to congigServer and serviceDiscovery microSerives through HttpMessageConverters;ConfigServer and ServiceDiscovery does not talk to load balancer
+
+when we scale a microservice,everytime you scale an instance will start in a random port. say product service running at 8080 when scaled other port would be 8018
+how frontend(javascript or angular) will know the port? hence they talk to api gateway. how api gateway will know about port details?
+do we hardcode all port details in apigateway?as port numbers are dynamic no... so we use Eureka Discovery Service
+Microservices are configured to register their location with service discovery . when each ms starts up it registers its location like ip address and port number within discovery service
+so discovery service is like an address book of currenly running microSerives and api gateway will learn location from discovery service
+when there multiple isntances, and api gateway does not have load balancer to equally distrubure load, then we can use a load balancer separately
+each microSerive will have a application.properties or yaml file. managing these properties file becomes tedious. so the solution is ConfigServer for centralized configuration.
+api gateway,service discovery,load balancer all can be configured to fetch the details from configuration server. Another advantage is when some configuration of a servie to be changed, can be change config server without taking down the running microserivce
+
+Database per service design pattern
+serive discovery design pattern
+api gateway
+centralized configuration
+distrubted tracing
+circuit breaker
+access token
+event sourcing
+CQRS
+SAGA
+
+
+EVENT_DRIVEN MIRCROSERVICE:
+usually when two servies talk to each other usually it will be in request and response. but this is not the same in all cases.
+what if serive A has to communicate with serive B,C,D simultaneously. what if service that need to recieve a message can be added later? and how many of them added later? in these situation direct req res wont work. hence event driven 
+
+Servicd A who is a consumer(publishes)-->MESSAGE BROKER-->(next are consumer services)service B,service C etc
+Pulisher subscriber design pattern. a sclable and extensible architecture.
+the message type published and consumed can be of differnt type. it can a command or a event or a query
+say service A recived a command ,its done processing it and it pulbished which will be an event and those consumers subscribed to recieve will consume and process
+this is Event driven architecture and it is asychronous
+when service a recieves a command it can publish a event to consumer and at same time respond back to command. this does not mean it has recieved response from subscriber(serives B C etc)
+producer may not know how many consumers are ther and how many of them have handled the event.even a consumer service is down producer service will now know about it. when finally consumer comes back it event it will still be able to consume published event of publisher, this is becasue an event message is persisted in the event broker
+
+
+TRANSACTION IN MICROSERVICE:
+in our servie, we use @Transaction and roll back throwing an exception when error occurs.
+Atomicity,consistency,isolation and durablity must be maintained. ACID Transactions
+when each service has own db this becomes challenging.
+so multiple servies has to communicate with each other to maintain ACID transaction. so to maintain it we use SAGA design pattern
+Cheorography based saga and orchestration based saga are two types of SAGA design patterns
+
+CHOREOGRAPHY BASED SAGA PATTERN:
+Lets say we ahve order, product,paymet and shipment services
+when order palces, order service published an event to message broker. the service/services which are interested in event published by order service, in our case here Product service will consume the event from message broker and publish its own event to message broken which inturn subcibed by other services. finally even order service will have subscribed to a events published by last service.
+when of the above step/event fails compensation transaction begins to undo the changes done in the system,runs in reverse order. In intial we made order in  1,2,3,4 step reverse compensation need not to be in same order
+
+ORCHESTRATION BASED SAGA PATTERN:
+saga will be a class in order service which published an event whenever a event is published by any service in message broker.
+
+
+FRAMEWORK TO BUILD TRANSACTION MICROSERVIES:
+1a. Eventuate Tram
+1b. Eventuate local for even driven services
+2. Axon for even diven services;good with springboot
+
+COMMAND QUERY RESPONSIBILITY SEGGREGATION(CQRS) design pattern:
+responsiblity divided into commands and query
+say post,put,delete,patch as commands and GET as query
+it may come from rest client or from some microservice
+one service for command api  which is connected to write DB and other service for query(get) conencted to read DB
+how does write DB and read DB have same data?
+that is through event sourcing
+with the help of messaging. the command handlign component of left side microservice will process the command will persist the info in databse and then it will publish an event message that will be stored int eh special message queue that is outside the left side micro service and global to all microservices 
+ex. the event message can be order detail and interested service like product can consume and process to udpate its database. because communication is done through event messaging we achieve location transparency. two services will not know each others location
+the publisher will not know how many servies will consumes the event published by it. later even if you add new microserives its cool . completly loose coupled and scaled independently
+Diffent types of messging use din CQRS pattern are
+1.Commnad:express the intent to change the application state: example:createProductCommand,UpdateProductCommand
+2.Query:express the desire for information ex.getQuery ,findId
+3.Event:represents a notification that something relevant has happened. ex;productCreatedEvent,ProductUpdatedEvent
+
+
+EVENT SOURCING:
+uses event store that hash event identifier a hashcode,event type(issert,delete) and payload(data to be persisted) in the form of events and it will have a history that will also be published to messag broker;CQRS can use this to bring the right side database upto date
+lets say we need to udpate price, then event store created an eventType called priceUpdateEvent which contain the payload of only procuctId and price and no other columns of the table. Just the data that needed to update not all the final data like in traditional transaction
+replaying of events can also be done to debug. if there is a issue we can fix and replay the event to test. we can change the order in which eventType is played adn replay
+we can also make snapshot of events and repaly them
+
+
+EUREKA DISCOVERY:
+Spirng Cloud Netflix Eureka: it is actually a product built by netflix
+then it is became part of spring cloud
+eureka helps microservices find eachother.
+lets say we have Mobile app which is client and it needs to find prodcuct microserive. when mobile need to send http request to product service we need address. we can hard code it. but what if we bring more instances of product serives. it will continue to communicate with only one service
+here comes eureka,, when new instance is brought up it registers with eureka. you dont need to open eureka config file and register it. each service will register itself with eureka. when some instances stopped, the address will be automatically removed by eureka no manual action required.
+then we add it to api gatway and load balancer
+our client app will communicate with api gateway
+
+configuration:
+create a new springBoot project,add eureka server, eureka discovery client dependencies
+it can be both client and server; if not you can select only one dependency eureka server
+in main application class add @EnableEurekaServer
+then update application.properties; first server.port=8761;
+eureka need to register itself, you need to diable that too;eureka.client.register-with-eureka=false
+then you need to tell eureka not to fetch registry from other eureka servers: eureka.client.fetch-registry=false;
+next property is to tell eureka to register servies with IP address instead of hostname; eureka.instance.prefer-ip-address=true
+if you want hostname , you can do like eureka.instance.hostname=localhost
+eureka.client.servie-url-defualtzone=http://localhost;8761/eureka   now this configuration is needed to configure your clinet to register with eureka server and you will see this configuration in all the microserives we create
+
+registering services with eureka:
+create a new springBoot project,to configure it as a client of eureka add a dependency EurekaClient ie. spirng-cloud-starter-netflix-eureka-client
+in main class add @EnableDiscoveryClient to make project work as eureka client
+in properties file:
+mention eureka service url:eureka.clinet.service-url.defaultZone:http://localhost:8761/eureka
+without application name it will register with eureka as unkonwn application so spirng.application.name=product-service
+
+so when you start both service and hit localhost:8761 you can see sping eureka ui and services details
+
+
+
+API GATEWAY AND LOAD BALANCER:
+spring cloud api gateway with inbuilt load balancer
+since apigateway is a single point of enty, we can configure a set of filters that will filter all requests that come in and come out of gateway. we can have our custom filters as well, like validating a JWT,creating a new internal JWT token.
+
+create a new springBoot project named apigateway with dependency spring cloud routing gateway and also it need spring webflue(reactive web) dependency to make our service work asynhronously;another is eureka discovery client as this also need to register with eureka server
+in properties file give application name,application port number as 8082,eureka-client-defaultZone,
+annotate with main application class with @EnableDiscoveryClient
+
+Routing:automatic mapping of requests to instances.
+in properties add, spring.cloud.gateway.discovery.locator.enabled=true
+now in UI if you hit eureka client, you see the details of api gateway too.
+when i request is sent to the port of api gateway, right after the port name(portnumber of apigateway) we should give the serive name to which request should be sent. ex: http://localhost:8082/PRODUCT_SERVICE/products . here there is automatic routing. Also note that name of the service will be in capital letters. if it is lowercase it will fail.
+to fix it you can add another property,spring.cloud.gateway.discovery.locator.lower-case-service-id=true in apigateway properties
+
+Random port number:
+in product microservie, application.prop when port number is not configured starts in defualt port 8080. if another instance want to be start it cant run on 8080. so we configure a port at first. server.port=8081. so now only first instance will starts at 8081. trying to bring second instance will fail, so again manually update to 8082 to bring second instance but it is hard to manage
+so instead make server.port=0; the port will be dynamic and we will not know the port number but all instance will register with eureka
+
+Staring multiple instances:
+to make all instances visible in dashboard, in respective services add property eureka.instance.instance-id=$[spring.application.name}:${instanceId:$random.value}}
+
+LoadBlancer working:
+in controller class autowire Environment object. this is to do on which port the instance is running. this will inject into productContoller object in product service. we can use this env object to accesss running port number
+env.getProperty("local.server.port")--> to get currently running instance port..if you attempt server.port leaving word local, it will print value from property file which is zero
+
+
+AXON SERVER - GETTING STARTED:
+Axon server is distributed as a stand alone jar file which is designed to meet all of the infrastructure needs of an axon applicaion which support purpose built even storage, routing,manual scaling of trackign processors,event store queries,basic monitoring,basic securiy and basic messging interoperability.
+axon istalled and run on teminal window. we can hit localhost and its port to see management dashboard in ui
+it will have complete list of configuration properties for node setup, file location,logging etc and each property is prefixed with axoniq.axonserver. also there are some properties that does not use prefix
+create a config folder, and a config server properties file where you can define port and above defined various properties
+then run axon server in docker
+
+
+
+CQRS PATTERN PRODUCT-MICROSERVICE
+
+
+
+
+
+
+
+
+
+
+
+
+
+==================================
+KAFKA ELASTIC AND SPRINGBOOT
+
+
+
+
+
+
+@query
+
+oauth:outh2 type of secutruy,, auth server and  resource server..... based on user auth server token is issued,,, resource server identifies token and check if user has access to resourc e
+JWT token:subject,roles,client id,client secret,,, ms to generate a token,when user and passwoed is passed it authenticated role sub ,client id all set to that toaken
+                  when sent to ms , those token is verifed comparing subject,roles ,,,,
+
+outh dependency added,, property added,,, 
+you should give a static key whenever app is started,,, or you can add in property key
+everytime you call an api that key should ve passed compulsarily
+
+
+
+ureka server; id service discovery
+zuul gateway:a builiding, gatewat,, you have 100 ms,, you have to go through gateway... all aouth JWT are written in zulu gateway
+                      RMI:ms service registered to eureka server,, to do that you need to create ureka server which is also a sprigboot project along with a dependency
+                             neflix 
+
+1 auth server,1 ureka server,1 zulu gateway are connected
+when loggined in first goes to auth server to check credential and generate tokem which sent to gateway. 
+in gateway token is verfied in zulu and on success of verification we will have a configuration written,, a list of services
+it asks ureka server if particular service is available, if yes then proceeds
+
+
+
+1 eureka server,, 1 config file,,zulu api gatewat
+application will be running in main port,, suppose we have installed in three four servers
+api gaeteway has an url,application url and 
+
+app registreed to ureka server,,,,
+
+
+@enable discovery client
+@enablezuluproxy
+@enablediscoveryclient
+
+
+
+does RestFullAPI's Required Serialization?
+serialization
+
+can you Tell me Simple API how you will Write?
+spring initializer,,,, spring.io ,,,  thorugh web
+through springboot
+cli command
+
+
+use transient to avoid serialization...
+synchronozed:say you reading application.properties,,, deadlock when two resoucres access at same time
+use sync to avoid deadlock
+
+service locatior?
+
+fter developing, null pointyer comes, takes required input and debug
+why microservice is not discovered
+
+@async
+
+API gateway:
+
+
+jobs are running at backgroyup ,100 ppl
+100 thread has to run
+have define, Runnable interface, resource sharing
+callable,,, stored in memory,,, when limit reached rogram start executing
+class implements by callable
+lacal variable, constructor,, 
+in callblae some method are there , call method where we take object and do the job and return the thingd
+
+user comes,user at a time execurtes 100jobs,,
+at a time 5 tasks should execute,, this is executer servie
+
+when you initializw a obj, threadpool execut
+executor obj, executor.will give some methods,,,, say, executor.threadpoolsize
+when you dont know how many will run,,,, so when user request thread keep on creating
+
+
+
+bus concept,, is used ,, so whenever you change property,, without stopping service ,, things are automatically picked
+
+
+
+
+
+
+
+
+
+
+
+journaldev-->multithreading
+
+
+
 
 
 
